@@ -5,7 +5,7 @@ Herausgezogen aus fünf Begleitheften (Stand 2026-10-21, gelesen ganz, 157 Seite
 
 **Was hier steht:** nur die Handgriffe, Mengen, Zeiten und Warnungen — in eigenen, kurzen Worten,
 geschrieben zum Vorlesen. **Was hier nicht steht:** die Erzählfigur, ihre Familie, Orte, Anekdoten,
-„Aus dem Heft meiner Mutter“, „Bei uns in Japan / bei uns hier“, Bilder und Gestaltung der Hefte.
+Erinnerungs-Kästen, Japan-Deutschland-Vergleiche, Bilder und Gestaltung der Hefte.
 Rechte und Herkunft: siehe `PLAN.md` § 9.
 
 Aufbau: **Station** (Raum, in der Reihenfolge durch die Wohnung) → **Schritt** (eine Ansage,

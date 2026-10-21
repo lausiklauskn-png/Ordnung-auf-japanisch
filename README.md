@@ -4,3 +4,4 @@ Sprechende PWA, die Schritt für Schritt durch die Wohnung führt und Ordnung zu
 
 - Plan: [docs/PLAN.md](docs/PLAN.md)
 - Tipp-Katalog: [docs/INHALT.md](docs/INHALT.md)
+- Prüfen: `npm install && npm test`
