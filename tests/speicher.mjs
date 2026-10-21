@@ -99,15 +99,15 @@ try {
   const lesbar = await page.evaluate(() => {
     const h = document.querySelector('[data-buehne] h2'), k = document.querySelector('[data-buehne] .kbild');
     const bild = k.getBoundingClientRect(), text = h.getBoundingClientRect();
-    return { unterBild: text.top >= bild.bottom, format: Math.abs(bild.width / bild.height - 1.5) < .02,
+    return { imBild: text.top < bild.bottom - 4 && text.top > bild.top, verlauf: getComputedStyle(k, '::after').backgroundImage.includes('linear-gradient'), format: Math.abs(bild.width / bild.height - 1.5) < .02,
       ganz: getComputedStyle(k).backgroundSize === 'contain', papier: getComputedStyle(document.querySelector('[data-buehne]')).backgroundColor };
   });
-  ok('Bild vollständig in 3:2, Text darunter auf Papier', lesbar.unterBild && lesbar.format && lesbar.ganz && lesbar.papier !== 'rgba(0, 0, 0, 0)', lesbar);
+  ok('Bild in 3:2, dunkler Text über weichem Verlauf', lesbar.imBild && lesbar.verlauf && lesbar.format && lesbar.ganz && lesbar.papier !== 'rgba(0, 0, 0, 0)', lesbar);
   await geh('#/station/2', '.station-kopf');
   ok('Raum Küche: Kopfbild st2', (await page.locator('.station-kopf.mit-bild .kbild').count()) === 1);
 
   // Die fünf Sonderseiten verwenden ihr zugeordnetes Bild auch im Kopf.
-  for (const name of ['gewohnheiten', 'kalender', 'flecken', 'regeln', 'verlauf']) {
+  for (const name of ['gewohnheiten', 'kalender', 'flecken', 'verlauf']) {
     await geh('#/' + name, 'h1');
     const bild = await page.evaluate(id => {
       const kopf = document.querySelector(`[data-seitenbild="${id}"]`);
@@ -122,6 +122,18 @@ try {
     }, 'x-' + name);
     ok('Bildkopf ' + name + ': Bild und Text passen auf das Handy', breite);
   }
+
+  await geh('#/regeln', '[data-warum]');
+  ok('Regeln: nur das Pinselbild, kein zusätzliches Flaschenbild',
+    (await page.locator('[data-seitenbild="x-regeln"]').count()) === 0 &&
+    (await page.locator('#ansicht .kbild').count()) === 1 &&
+    (await page.locator('[data-warum] .kbild').count()) === 1 &&
+    (await page.textContent('[data-warum] h1')).includes('Regeln'));
+  ok('Regeln: dunkle Hauptüberschrift über dem weich auslaufenden Pinselbild', await page.evaluate(() => {
+    const h = document.querySelector('[data-warum] h1'), bild = document.querySelector('[data-warum] .kbild');
+    return h.getBoundingClientRect().top < bild.getBoundingClientRect().bottom - 4
+      && getComputedStyle(h).color === 'rgb(36, 31, 26)';
+  }));
 
   /* 4 Die 5 Reinigungsmittel */
   await geh('#/station/0', '[data-schritt="s0.1"]');

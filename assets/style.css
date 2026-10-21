@@ -430,17 +430,28 @@ button.station-kachel { font: inherit; color: inherit; cursor: pointer; width: 1
 .kopf-knopf { width: 42px; height: 42px; font-size: 1.15rem; }
 .zurueck-knopf[hidden] { display: none; }
 
-/* ---------- Ganze Bildfläche, dunkler Text auf ruhigem Papier ----------
-   Bilder bleiben im natürlichen 3:2-Format sichtbar. Kein Zoom und kein Schleier über dem Motiv.
-   Der Lesebereich liegt darunter auf deckendem Papier, auch bei dunkler Systemeinstellung. */
-.mit-bild { --bild-rand: 16px; position: relative; isolation: isolate; overflow: hidden; padding-top: var(--bild-rand); }
+/* ---------- Bild und Schrift gehen weich ineinander über ----------
+   Oben bleibt das Motiv sichtbar. Unten läuft es in das Papier des gewählten Themas aus.
+   Der Text beginnt bereits im Bild; eine helle Verlaufsfläche trägt die dunkle Schrift. */
+.mit-bild { --bild-rand: 16px; --bild-ueberlappung: clamp(48px, 8vw, 88px); position: relative; isolation: isolate; overflow: hidden; padding-top: var(--bild-rand); }
 .mit-bild > :not(.kbild) { position: relative; z-index: 1; }
 .kbild {
   position: relative; width: calc(100% + 2 * var(--bild-rand)); aspect-ratio: 3 / 2;
-  margin: calc(-1 * var(--bild-rand)) calc(-1 * var(--bild-rand)) 4px;
+  margin: calc(-1 * var(--bild-rand)) calc(-1 * var(--bild-rand)) calc(-1 * var(--bild-ueberlappung));
   background-size: contain; background-position: center; background-repeat: no-repeat;
   flex: 0 0 auto; grid-column: 1 / -1;
 }
+.kbild::after, .pause-bild::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg,
+    transparent 0,
+    transparent calc(100% - var(--bild-ueberlappung) - 56px),
+    color-mix(in srgb, var(--bild-papier, var(--karte)) 34%, transparent) calc(100% - var(--bild-ueberlappung) - 30px),
+    color-mix(in srgb, var(--bild-papier, var(--karte)) 82%, transparent) calc(100% - var(--bild-ueberlappung)),
+    color-mix(in srgb, var(--bild-papier, var(--karte)) 96%, transparent) calc(100% - 12px),
+    var(--bild-papier, var(--karte)) 100%);
+}
+.mit-bild > :is(h1, h2, h3, p), .mit-bild .warum li, .mit-bild .warum b { color: #241f1a; }
 .schritt.mit-bild, .gewohnheit-karte.mit-bild { --bild-rand: 14px; }
 .station-kopf.mit-bild {
   --bild-rand: 14px; display: grid; grid-template-columns: auto minmax(0, 1fr);
@@ -448,8 +459,8 @@ button.station-kachel { font: inherit; color: inherit; cursor: pointer; width: 1
 }
 .buehne.mit-bild { --bild-rand: 18px; padding-top: var(--bild-rand); align-content: start; }
 #pause { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 16px; overflow-y: auto; background: var(--papier); }
-.pause-bild { width: min(100%, 720px); aspect-ratio: 3 / 2; flex: 0 0 auto; border-radius: var(--rund); background-size: contain; background-position: center; background-repeat: no-repeat; }
-.pause-innen { padding: 20px; background: var(--karte); border: 1px solid var(--linie); border-radius: var(--rund); }
+.pause-bild { --bild-papier: var(--papier); --bild-ueberlappung: clamp(48px, 8vw, 88px); position: relative; width: min(100%, 720px); aspect-ratio: 3 / 2; flex: 0 0 auto; margin-bottom: calc(-1 * var(--bild-ueberlappung)); background-size: contain; background-position: center; background-repeat: no-repeat; }
+.pause-innen { position: relative; z-index: 1; padding: 20px; color: #241f1a; }
 
 /* ---------- Die 5 Reinigungsmittel ---------- */
 .mittel-karte h2 { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }

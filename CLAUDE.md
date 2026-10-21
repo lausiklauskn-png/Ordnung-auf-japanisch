@@ -43,6 +43,16 @@ npm install && npm test     # Syntax · Inhalt · Manifest/Schale · App im echt
 
 ## Stand
 
+Bildübergänge (Klaus, 2026-10-21, Korrektur nach Gestaltungsschritt): keine harte Trennung zwischen Bild
+und Text. Das Bild läuft unten mit einem transparenten Verlauf in das Papier des gewählten Themas aus;
+nahezu schwarze Schrift beginnt 48–88 px innerhalb des Bildbereichs. Motiv oben länger sichtbar, 3:2 und
+Komprimierungsprofil unverändert. Auch das Pausenbild läuft weich aus, ohne getrennte Textkarte.
+Die vorherige Darstellung mit Text ausschließlich unter dem Bild wurde auf Klaus' Wunsch ersetzt.
+Regeln-Seite: kein zusätzliches Flaschenbild und keine getrennte Überschrift im Kopf; „Regeln“ steht als
+Hauptüberschrift im Pinselbild, darunter „Warum in kleinen Schritten?“ im selben Bereich.
+`x-regeln.webp` bleibt als vorhandene Bilddatei erhalten, wird dort aber bewusst nicht angezeigt.
+⚠ Gegenprüfung am echten Handy und mit echten Stimmen steht aus.
+
 Gestaltung (Klaus, 2026-10-21, nach Gegenprüfung der ersten Serie): oben ◐ zur Auswahl der hellen Naturthemen
 Washi, Sand und Salbei; Wahl in `oj_thema`, früh vor dem Stylesheet geladen. Kein dunkles Systemthema mehr.
 Glas-Buttons übernehmen Flächen, Text und 3D-Kante aus dem gewählten Thema; kurze Wackelbewegung und Lichtreflex

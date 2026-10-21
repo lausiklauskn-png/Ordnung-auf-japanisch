@@ -39,10 +39,10 @@ try {
   ok('Thema: auch bei dunklem System helles Washi als Start', await page.evaluate(() => document.documentElement.dataset.thema === 'washi' && getComputedStyle(document.documentElement).colorScheme === 'light'));
   const bild = await page.evaluate(() => {
     const k = document.querySelector('[data-warum] .kbild'), h = document.querySelector('[data-warum] h2');
-    const b = k.getBoundingClientRect(), t = h.getBoundingClientRect(), s = getComputedStyle(k);
-    return { ganz: s.backgroundSize === 'contain', format: b.width / b.height, textDarunter: t.top >= b.bottom, ruhig: s.animationName === 'none' };
+    const b = k.getBoundingClientRect(), t = h.getBoundingClientRect(), s = getComputedStyle(k), g = getComputedStyle(k, '::after');
+    return { ganz: s.backgroundSize === 'contain', format: b.width / b.height, textImBild: t.top < b.bottom - 4 && t.top > b.top, verlauf: g.backgroundImage.includes('linear-gradient') && g.content !== 'none', dunkel: getComputedStyle(h).color === 'rgb(36, 31, 26)', ruhig: s.animationName === 'none' };
   });
-  ok('Pinselbild: ganzes Motiv in 3:2 sichtbar, Text darunter', bild.ganz && Math.abs(bild.format - 1.5) < .02 && bild.textDarunter && bild.ruhig, bild);
+  ok('Pinselbild: dunkler Text im Bild mit weichem Verlauf', bild.ganz && Math.abs(bild.format - 1.5) < .02 && bild.textImBild && bild.verlauf && bild.dunkel && bild.ruhig, bild);
   const dateien = await page.evaluate(async () => Promise.all(window.OJ_INHALT.bilder.map(id => new Promise(resolve => {
     const i = new Image(); i.onload = () => resolve(i.naturalWidth === 1200 && i.naturalHeight === 800); i.onerror = () => resolve(false); i.src = 'bilder/' + id + '.webp';
   }))));
@@ -94,8 +94,8 @@ try {
     for (const name of ['washi', 'sand', 'salbei']) {
       await thema(name); await geh('#/');
       ok(breite + ' px ' + name + ': Kopf und vollständige Bilder passen', await page.evaluate(() => {
-        const k = document.querySelector('[data-warum] .kbild'), r = k.getBoundingClientRect(), kopf = document.querySelector('.kopf');
-        return document.documentElement.scrollWidth <= innerWidth && kopf.scrollWidth <= kopf.clientWidth && Math.abs(r.width / r.height - 1.5) < .02;
+        const k = document.querySelector('[data-warum] .kbild'), r = k.getBoundingClientRect(), kopf = document.querySelector('.kopf'), text = document.querySelector('[data-warum] h2').getBoundingClientRect();
+        return document.documentElement.scrollWidth <= innerWidth && kopf.scrollWidth <= kopf.clientWidth && Math.abs(r.width / r.height - 1.5) < .02 && text.top < r.bottom - 4 && getComputedStyle(k, '::after').backgroundImage.includes('linear-gradient');
       }));
     }
     await foto('handy-' + breite);
