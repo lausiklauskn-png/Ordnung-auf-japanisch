@@ -1,0 +1,19 @@
+name: Gestaltung pruefen
+on:
+  push:
+    branches: [codex/gestaltung]
+permissions:
+  contents: read
+jobs:
+  pruefen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install
+      - run: npx playwright-core install --with-deps chromium
+      - name: Uhr und Gestaltung nach letzter Farbkorrektur pruefen
+        run: node tests/uhr.mjs && node tests/gestaltung.mjs

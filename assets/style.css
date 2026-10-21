@@ -362,7 +362,7 @@ button.station-kachel { font: inherit; color: inherit; cursor: pointer; width: 1
 .chip { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 2px 4px 2px 12px; background: var(--karte); border: 1px solid var(--linie); font-size: .88rem; max-width: 100%; }
 .chip b { font-variant-numeric: tabular-nums; }
 .chip.arbeit { border-color: var(--tusche-2); }
-.chip#pause { border-color: var(--matcha); color: var(--matcha); }
+.chip.pause { border-color: var(--matcha); color: var(--matcha); }
 .chip.einwirk { border-color: var(--gold); }
 .chip button { border: 0; background: none; cursor: pointer; color: var(--leise); min-width: 32px; min-height: 32px; }
 .taktleiste { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 6px 10px; padding: 8px 12px; border-radius: 12px; background: var(--karte); border: 1px solid var(--linie); }
