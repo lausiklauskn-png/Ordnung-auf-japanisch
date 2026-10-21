@@ -17,7 +17,7 @@ eine Aufgabe, abhakbar). Je Schritt: ⏱ Arbeitszeit · ⌛ Einwirkzeit (= Pause
 ## 0 · Grundlagen — der Putzschrank (einmal einrichten)
 
 **Leitsätze (kommen als Sprüche zwischen den Schritten):**
-- Ein Mittel, ein Schmutz — und dazwischen klares Wasser.
+- Ein Reinigungsmittel für einen Schmutz — und dazwischen klares Wasser.
 - Erst trocken, dann feucht.
 - Eine Fläche wird nicht sauber, weil man fester reibt, sondern weil man länger wartet.
 - Saubere Wäsche riecht nach nichts.
@@ -27,9 +27,9 @@ eine Aufgabe, abhakbar). Je Schritt: ⏱ Arbeitszeit · ⌛ Einwirkzeit (= Pause
 
 | Schritt | Ansage |
 |---|---|
-| 0.1 Die fünf Mittel | Fünf Mittel reichen, sortiert nach Schmutz, nicht nach Raum: **Haushaltsessig 5 %** (Kalk), **Natron** (Geruch, leichtes Fett, sanft scheuern), **Sauerstoffbleiche** (Flecken, Grauschleier, ab 40 °C), **Schmierseife** (Fett), **Zitronensäure** (dicker Kalk, nie über 60 °C). Dazu dürfen Spülmittel und Scheuermilch. ⏱ 20 Min. |
-| 0.2 Löffel im Beutel | In jeden Pulverbeutel einen eigenen Esslöffel. Mit Bleistift auf den Beutel: Mittel, Menge für 5 L, Mindesttemperatur. Beutel stehend aufs Brett, mit Klammer zu. ⏱ 2 Min. |
-| 0.3 Etiketten | Nie in hübsche Gläser ohne Etikett umfüllen — vier weiße Pulver sehen gleich aus. Jede Flasche: Inhalt und Datum, wasserfest. Außer Reichweite von Kindern. |
+| 0.1 Die 5 Reinigungsmittel | Fünf Reinigungsmittel reichen für das ganze Haus, sortiert nach Schmutz, nicht nach Raum: **Haushaltsessig 5 %** (Kalk), **Natron** (Geruch, leichtes Fett, sanft scheuern), **Sauerstoffbleiche** (Flecken, Grauschleier, ab 40 °C), **Schmierseife** (Fett), **Zitronensäure** (dicker Kalk, nie über 60 °C). Säuren sind Essig und Zitronensäure, basisch (Lauge) sind Natron, Sauerstoffbleiche und Schmierseife. Dazu dürfen Spülmittel und Scheuermilch. ⏱ 20 Min. |
+| 0.2 Löffel im Beutel | In jeden Pulverbeutel einen eigenen Esslöffel. Mit Bleistift auf den Beutel: Name des Pulvers (Natron, Sauerstoffbleiche, Zitronensäure), Menge für 5 L, Mindesttemperatur. Beutel stehend aufs Brett, mit Klammer zu. ⏱ 2 Min. |
+| 0.3 Etiketten | Nie in hübsche Gläser ohne Etikett umfüllen — Natron, Sauerstoffbleiche, Zitronensäure und Waschsoda sind alle weiß und sehen gleich aus. Jede Flasche: Inhalt und Datum, wasserfest. Außer Reichweite von Kindern. |
 | 0.4 Säure links, Lauge rechts | Säuren (Essig, Zitronensäure) links im Schrank, Alkalisches (Natron, Soda, Seife) rechts, Chlor gar nicht. Wer im Halbdunkel greift, greift dann nie falsch. |
 | 0.5 Sicherheitskarte | Notruf 112 und Giftnotruf (Vorwahl + 19240) innen an die Schranktür. |
 | 0.6 Deckel ausmessen | Einmal mit dem Esslöffel messen, was in den Flaschendeckel passt, und draufschreiben. |
@@ -43,7 +43,7 @@ eine Aufgabe, abhakbar). Je Schritt: ⏱ Arbeitszeit · ⌛ Einwirkzeit (= Pause
 - Wasserstoffperoxid + Essig → ätzende Peressigsäure.
 - Natron + Essig oder angesetzte Sauerstoffbleiche in geschlossener Flasche → Überdruck, Flasche platzt.
 - Nutzlos, nicht gefährlich: Essig + Natron (übrig bleibt Salzwasser), Essig + Seife (die Seife flockt aus).
-- **Zwei Mittel auf derselben Fläche:** erst ganz abspülen, 10 Min. lüften, neues Tuch und neuer Eimer. Nach Chlor am selben Tag keine Säure.
+- **Zwei Reinigungsmittel auf derselben Fläche** (z. B. erst Schmierseife gegen Fett, dann Essig gegen Kalk): erst ganz abspülen, 10 Min. lüften, neues Tuch und neuer Eimer. Nach Chlor am selben Tag keine Säure.
 - **Wenn es passiert ist:** sofort raus, Tür zu, nicht zurück. Bei Husten, Atemnot, brennenden Augen 112, beide Mittel nennen.
 
 **Was man nie worauf gibt:**
@@ -55,6 +55,19 @@ eine Aufgabe, abhakbar). Je Schritt: ⏱ Arbeitszeit · ⌛ Einwirkzeit (= Pause
 - Kochendes Wasser: Kunststoffrohre (über 70 °C), frisch verlegte Fliesen (erste drei Wochen).
 
 ---
+
+## Die 5 Reinigungsmittel
+
+Was genau gemeint ist, was jedes Mittel kann und wo nie. Säuren: Essig, Zitronensäure. Basisch (Lauge): Natron,
+Sauerstoffbleiche, Schmierseife. In der App eine eigene Seite, erreichbar aus Schritt 0.1 und den Regeln.
+
+| Mittel | Was es ist | Löst | Hilft nicht gegen | Nie auf | Menge | Kaufen |
+|---|---|---|---|---|---|---|
+| Haushaltsessig 5 % | Säure. Der Essig aus dem Supermarkt-Regal mit den Reinigern, nicht Speiseessig mit Aroma und nicht Essigessenz. | Kalk, Wasserflecken, Seifenreste, leichten Urinstein, Gerüche | Fett, eingebranntes Fett, Farbflecken | Marmor, Naturstein, Terrazzo, bröselige Zementfugen, geöltes Holz, unbehandeltes Aluminium, Bildschirme | Pur auf Kalk · 3 EL auf 1 L Wasser für Fenster · 1 Glas auf 5 L für Fliesen. Handwarm, nie kochen. | Discounter, etwa 0,50–0,70 € pro Liter. Essigessenz 25 %: 1 Teil auf 4 Teile Wasser, erst das Wasser. |
+| Natron | Basisch, ein feines Pulver (Natriumhydrogencarbonat) — ein sanftes Scheuermittel. Backpulver ist nicht dasselbe. | Leichtes Fett, Angetrocknetes, Gerüche, frische Flecken | Kalk, eingebranntes Fett, graue Wäsche | Aluminium, polierten Naturstein, Hochglanzlack, Brillengläser, Bildschirme, neue Glaskeramik | 1 EL auf 1 L · Paste: 3 Teile Pulver, 1 Teil Wasser, ⌛ 10 Min. · gegen Geruch 50 g im Schälchen | Drogeriemarkt, 1-kg-Beutel etwa 4,50 € — die kleinen Tütchen kosten das Dreifache |
+| Sauerstoffbleiche | Basisch, ein Pulver (Natriumpercarbonat), auch „Fleckensalz pur“. Gibt im heißen Wasser Sauerstoff ab. | Rotwein, Kaffee, Tee, Gras, Blut, Schweiß, Grauschleier, muffige Tücher | Kalk, reines Fett, Farbe, Tinte | Wolle, Seide, Kaschmir, Leder, Aluminium, rohes Holz, Marmor | 1 EL auf 5 L zum Einweichen · 1 EL ins Waschmittelfach. Mindestens 40 °C, am besten 60 °C. ⚠ Angesetzt nie in eine geschlossene Flasche. | Drogeriemarkt, etwa 5 € pro Kilo |
+| Schmierseife | Basisch, eine weiche Seife aus Pflanzenöl — der einzige echte Fettlöser der fünf. | Schweres Fett, Dunstabzug, Backofen, Herd, Griffspuren, Gartenmöbel | Kalk, Wasserflecken, Urinstein | Lackiertes Holz (pur), Bildschirme, alles, was man nicht nachwischen kann | 1 EL auf 5 L Wischwasser · 2 EL auf 1 L heißes Wasser für den Ofen | Drogerie oder Baumarkt, etwa 3,50 € pro Liter |
+| Zitronensäure | Säure als Pulver, ohne Geruch — wenn der Essig nicht reicht. | Dicken Kalk, Kesselstein, leichten Rost, braune Ränder in Tassen | Fett, Farbflecken, Gerüche | Aluminium, Marmor, Naturstein, Zementfugen, altes Email, Gusseisen, Parkett | 20 g auf 1 L, bei dickem Kalk 50 g. Höchstens 50–60 °C, nie kochend — sonst entsteht eine neue Kruste. | Drogeriemarkt, etwa 6 € pro Kilo |
 
 ## 1 · Eingang und Flur
 
@@ -250,7 +263,7 @@ Takt: **täglich** (einmal am Tag), **Woche** (einmal pro Woche), **Gelegenheit*
 | Zurück an seinen Platz | nach dem Benutzen | Gelegenheit | Jedes Ding nach dem Benutzen an seinen festen Platz, sichtbar. | Was man nicht findet, besitzt man nicht — und kauft es doppelt. |
 | Schuhe an der Tür | beim Heimkommen | Gelegenheit | Hinsetzen, Schuhe aus, Hausschuhe an. Hausschuhe verlassen die Wohnung nicht. | Das Haus wird an der Tür schmutzig, nicht in den Zimmern. |
 | Erst trocken, dann feucht | beim Putzen | Gelegenheit | Erst fegen oder saugen, dann wischen. | Wer es umdreht, macht aus Staub Schlamm. |
-| Ein Mittel, ein Schmutz | beim Putzen | Gelegenheit | Ein Mittel pro Fläche; vor einem zweiten mit klarem Wasser nachspülen und lüften. | Ins Krankenhaus bringen nicht eine Flasche, sondern zwei nacheinander. |
+| Ein Reinigungsmittel, ein Schmutz | beim Putzen | Gelegenheit | Ein Reinigungsmittel pro Fläche — Essig oder Zitronensäure gegen Kalk, Schmierseife gegen Fett, Natron gegen Geruch; vor einem zweiten mit klarem Wasser nachspülen und lüften. | Ins Krankenhaus bringen nicht eine Flasche, sondern zwei nacheinander. |
 | Menge messen | beim Putzen | Gelegenheit | Löffel aus dem Beutel, gestrichen, nach der Menge auf dem Etikett. | Eine geschätzte Menge kostet immer mehr — in beide Richtungen. |
 | Wäsche in 20 Minuten aufhängen | nach dem Waschen | Gelegenheit | Maschine nur starten, wenn man am Ende da ist; ausschütteln, einzeln aufhängen. | In 20 Minuten passiert nichts, nach 4 Stunden ist die Ladung besiedelt. |
 | Maschine offen lassen | nach dem Waschen | Gelegenheit | Tür und Waschmittelfach nach jeder Wäsche offen lassen. | Die Maschine ist das einzige Gerät, das nass, warm und geschlossen bleibt. |
@@ -273,7 +286,7 @@ hier gesammelt, so wie die App sie erklärt (Ansage vor dem ersten Block und in 
 - **Der Keller ist kein Versteck.** Was man nicht entscheiden will, landet sonst dort — und bleibt.
 - **Ein Schrank pro Tag, nicht zwei.** Wer zu viel auf einmal will, gibt am dritten Tag auf.
 - **Drei gute Tage statt eines langen.** Den großen Putz an einem Wochenende gibt es nicht; ein Punkt pro Wochenende, und nach drei Monaten ist alles fertig, ohne einen einzigen langen Tag.
-- **Die Wartezeit arbeitet mit.** Viele Mittel brauchen Einwirkzeit. Auftragen, Pause machen, zurückkommen — die Fläche wird sauber, weil man wartet, nicht weil man fester reibt.
+- **Die Wartezeit arbeitet mit.** Viele Reinigungsmittel brauchen Einwirkzeit — Essig am Kalk, Natronpaste im Ofen, Sauerstoffbleiche in der Wäsche. Auftragen, Pause machen, zurückkommen — die Fläche wird sauber, weil man wartet, nicht weil man fester reibt.
 - **Kleine, gleiche Handgriffe werden zur Gewohnheit.** Zwei Minuten an der Spüle jeden Abend halten mehr als vierzig Minuten am Samstag.
 
 ## Gewohnheits-Takt (Grundlage für Kalender und Erinnerungen)
@@ -335,4 +348,4 @@ Zwischen dem 20. und 31. Dezember nichts Neues anfangen. Was im Kalender steht, 
 |---|---|
 | **Waschmaschine** | Tür und Fach nach jeder Wäsche offen · Manschette auswischen (Wäsche-Heft: wöchentlich mit Essig; Kalender: mindestens monatlich mit Spülmittelwasser) · Fach ausbürsten monatlich · 60-°C-Leerlauf monatlich, entweder 2 EL Sauerstoffbleiche oder 1 EL Vollwaschmittel-Pulver (enthält Bleiche) · Flusensieb vierteljährlich · Zulaufschlauch jährlich auf Risse prüfen. |
 | **Dunstabzug, Spülmaschine** | Metallfettfilter monatlich · Haube innen/außen monatlich warm mit Schmierseife · Kohlefilter bei Umluft nach Hersteller (oft 3–6 Monate) · Spülmaschinensieb monatlich · Sprüharme vierteljährlich mit Zahnstocher. ⚠ Alu-Filter: kein Soda, keine Zitronensäure, kein Backofenspray; Herd vorher aus. |
-| **Siphon** | Vierteljährlich von Hand: Eimer drunter, Überwurfmuttern ohne Zange lösen, Dichtungen nicht verlieren, Haare und Schlamm in den Restmüll, Rohr mit Flaschenbürste, handfest wieder an, auf Tropfen prüfen. Haarsieb in Dusche und Wanne. ⚠ Kein chemischer Rohrreiniger, nie zwei Mittel nacheinander; Rohr hinter der Wand ist Sache des Vermieters. |
+| **Siphon** | Vierteljährlich von Hand: Eimer drunter, Überwurfmuttern ohne Zange lösen, Dichtungen nicht verlieren, Haare und Schlamm in den Restmüll, Rohr mit Flaschenbürste, handfest wieder an, auf Tropfen prüfen. Haarsieb in Dusche und Wanne. ⚠ Kein chemischer Rohrreiniger, nie zwei Reinigungsmittel nacheinander; Rohr hinter der Wand ist Sache des Vermieters. |

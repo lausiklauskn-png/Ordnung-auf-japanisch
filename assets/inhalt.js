@@ -1,5 +1,6 @@
 // GEBAUT aus docs/INHALT.md mit `node tools/inhalt-bauen.mjs` — nicht von Hand ändern.
 window.OJ_INHALT = {
+ "bilder": [],
  "stationen": [
   {
    "nr": 0,
@@ -11,8 +12,8 @@ window.OJ_INHALT = {
     {
      "id": "s0.1",
      "nr": "0.1",
-     "titel": "Die fünf Mittel",
-     "text": "Fünf Mittel reichen, sortiert nach Schmutz, nicht nach Raum: Haushaltsessig 5 % (Kalk), Natron (Geruch, leichtes Fett, sanft scheuern), Sauerstoffbleiche (Flecken, Grauschleier, ab 40 °C), Schmierseife (Fett), Zitronensäure (dicker Kalk, nie über 60 °C). Dazu dürfen Spülmittel und Scheuermilch. ⏱ 20 Min.",
+     "titel": "Die 5 Reinigungsmittel",
+     "text": "Fünf Reinigungsmittel reichen für das ganze Haus, sortiert nach Schmutz, nicht nach Raum: Haushaltsessig 5 % (Kalk), Natron (Geruch, leichtes Fett, sanft scheuern), Sauerstoffbleiche (Flecken, Grauschleier, ab 40 °C), Schmierseife (Fett), Zitronensäure (dicker Kalk, nie über 60 °C). Säuren sind Essig und Zitronensäure, basisch (Lauge) sind Natron, Sauerstoffbleiche und Schmierseife. Dazu dürfen Spülmittel und Scheuermilch. ⏱ 20 Min.",
      "einwirk": null,
      "arbeit": 20
     },
@@ -20,7 +21,7 @@ window.OJ_INHALT = {
      "id": "s0.2",
      "nr": "0.2",
      "titel": "Löffel im Beutel",
-     "text": "In jeden Pulverbeutel einen eigenen Esslöffel. Mit Bleistift auf den Beutel: Mittel, Menge für 5 L, Mindesttemperatur. Beutel stehend aufs Brett, mit Klammer zu. ⏱ 2 Min.",
+     "text": "In jeden Pulverbeutel einen eigenen Esslöffel. Mit Bleistift auf den Beutel: Name des Pulvers (Natron, Sauerstoffbleiche, Zitronensäure), Menge für 5 L, Mindesttemperatur. Beutel stehend aufs Brett, mit Klammer zu. ⏱ 2 Min.",
      "einwirk": null,
      "arbeit": 2
     },
@@ -28,7 +29,7 @@ window.OJ_INHALT = {
      "id": "s0.3",
      "nr": "0.3",
      "titel": "Etiketten",
-     "text": "Nie in hübsche Gläser ohne Etikett umfüllen — vier weiße Pulver sehen gleich aus. Jede Flasche: Inhalt und Datum, wasserfest. Außer Reichweite von Kindern.",
+     "text": "Nie in hübsche Gläser ohne Etikett umfüllen — Natron, Sauerstoffbleiche, Zitronensäure und Waschsoda sind alle weiß und sehen gleich aus. Jede Flasche: Inhalt und Datum, wasserfest. Außer Reichweite von Kindern.",
      "einwirk": null,
      "arbeit": null
     },
@@ -805,6 +806,53 @@ window.OJ_INHALT = {
    ]
   }
  ],
+ "mittel": [
+  {
+   "name": "Haushaltsessig 5 %",
+   "was": "Säure. Der Essig aus dem Supermarkt-Regal mit den Reinigern, nicht Speiseessig mit Aroma und nicht Essigessenz.",
+   "loest": "Kalk, Wasserflecken, Seifenreste, leichten Urinstein, Gerüche",
+   "nicht": "Fett, eingebranntes Fett, Farbflecken",
+   "nie": "Marmor, Naturstein, Terrazzo, bröselige Zementfugen, geöltes Holz, unbehandeltes Aluminium, Bildschirme",
+   "menge": "Pur auf Kalk · 3 EL auf 1 L Wasser für Fenster · 1 Glas auf 5 L für Fliesen. Handwarm, nie kochen.",
+   "kaufen": "Discounter, etwa 0,50–0,70 € pro Liter. Essigessenz 25 %: 1 Teil auf 4 Teile Wasser, erst das Wasser."
+  },
+  {
+   "name": "Natron",
+   "was": "Basisch, ein feines Pulver (Natriumhydrogencarbonat) — ein sanftes Scheuermittel. Backpulver ist nicht dasselbe.",
+   "loest": "Leichtes Fett, Angetrocknetes, Gerüche, frische Flecken",
+   "nicht": "Kalk, eingebranntes Fett, graue Wäsche",
+   "nie": "Aluminium, polierten Naturstein, Hochglanzlack, Brillengläser, Bildschirme, neue Glaskeramik",
+   "menge": "1 EL auf 1 L · Paste: 3 Teile Pulver, 1 Teil Wasser, ⌛ 10 Min. · gegen Geruch 50 g im Schälchen",
+   "kaufen": "Drogeriemarkt, 1-kg-Beutel etwa 4,50 € — die kleinen Tütchen kosten das Dreifache"
+  },
+  {
+   "name": "Sauerstoffbleiche",
+   "was": "Basisch, ein Pulver (Natriumpercarbonat), auch „Fleckensalz pur“. Gibt im heißen Wasser Sauerstoff ab.",
+   "loest": "Rotwein, Kaffee, Tee, Gras, Blut, Schweiß, Grauschleier, muffige Tücher",
+   "nicht": "Kalk, reines Fett, Farbe, Tinte",
+   "nie": "Wolle, Seide, Kaschmir, Leder, Aluminium, rohes Holz, Marmor",
+   "menge": "1 EL auf 5 L zum Einweichen · 1 EL ins Waschmittelfach. Mindestens 40 °C, am besten 60 °C. ⚠ Angesetzt nie in eine geschlossene Flasche.",
+   "kaufen": "Drogeriemarkt, etwa 5 € pro Kilo"
+  },
+  {
+   "name": "Schmierseife",
+   "was": "Basisch, eine weiche Seife aus Pflanzenöl — der einzige echte Fettlöser der fünf.",
+   "loest": "Schweres Fett, Dunstabzug, Backofen, Herd, Griffspuren, Gartenmöbel",
+   "nicht": "Kalk, Wasserflecken, Urinstein",
+   "nie": "Lackiertes Holz (pur), Bildschirme, alles, was man nicht nachwischen kann",
+   "menge": "1 EL auf 5 L Wischwasser · 2 EL auf 1 L heißes Wasser für den Ofen",
+   "kaufen": "Drogerie oder Baumarkt, etwa 3,50 € pro Liter"
+  },
+  {
+   "name": "Zitronensäure",
+   "was": "Säure als Pulver, ohne Geruch — wenn der Essig nicht reicht.",
+   "loest": "Dicken Kalk, Kesselstein, leichten Rost, braune Ränder in Tassen",
+   "nicht": "Fett, Farbflecken, Gerüche",
+   "nie": "Aluminium, Marmor, Naturstein, Zementfugen, altes Email, Gusseisen, Parkett",
+   "menge": "20 g auf 1 L, bei dickem Kalk 50 g. Höchstens 50–60 °C, nie kochend — sonst entsteht eine neue Kruste.",
+   "kaufen": "Drogeriemarkt, etwa 6 € pro Kilo"
+  }
+ ],
  "gewohnheiten": [
   {
    "id": "g1",
@@ -904,10 +952,10 @@ window.OJ_INHALT = {
   },
   {
    "id": "g13",
-   "titel": "Ein Mittel, ein Schmutz",
+   "titel": "Ein Reinigungsmittel, ein Schmutz",
    "wann": "beim Putzen",
    "takt": "Gelegenheit",
-   "handgriff": "Ein Mittel pro Fläche; vor einem zweiten mit klarem Wasser nachspülen und lüften.",
+   "handgriff": "Ein Reinigungsmittel pro Fläche — Essig oder Zitronensäure gegen Kalk, Schmierseife gegen Fett, Natron gegen Geruch; vor einem zweiten mit klarem Wasser nachspülen und lüften.",
    "warum": "Ins Krankenhaus bringen nicht eine Flasche, sondern zwei nacheinander."
   },
   {
@@ -1022,7 +1070,7 @@ window.OJ_INHALT = {
   },
   {
    "satz": "Die Wartezeit arbeitet mit.",
-   "grund": "Viele Mittel brauchen Einwirkzeit. Auftragen, Pause machen, zurückkommen — die Fläche wird sauber, weil man wartet, nicht weil man fester reibt."
+   "grund": "Viele Reinigungsmittel brauchen Einwirkzeit — Essig am Kalk, Natronpaste im Ofen, Sauerstoffbleiche in der Wäsche. Auftragen, Pause machen, zurückkommen — die Fläche wird sauber, weil man wartet, nicht weil man fester reibt."
   },
   {
    "satz": "Kleine, gleiche Handgriffe werden zur Gewohnheit.",
@@ -1030,7 +1078,7 @@ window.OJ_INHALT = {
   }
  ],
  "leitsaetze": [
-  "Ein Mittel, ein Schmutz — und dazwischen klares Wasser.",
+  "Ein Reinigungsmittel für einen Schmutz — und dazwischen klares Wasser.",
   "Erst trocken, dann feucht.",
   "Eine Fläche wird nicht sauber, weil man fester reibt, sondern weil man länger wartet.",
   "Saubere Wäsche riecht nach nichts.",
@@ -1046,7 +1094,7 @@ window.OJ_INHALT = {
   "Wasserstoffperoxid + Essig → ätzende Peressigsäure.",
   "Natron + Essig oder angesetzte Sauerstoffbleiche in geschlossener Flasche → Überdruck, Flasche platzt.",
   "Nutzlos, nicht gefährlich: Essig + Natron (übrig bleibt Salzwasser), Essig + Seife (die Seife flockt aus).",
-  "Zwei Mittel auf derselben Fläche: erst ganz abspülen, 10 Min. lüften, neues Tuch und neuer Eimer. Nach Chlor am selben Tag keine Säure.",
+  "Zwei Reinigungsmittel auf derselben Fläche (z. B. erst Schmierseife gegen Fett, dann Essig gegen Kalk): erst ganz abspülen, 10 Min. lüften, neues Tuch und neuer Eimer. Nach Chlor am selben Tag keine Säure.",
   "Wenn es passiert ist: sofort raus, Tür zu, nicht zurück. Bei Husten, Atemnot, brennenden Augen 112, beide Mittel nennen."
  ],
  "nieWorauf": [
@@ -1788,7 +1836,7 @@ window.OJ_INHALT = {
   },
   {
    "stelle": "Siphon",
-   "was": "Vierteljährlich von Hand: Eimer drunter, Überwurfmuttern ohne Zange lösen, Dichtungen nicht verlieren, Haare und Schlamm in den Restmüll, Rohr mit Flaschenbürste, handfest wieder an, auf Tropfen prüfen. Haarsieb in Dusche und Wanne. ⚠ Kein chemischer Rohrreiniger, nie zwei Mittel nacheinander; Rohr hinter der Wand ist Sache des Vermieters."
+   "was": "Vierteljährlich von Hand: Eimer drunter, Überwurfmuttern ohne Zange lösen, Dichtungen nicht verlieren, Haare und Schlamm in den Restmüll, Rohr mit Flaschenbürste, handfest wieder an, auf Tropfen prüfen. Haarsieb in Dusche und Wanne. ⚠ Kein chemischer Rohrreiniger, nie zwei Reinigungsmittel nacheinander; Rohr hinter der Wand ist Sache des Vermieters."
   }
  ]
 };

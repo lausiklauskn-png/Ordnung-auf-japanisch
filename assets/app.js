@@ -8,6 +8,7 @@
   const ST = window.OJ.Sprechtext;
   const J = window.OJ.Japanisch;
   const K = window.OJ.Klang;
+  const A = window.OJ.Absicht;
   const $ = s => document.querySelector(s);
   const ansicht = $('#ansicht');
 
@@ -31,7 +32,14 @@
   const schrittVon = id => alleSchritte.find(s => s.id === id);
   const kalAufgabe = id => { for (const m of I.kalender) { const a = m.aufgaben.find(x => x.id === id); if (a) return { monat: m, a }; } return null; };
   const MISCH_STATIONEN = [0, 2, 3, 4];                                    // vor diesen Stationen kommt die Warnkarte
-  const GEWOHNHEIT_AB = 21;                                               // so oft erledigt = „sitzt“ (習)
+  const GEWOHNHEIT_AB = 21;
+  const VERSION = '1.1';
+  /* Bilder hinter den Texten: bilder/<Kennung>.webp, nur wenn sie in inhalt.js unter „bilder“ stehen */
+  const BILDER = new Set(I.bilder || []);
+  const hatBild = id => BILDER.has(id);
+  const bildUrl = id => `bilder/${encodeURIComponent(id)}.webp?v=${VERSION}`;
+  const bildDiv = id => hatBild(id) ? `<div class="kbild" style="background-image:url('${bildUrl(id)}')" aria-hidden="true"></div>` : '';
+  const mitBild = id => hatBild(id) ? ' mit-bild' : '';                                               // so oft erledigt = „sitzt“ (習)
 
   /* ---------- Zustand ---------- */
   const Z = { log: [], stats: new Map(), stumm: false, sitzung: null };
@@ -133,8 +141,31 @@
     return `<span class="aussprache"><span lang="ja-Latn" class="romaji">${esc(w.romaji)}</span> · sprich <b class="laut">${esc(w.laut)}</b>${mitDe ? ' · ' + esc(w.de) : ''}
       <button class="knopf mini" data-aktion="wort" data-k="${w.k}" aria-label="Aussprechen: ${esc(w.romaji)}">🔊</button></span>`;
   }
+  /* ---------- „Was möchtest du heute tun?“ — tippen oder sprechen ---------- */
+  const HoerenAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+  function frageKarte(wert = '') {
+    return `<form class="karte frage-karte" data-frage-form autocomplete="off">
+      <label for="frageFeld"><b>Was möchtest du heute tun?</b></label>
+      <div class="frage-zeile">
+        <input id="frageFeld" class="suche" type="text" enterkeyhint="search" placeholder="z. B. Ich möchte heute das Bad reinigen" value="${esc(wert)}">
+        ${HoerenAPI ? '<button type="button" class="knopf rund mikro" data-aktion="hoeren" aria-label="Sprechen">🎤</button>' : ''}
+        <button type="submit" class="knopf haupt rund" aria-label="Los">→</button>
+      </div>
+    </form>`;
+  }
+  function hoeren(knopf) {
+    if (!HoerenAPI) return;
+    Stimme.stopp();
+    const h = new HoerenAPI(); h.lang = 'de-DE'; h.interimResults = true; h.maxAlternatives = 1;
+    const feld = $('#frageFeld'); knopf.classList.add('hoert'); knopf.textContent = '●';
+    h.onresult = e => { const t = [...e.results].map(r => r[0].transcript).join(' '); feld.value = t; if (e.results[e.results.length - 1].isFinal) { h.stop(); fragen(t); } };
+    h.onerror = h.onend = () => { knopf.classList.remove('hoert'); knopf.textContent = '🎤'; };
+    try { h.start(); } catch (_) {}
+  }
+  function fragen(t) { t = (t || '').trim(); if (t) location.hash = '#/fragen/' + encodeURIComponent(t); }
+
   function warumKarte() {
-    return `<section class="karte" data-warum><h2>Warum in kleinen Schritten?</h2>
+    return `<section class="karte${mitBild('x-warum')}" data-warum>${bildDiv('x-warum')}<h2>Warum in kleinen Schritten?</h2>
       <ul class="warum">${I.warumKurz.map(w => `<li><b>${esc(w.satz)}</b> ${esc(w.grund)}</li>`).join('')}</ul>
       <div class="knopfreihe"><button class="knopf klein" data-aktion="warum-vorlesen">🔊 Vorlesen</button></div></section>`;
   }
@@ -147,9 +178,11 @@
   }
   function schrittKarte(s) {
     const x = st(s.id);
-    return `<article class="karte schritt${x.heute ? ' erledigt-heute' : ''}" data-schritt="${s.id}">
+    return `<article class="karte schritt${x.heute ? ' erledigt-heute' : ''}${mitBild(s.id)}" data-schritt="${s.id}">
+      ${bildDiv(s.id)}
       <h3><span class="nr">${esc(s.nr)}</span>${esc(s.titel)}${x.n >= GEWOHNHEIT_AB ? '<span class="gewohnheit" lang="ja" title="Gewohnheit sitzt">習</span>' : ''}</h3>
       <p>${fmt(s.text)}</p>
+      ${s.id === 's0.1' ? '<p><a class="knopf klein" href="#/mittel" data-mittel-link>Die 5 Reinigungsmittel im Einzelnen →</a></p>' : ''}
       <div class="fuss">
         <span class="zaehler">${x.n ? `${x.n}× · zuletzt ${vorWann(x.zuletzt)}` : 'noch nie'}</span>
         <span class="knopfreihe">
@@ -170,7 +203,8 @@
         <div class="held-sub">Ordnung auf Japanisch</div>
         <p class="held-laut">${aussprache(J.wort('seiri'), true)}</p>
       </section>
-      <section class="karte weiter" data-willkommen>
+      <section class="karte weiter${mitBild('x-willkommen')}" data-willkommen>
+        ${bildDiv('x-willkommen')}
         <h2>Willkommen.</h2>
         <p>Drei kurze Fragen, dann geht es los: Welche Räume hast du? Wo möchtest du anfangen? Wie lange am Stück?</p>
         <div class="knopfreihe"><a class="knopf haupt" href="#/einrichten/1">▶ Einrichten</a></div>
@@ -189,6 +223,7 @@
         <p class="held-laut">${aussprache(J.wort('seiri'), true)}</p>
         <p class="leitsatz" data-leitsatz>${esc(satz)}</p>
       </section>
+      ${frageKarte()}
       <section class="karte weiter" data-weiter>
         <div class="wo">${heute ? `Heute ${heute} erledigt · ` : ''}Weiter mit</div>
         <h2>${esc(stn.titel)} · ${esc(n.titel)}</h2>
@@ -217,7 +252,7 @@
             <span class="stand">${x.je} von ${x.n}</span>
           </a>`; }).join('')}
       </div>
-      <p class="leise" style="text-align:center;margin-top:26px"><a href="#/woerter">Japanische Wörter</a> · <a href="#/info">Über die App · Rechte</a></p>`;
+      <p class="leise" style="text-align:center;margin-top:26px"><a href="#/woerter">Japanische Wörter</a> · <a href="#/info">Einstellungen · Über die App</a></p>`;
     },
 
     station(nr) {
@@ -225,7 +260,8 @@
       const x = stationStand(s);
       return `
       <a class="zurueck" href="#/">← Übersicht</a>
-      <div class="station-kopf">
+      <div class="station-kopf${mitBild('st' + s.nr)}">
+        ${bildDiv('st' + s.nr)}
         <div class="kanji" lang="ja">${esc(s.kanji)}</div>
         <div><h1>${esc(s.titel)}${anzahl(s.nr) > 1 ? ` <span class="leise">×${anzahl(s.nr)}</span>` : ''}</h1><div class="lesung">${aussprache(J.fuerStation(s.nr))}</div><div class="lesung">${s.zusatz ? esc(s.zusatz) + ' · ' : ''}${x.je} von ${x.n} schon einmal gemacht</div></div>
       </div>
@@ -275,6 +311,7 @@
       <h1 style="font-size:1.45rem;margin:4px 0 10px"><span lang="ja">規</span> Regeln</h1>
       ${warumKarte()}
       <section class="karte"><h2>Leitsätze</h2><ul>${I.leitsaetze.map(t => `<li>${esc(t)}</li>`).join('')}</ul></section>
+      <a class="karte" href="#/mittel" style="display:block;text-decoration:none" data-mittel-link><h2>Die 5 Reinigungsmittel →</h2><p class="leise klein">Essig, Natron, Sauerstoffbleiche, Schmierseife, Zitronensäure: was sie lösen, wo nie, wie viel.</p></a>
       ${warnkarte()}
       <section class="karte warnkarte"><h2>Nie worauf</h2><ul>${I.nieWorauf.map(t => `<li>${fmt(t)}</li>`).join('')}</ul></section>
       <section class="karte"><h2>Wenn es passiert ist</h2><p>Sofort raus, Tür zu, nicht zurück. Bei Husten, Atemnot oder brennenden Augen <a href="tel:112"><b>112</b></a> rufen und beide Mittel nennen. Giftnotruf: Vorwahl des Bundeslands und 19240.</p></section>
@@ -288,12 +325,61 @@
       <h1 style="font-size:1.45rem;margin:4px 0 4px">Japanische Wörter</h1>
       <p class="leise">So spricht man sie: Silben gleich betont, „ß“ scharf, Doppelvokal lang. ${Stimme.ja ? 'Dein Gerät hat eine japanische Stimme.' : 'Auf diesem Gerät gibt es keine japanische Stimme — die deutsche Stimme liest die Lautschrift.'}</p>
       <div class="woerter">${J.WOERTER.map(w => `<article class="karte wort" data-wort="${w.k}">
-        <div class="wort-ja" lang="ja">${esc(w.ja)}</div>
-        <div><div class="wort-de">${esc(w.de)}</div><div class="leise klein"><span lang="ja-Latn">${esc(w.romaji)}</span> · sprich <b class="laut">${esc(w.laut)}</b></div></div>
-        <button class="knopf klein" data-aktion="wort" data-k="${w.k}" aria-label="Aussprechen: ${esc(w.romaji)}">🔊</button></article>`).join('')}</div>`;
+        <div class="wort-ja${[...w.ja].length > 3 ? ' lang' : ''}" lang="ja">${esc(w.ja)}</div>
+        <button class="knopf klein" data-aktion="wort" data-k="${w.k}" aria-label="Aussprechen: ${esc(w.romaji)}">🔊</button>
+        <div class="wort-text"><div class="wort-de">${esc(w.de)}</div><div class="leise klein"><span lang="ja-Latn">${esc(w.romaji)}</span> · sprich <b class="laut">${esc(w.laut)}</b></div></div></article>`).join('')}</div>`;
     },
 
     einrichten(schritt) { return einrichtenHtml(+schritt || 1); },
+
+    fragen(q = '') {
+      const e = A.verstehen(q, I);
+      const kopf = `<h1 style="font-size:1.45rem;margin:4px 0 8px">Was möchtest du heute tun?</h1>${frageKarte(q)}`;
+      if (!q) return kopf;
+      if (!e.verstanden) return kopf + `<section class="karte" data-nicht-verstanden><h2>Das habe ich nicht verstanden.</h2>
+        <p class="leise">Nenne einen Raum, ein Reinigungsmittel, einen Fleck oder einen Monat — zum Beispiel:</p>
+        <div class="knopfreihe">${['Bad reinigen', 'Küche putzen', 'Kleiderschrank ausmisten', 'Wäsche riecht muffig', 'Reinigungsmittel', 'Rotweinfleck'].map(b => `<a class="knopf klein" href="#/fragen/${encodeURIComponent(b)}">${b}</a>`).join('')}</div></section>`;
+      const nr = e.stationen[0], s = nr != null ? I.stationen[nr] : null;
+      const gIds = s ? [...new Set(e.gewohnheiten.concat(A.gewohnheitenFuer(nr, I)))] : e.gewohnheiten;
+      const mIds = e.mittel.length ? e.mittel : (s ? A.mittelFuer(nr, I) : []);
+      const teile = [];
+      if (s) teile.push(`<section class="karte treffer${mitBild('st' + s.nr)}" data-treffer-raum="${s.nr}">${bildDiv('st' + s.nr)}
+        <div class="wo leise klein">Verstanden</div>
+        <h2><span lang="ja">${esc(s.kanji)}</span> ${esc(s.titel)}</h2>
+        <p class="lesung">${aussprache(J.fuerStation(s.nr))}</p>
+        <p>${s.schritte.length} kleine Schritte${e.schritte.filter(id => id.startsWith('s' + s.nr + '.')).length ? ', passend zu deiner Frage: ' + e.schritte.filter(id => id.startsWith('s' + s.nr + '.')).map(id => esc(schrittVon(id).titel)).join(', ') : ''}.</p>
+        <div class="knopfreihe">
+          <a class="knopf haupt" href="#/sitzung/${s.nr}${e.schritte.find(id => id.startsWith('s' + s.nr + '.')) ? '/' + e.schritte.find(id => id.startsWith('s' + s.nr + '.')) : ''}" data-treffer-start>▶ Jetzt starten</a>
+          <a class="knopf" href="#/station/${s.nr}">Alle Schritte ansehen</a>
+        </div></section>`);
+      if (s && MISCH_STATIONEN.includes(s.nr)) teile.push(`<details class="karte warnkarte"><summary><b>Vorher beachten: Nie mischen</b></summary><ul>${I.nieMischen.map(t => `<li>${fmt(t)}</li>`).join('')}</ul></details>`);
+      const andereSchritte = e.schritte.filter(id => !s || !id.startsWith('s' + s.nr + '.'));
+      if (andereSchritte.length) teile.push(`<section class="karte"><h2>Passende Schritte</h2><ul class="treffer-liste">${andereSchritte.slice(0, 6).map(id => { const x = schrittVon(id); return `<li><a href="#/sitzung/${x.station}/${id}">${esc(I.stationen[x.station].titel)} · ${esc(x.titel)}</a></li>`; }).join('')}</ul></section>`);
+      if (mIds.length) teile.push(`<section class="karte" data-treffer-mittel><h2>Reinigungsmittel dafür</h2><ul class="treffer-liste">${mIds.map(i => `<li><b>${esc(I.mittel[i].name)}</b> — löst ${esc(I.mittel[i].loest)}. <span class="warn">Nie auf: ${esc(I.mittel[i].nie)}.</span></li>`).join('')}</ul><a class="knopf klein" href="#/mittel">Die 5 Reinigungsmittel im Einzelnen →</a></section>`);
+      if (e.flecken.length) teile.push(`<section class="karte" data-treffer-flecken><h2>Fleckenkarten</h2>${e.flecken.map(i => { const f = I.flecken[i]; return `<p><b>${esc(f.name)}</b> — ${esc(f.mittel)}. ${fmt(f.griff)}</p>`; }).join('')}<a class="knopf klein" href="#/flecken/${encodeURIComponent(I.flecken[e.flecken[0]].name)}">Alle Fleckenkarten →</a></section>`);
+      if (gIds.length) teile.push(`<section class="karte" data-treffer-gewohnheiten><h2><span lang="ja">習慣</span> Gute Gewohnheiten dazu</h2><ul class="treffer-liste">${gIds.slice(0, 6).map(id => { const g = gewohnheit(id); return `<li><b>${esc(g.titel)}</b> · ${esc(g.wann)} — ${esc(g.handgriff)}</li>`; }).join('')}</ul><a class="knopf klein" href="#/gewohnheiten">Zu den Gewohnheiten →</a></section>`);
+      if (e.monat) { const m = I.kalender[e.monat - 1]; teile.push(`<section class="karte" data-treffer-monat><h2><span lang="ja">暦</span> ${esc(m.name)} — ${esc(m.motto)}</h2><ul class="treffer-liste">${m.aufgaben.map(a => `<li>${fmt(a.text)}</li>`).join('')}</ul><a class="knopf klein" href="#/kalender">Zum Jahreskalender →</a></section>`); }
+      if (e.stationen.length > 1) teile.push(`<p class="leise">Oder meintest du: ${e.stationen.slice(1, 4).map(n => `<a href="#/station/${n}">${esc(I.stationen[n].titel)}</a>`).join(' · ')}</p>`);
+      return kopf + teile.join('');
+    },
+
+    mittel() {
+      return `<h1 style="font-size:1.45rem;margin:4px 0 4px">Die 5 Reinigungsmittel</h1>
+      <p class="leise">Fünf Mittel reichen für das ganze Haus. <b>Säuren:</b> Essig, Zitronensäure. <b>Basisch (Lauge):</b> Natron, Sauerstoffbleiche, Schmierseife. Im Schrank links die Säuren, rechts die Laugen.</p>
+      ${I.mittel.map((m, i) => `<article class="karte mittel-karte${mitBild('m' + (i + 1))}" data-mittel="${i + 1}">
+        ${bildDiv('m' + (i + 1))}
+        <h2>${esc(m.name)} <span class="mittel-art ${/^Säure/.test(m.was) ? 'saeure' : 'lauge'}">${/^Säure/.test(m.was) ? 'Säure' : 'Lauge'}</span></h2>
+        <p>${esc(m.was)}</p>
+        <dl class="mittel-liste">
+          <dt>Löst</dt><dd>${esc(m.loest)}</dd>
+          <dt>Hilft nicht gegen</dt><dd>${esc(m.nicht)}</dd>
+          <dt class="warn">Nie auf</dt><dd class="warn">${esc(m.nie)}</dd>
+          <dt>Menge</dt><dd>${fmt(m.menge)}</dd>
+          <dt>Kaufen</dt><dd>${esc(m.kaufen)}</dd>
+        </dl>
+        <button class="knopf klein" data-aktion="mittel-vorlesen" data-i="${i}" aria-label="Vorlesen: ${esc(m.name)}">🔊 Vorlesen</button>
+      </article>`).join('')}`;
+    },
 
     gewohnheiten() {
       const m = meine(), ids = new Set(m.map(g => g.id));
@@ -314,22 +400,78 @@
     },
 
     verlauf() {
-      if (!Z.log.length) return `<h1 style="font-size:1.45rem"><span lang="ja">歴</span> Verlauf</h1><p class="leer">Noch nichts erledigt. Jeder Haken landet hier, Tag für Tag.</p>`;
+      const titel = e => { if (e.art === 'gewohnheit') { const g = gewohnheit(e.ref); return g ? '習慣 ' + g.titel : e.ref; } if (e.art === 'kalender') { const k = kalAufgabe(e.ref); return k ? `${k.monat.name}: ${k.a.text.split('(')[0].trim()}` : e.ref; } const s = schrittVon(e.ref); return s ? `${I.stationen[s.station].titel} · ${s.titel}` : e.ref; };
+      const kopf = `<h1 style="font-size:1.45rem;margin:4px 0"><span lang="ja">歴</span> Verlauf</h1>`;
+      if (!Z.log.length) return kopf + `<p class="leer">Noch nichts erledigt. Jeder Haken landet hier, Tag für Tag — mit Datum und Uhrzeit.</p>`;
       const tage = new Map();
       Z.log.slice().sort((a, b) => b.zeit - a.zeit).forEach(e => { const k = tagKey(e.zeit); (tage.get(k) || tage.set(k, []).get(k)).push(e); });
-      const titel = e => { if (e.art === 'gewohnheit') { const g = gewohnheit(e.ref); return g ? '習慣 ' + g.titel : e.ref; } if (e.art === 'kalender') { const k = kalAufgabe(e.ref); return k ? `${k.monat.name}: ${k.a.text.split('(')[0].trim()}` : e.ref; } const s = schrittVon(e.ref); return s ? `${I.stationen[s.station].titel} · ${s.titel}` : e.ref; };
-      return `<h1 style="font-size:1.45rem;margin:4px 0"><span lang="ja">歴</span> Verlauf</h1>
-        <p class="leise">${Z.log.length} Haken insgesamt${DB.dauerhaft() ? '' : ' · ⚠ nur bis zum Schließen gespeichert (privates Fenster?)'}</p>
-        ${[...tage].map(([k, es]) => `<section class="tag"><h2>${new Date(k + 'T12:00').toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' })} · ${es.length}</h2>
-          ${es.map(e => `<div class="karte eintrag" data-eintrag="${e.id}"><span>${esc(titel(e))}<br><span class="wann">${new Date(e.zeit).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</span></span><button data-aktion="loeschen" data-id="${e.id}" aria-label="Eintrag löschen">✕</button></div>`).join('')}
-        </section>`).join('')}`;
+      // Fortschritt
+      const erster = Math.min(...Z.log.map(e => e.zeit)), jahr = new Date().getFullYear();
+      const schrittJe = alleSchritte.filter(x => st(x.id).n).length;
+      const sitzen = I.gewohnheiten.filter(g => st(g.id).n >= GEWOHNHEIT_AB).length + alleSchritte.filter(x => st(x.id).n >= GEWOHNHEIT_AB).length;
+      const kal = I.kalender.flatMap(m => m.aufgaben).filter(a => st(a.id).jahr.has(jahr)).length, kalAlle = I.kalender.flatMap(m => m.aufgaben).length;
+      const raeume = I.stationen.filter(s => s.schritte.every(x => st(x.id).n)).length;
+      // Monatskalender
+      const heute = new Date(), mk = Z.vMonat || (heute.getFullYear() + '-' + String(heute.getMonth() + 1).padStart(2, '0'));
+      const [jj, mm] = mk.split('-').map(Number), erst = new Date(jj, mm - 1, 1), tageImMonat = new Date(jj, mm, 0).getDate();
+      const versatz = (erst.getDay() + 6) % 7, vor = new Date(jj, mm - 2, 1), nach = new Date(jj, mm, 1);
+      const mkey = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+      const zellen = [];
+      for (let i = 0; i < versatz; i++) zellen.push('<span class="kal-leer"></span>');
+      for (let t = 1; t <= tageImMonat; t++) {
+        const key = `${mk}-${String(t).padStart(2, '0')}`, n = (tage.get(key) || []).length, istHeute = key === tagKey(Date.now());
+        zellen.push(`<button class="kal-tag${n ? ' an' : ''}${istHeute ? ' heute' : ''}${Z.vTag === key ? ' gewaehlt' : ''}" data-aktion="v-tag" data-tag="${key}" style="--n:${Math.min(n, 8)}" aria-label="${t}. — ${n} erledigt"><b>${t}</b>${n ? `<i>${n}</i>` : ''}</button>`);
+      }
+      const liste = [...tage].filter(([k]) => !Z.vTag || k === Z.vTag);
+      return kopf + `
+        <section class="karte fortschritt-karte" data-fortschritt>
+          <h2>Deine Entwicklung</h2>
+          <p class="leise klein">Seit ${new Date(erster).toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' })}${DB.dauerhaft() ? '' : ' · ⚠ nur bis zum Schließen gespeichert (privates Fenster?)'}</p>
+          <div class="zahlen">
+            <div><b>${tage.size}</b><span>Tage aktiv</span></div>
+            <div><b>${Z.log.length}</b><span>Haken</span></div>
+            <div><b>${schrittJe}/${alleSchritte.length}</b><span>Schritte schon gemacht</span></div>
+            <div><b>${raeume}</b><span>Räume ganz durch</span></div>
+            <div><b>${sitzen}</b><span>Gewohnheiten sitzen <span lang="ja">習</span></span></div>
+            <div><b>${kal}/${kalAlle}</b><span>Jahreskalender ${jahr}</span></div>
+          </div>
+        </section>
+        <section class="karte kal-karte" data-verlauf-kalender>
+          <div class="kal-kopf">
+            <button class="knopf rund" data-aktion="v-monat" data-m="${mkey(vor)}" aria-label="Voriger Monat">‹</button>
+            <b data-monat-titel>${erst.toLocaleDateString('de-DE', { month: 'long', year: 'numeric' })}</b>
+            <button class="knopf rund" data-aktion="v-monat" data-m="${mkey(nach)}" aria-label="Nächster Monat">›</button>
+          </div>
+          <div class="kal-raster">${['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map(w => `<span class="kal-wt">${w}</span>`).join('')}${zellen.join('')}</div>
+          ${Z.vTag ? `<p class="leise klein">Nur ${new Date(Z.vTag + 'T12:00').toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' })} · <button class="knopf klein" data-aktion="v-tag" data-tag="${Z.vTag}">Alle Tage zeigen</button></p>` : '<p class="leise klein">Tippe einen Tag an, um nur ihn zu sehen.</p>'}
+        </section>
+        ${liste.length ? liste.map(([k, es]) => `<section class="tag"><h2>${new Date(k + 'T12:00').toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} · ${es.length}</h2>
+          ${es.map(e => `<div class="karte eintrag" data-eintrag="${e.id}"><span>${esc(titel(e))}<br><span class="wann">${new Date(e.zeit).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} Uhr</span></span><button data-aktion="loeschen" data-id="${e.id}" aria-label="Eintrag löschen">✕</button></div>`).join('')}
+        </section>`).join('') : '<p class="leer">An diesem Tag ist nichts eingetragen.</p>'}
+        <p class="leise" style="text-align:center"><a href="#/info">Speicher und Einstellungen →</a></p>`;
     },
 
     info() {
       return `<a class="zurueck" href="#/">← Übersicht</a>
-      <h1 style="font-size:1.45rem;margin:4px 0 10px">Über die App</h1>
+      <h1 style="font-size:1.45rem;margin:4px 0 10px">Einstellungen und Info</h1>
+      <section class="karte" data-speicher><h2>Dein Speicher</h2>
+        <p>${Z.log.length} Haken${Z.log.length ? ` seit ${new Date(Math.min(...Z.log.map(e => e.zeit))).toLocaleDateString('de-DE')}` : ''} · ${Z.profil ? 'Räume eingerichtet' : 'noch nicht eingerichtet'} · ${meine().length} Gewohnheiten in deiner Liste.</p>
+        <p class="leise klein">Gespeichert auf diesem Gerät (${DB.dauerhaft() ? 'dauerhaft' : 'nur bis zum Schließen'}). Der Verlauf zeigt, was du wann erledigt hast.</p>
+        <div class="knopfreihe">
+          <button class="knopf" data-aktion="aktualisieren" data-aktualisieren-gross>⟳ Aktualisieren</button>
+          <a class="knopf" href="#/einrichten/1">Räume und Reihenfolge ändern</a>
+        </div>
+        <p class="leise klein">Aktualisieren holt die neueste Fassung der App, wie „Neu laden“ im Browser. Dein Verlauf, deine Räume und Gewohnheiten bleiben.</p>
+      </section>
+      <section class="karte warnkarte" data-neu-anfangen><h2>Neu anfangen</h2>
+        ${Z.neuFrage ? `<p><b>Wirklich alles löschen?</b> Verlauf, Räume, Reihenfolge, Gewohnheiten und laufende Uhren sind danach weg. Das lässt sich nicht rückgängig machen.</p>
+          <div class="knopfreihe"><button class="knopf haupt" data-aktion="neu-ja">Ja, alles löschen</button><button class="knopf" data-aktion="neu-nein">Nein, behalten</button></div>`
+        : `<p class="leise">Löscht alles, was die App gespeichert hat, und beginnt wieder mit den drei Fragen.</p>
+          <button class="knopf" data-aktion="neu-frage">Alles löschen und neu anfangen …</button>`}
+      </section>
+      <h2 class="abschnitt">Über die App</h2>
       <section class="karte"><p><b lang="ja">整理</b> (seiri) heißt „Ordnung schaffen“. Die App führt Raum für Raum durch die Wohnung, liest jeden Schritt vor und zählt mit, bis aus dem Handgriff eine Gewohnheit wird.</p>
-        <p class="leise klein" data-version>Version 1.0 · Oktober 2026</p>
+        <p class="leise klein" data-version>Version ${VERSION} · Oktober 2026</p>
         <p class="leise klein">Alles bleibt auf diesem Gerät. Nichts geht ins Netz. Speicher: ${DB.dauerhaft() ? 'dauerhaft (IndexedDB)' : 'nur bis zum Schließen'}.</p></section>
       <section class="karte" data-rechte><h2>Rechte und Quellen</h2>
         <p>© 2026 Klaus — App, Gestaltung und Texte der Ansagen.</p>
@@ -367,7 +509,8 @@
     const knopf = g.takt === 'Gelegenheit'
       ? `<button class="g-haken${x.fertig ? ' an' : ''}" data-aktion="g-mal" data-ref="${g.id}" aria-label="${esc(g.titel)}: einmal gemacht">${x.jetzt.length ? `<b>${x.jetzt.length}×</b>` : '＋'}</button>`
       : `<button class="g-haken${x.fertig ? ' an' : ''}" data-aktion="g-haken" data-ref="${g.id}" aria-pressed="${x.fertig}" aria-label="${esc(g.titel)} ${x.woche ? 'diese Woche' : 'heute'} ${x.fertig ? 'erledigt' : 'abhaken'}">${x.fertig ? '<span lang="ja">済</span>' : ''}</button>`;
-    return `<article class="karte gewohnheit-karte${x.fertig ? ' fertig' : ''}" data-gewohnheit="${g.id}">
+    return `<article class="karte gewohnheit-karte${x.fertig ? ' fertig' : ''}${mitBild(g.id)}" data-gewohnheit="${g.id}">
+      ${bildDiv(g.id)}
       ${knopf}
       <div class="g-text">
         <h3>${esc(g.titel)}${sitzt ? ' <span class="gewohnheit" lang="ja" title="Gewohnheit sitzt">習</span>' : ''}</h3>
@@ -438,6 +581,7 @@
     el.hidden = !an;
     if (!an) { el.innerHTML = ''; return; }
     const w = J.wort('kyukei');
+    el.style.backgroundImage = hatBild('x-pause') ? `linear-gradient(color-mix(in srgb, var(--papier) 72%, transparent), color-mix(in srgb, var(--papier) 88%, transparent)), url('${bildUrl('x-pause')}')` : '';
     el.innerHTML = `<div class="pause-innen" data-pausefenster>
       <div class="pause-ring">${enso(1)}<div class="pause-mitte"><div class="pause-kanji" lang="ja">休憩</div><b data-rest>${mmss(Z.takt.ende - Date.now())}</b></div></div>
       <p class="held-laut">${aussprache(w, true)}</p>
@@ -547,8 +691,8 @@
         <section class="karte buehne warnkarte" data-buehne><h2>Beachte bitte vorher</h2><ul>${I.nieMischen.slice(0, 4).map(t => `<li>${fmt(t)}</li>`).join('')}</ul>
           <p class="klein leise">Zwei Mittel auf derselben Fläche: erst ganz abspülen, lüften, neues Tuch.</p></section>
         <div class="steuer">
+          <button class="knopf" data-aktion="s-zurueck">← Zurück</button>
           <button class="knopf" data-aktion="s-wiederholen">↺ Nochmal</button>
-          <a class="knopf" href="#/station/${s.nr}">✕ Ende</a>
           <button class="knopf" data-aktion="s-stopp">⏹ Still</button>
           <button class="knopf haupt fertig" data-aktion="s-warn-ok">Verstanden · Los geht’s</button>
         </div></div>`;
@@ -562,6 +706,7 @@
         <div class="knopfreihe" style="justify-content:center;margin-top:16px">
           ${z.runde < z.runden ? `<button class="knopf haupt" data-aktion="s-runde">▶ ${esc(s.titel)} ${z.runde + 1} von ${z.runden}</button>` : ''}
           ${naechsteStation(s.nr) ? `<a class="knopf${z.runde < z.runden ? '' : ' haupt'}" href="#/sitzung/${naechsteStation(s.nr).nr}" data-naechste>Weiter: ${esc(naechsteStation(s.nr).titel)}</a>` : ''}
+          <button class="knopf" data-aktion="s-zurueck">← Zurück</button>
           <a class="knopf" href="#/">Zur Übersicht</a>
         </div></div>`;
     }
@@ -575,14 +720,16 @@
       </div>
       <div class="fortschritt"><i style="width:${(z.i / gesamt * 100).toFixed(1)}%"></i></div>
       <div class="wo"><span><span lang="ja">${esc(s.kanji)}</span> ${esc(s.titel)}${z.runden > 1 ? ` ${z.runde}/${z.runden}` : ''}</span><span>Schritt ${z.i + 1} von ${gesamt}</span></div>
-      <section class="karte buehne" data-buehne>
+      <section class="karte buehne${mitBild(x.id)}" data-buehne>
+        ${bildDiv(x.id)}
         <h2>${esc(x.titel)}</h2>
         <p>${fmt(x.text)}</p>
         ${x.einwirk && x.einwirk <= 120 ? `<div><button class="knopf klein" data-aktion="uhr" data-ref="${x.id}">⌛ Uhr für ${x.einwirk} Min. starten</button></div>` : ''}
+        ${x.id === 's0.1' ? '<div><a class="knopf klein" href="#/mittel" data-mittel-link>Die 5 Reinigungsmittel im Einzelnen →</a></div>' : ''}
         <div class="leise klein">${stx.n ? `${stx.n}× gemacht · zuletzt ${vorWann(stx.zuletzt)}` : 'Zum ersten Mal'}${stx.n >= GEWOHNHEIT_AB ? ' · <span class="gewohnheit" lang="ja">習</span> Gewohnheit' : ''}</div>
       </section>
       <div class="steuer">
-        <button class="knopf" data-aktion="s-zurueck"${z.i === 0 ? ' disabled' : ''}>← Zurück</button>
+        <button class="knopf" data-aktion="s-zurueck">← Zurück</button>
         <button class="knopf" data-aktion="s-wiederholen">↺ Nochmal</button>
         <button class="knopf" data-aktion="s-weiter">Weiter →</button>
         <button class="knopf haupt fertig" data-aktion="s-fertig">✓ Fertig</button>
@@ -601,12 +748,54 @@
     else teile = [ST.ansage(s.schritte[z.i])];
     Stimme.folge(teile, { start: () => b && b.classList.add('spricht'), fertig: () => { const bb = $('[data-buehne]'); bb && bb.classList.remove('spricht'); } });
   }
+  // Zurück geht immer: einen Schritt zurück · vom ersten Schritt in den letzten Schritt des vorigen Raums ·
+  // ohne vorigen Raum zur Raumansicht
+  function sitzungZurueck() {
+    const z = Z.sitzung, s = I.stationen[z.nr];
+    if (z.i > 0) { z.i = Math.min(z.i, s.schritte.length) - 1; return sitzungZeigen(); }
+    const r = reihenfolge(), pos = r.indexOf(z.nr);
+    if (pos > 0) {
+      const vor = I.stationen[r[pos - 1]];
+      Z.sitzung = { nr: vor.nr, i: vor.schritte.length - 1, erledigt: 0, start: -2, runde: 1, runden: Math.max(1, anzahl(vor.nr)) };
+      return sitzungZeigen();
+    }
+    location.hash = '#/station/' + s.nr;
+  }
   function sitzungZeigen(vorlesen = true) {
     ansicht.innerHTML = sitzungHtml();
+    const z = Z.sitzung, x = z && I.stationen[z.nr].schritte[z.i];       // Stelle in die Adresse: Neuladen setzt hier fort
+    if (x) history.replaceState(null, '', `#/sitzung/${z.nr}/${x.id}`);
     ansicht.classList.remove('tinte'); void ansicht.offsetWidth; ansicht.classList.add('tinte');
     if (vorlesen) sitzungVorlesen();
     if (Z.sitzung && Z.sitzung.i >= 0 && !Z.takt) taktStart('arbeit');
     uhrenZeigen();
+  }
+
+  /* ---------- Aktualisieren und Neu anfangen ----------
+     Aktualisieren = wie „Neu laden“ im Browser, für das Handy: holt die neueste Fassung der App und lädt sie.
+     Verlauf, Räume, Gewohnheiten und Uhren liegen in IndexedDB/localStorage und bleiben; die Adresse (auch der
+     Schritt in der Sitzung) bleibt, also geht es an derselben Stelle weiter. */
+  async function aktualisieren() {
+    melden('⟳ Neueste Fassung wird geholt …');
+    try { sessionStorage.setItem('oj_aktualisiert', String(Z.log.length)); } catch (_) {}
+    try {
+      const reg = 'serviceWorker' in navigator && await navigator.serviceWorker.getRegistration();
+      if (reg) {
+        await reg.update();
+        if (reg.installing || reg.waiting) await new Promise(r => { navigator.serviceWorker.addEventListener('controllerchange', r, { once: true }); setTimeout(r, 4000); });
+      }
+    } catch (_) {}
+    (window.__ojNeuLaden || (() => location.reload()))();
+  }
+  async function neuAnfangen() {
+    await DB.allesLoeschen();
+    try { Object.keys(localStorage).filter(k => k.startsWith('oj_')).forEach(k => localStorage.removeItem(k)); } catch (_) {}
+    try { sessionStorage.clear(); } catch (_) {}
+    K.musikStopp(); Stimme.stopp();
+    Object.assign(Z, { log: [], profil: null, meine: null, takt: null, uhren: [], sitzung: null, neuFrage: false, vTag: null, vMonat: null });
+    rechnen(); pauseZeigen(); uhrenZeigen();
+    if (location.hash && location.hash !== '#/') location.hash = '#/'; else zeichnen(true);
+    melden('Alles gelöscht. Neu anfangen — mit drei Fragen.');
   }
 
   /* ---------- Handlungen ---------- */
@@ -680,17 +869,30 @@
     else if (a === 'kal') await kalUmschalten(ref);
     else if (a === 'loeschen') { const id = +k.dataset.id; await DB.loeschen(id); Z.log = Z.log.filter(e => e.id !== id); rechnen(); zeichnen(false); }
     else if (a === 'rueckgaengig') { const m = $('#meldung'); const f = m._rueck; m.hidden = true; m._rueck = null; f && f(); }
+    else if (a === 'hoeren') hoeren(k);
+    else if (a === 'zurueck') zurueck();
+    else if (a === 'aktualisieren') aktualisieren();
+    else if (a === 'neu-frage') { Z.neuFrage = true; zeichnen(false); }
+    else if (a === 'neu-nein') { Z.neuFrage = false; zeichnen(false); }
+    else if (a === 'neu-ja') await neuAnfangen();
+    else if (a === 'v-monat') { Z.vMonat = k.dataset.m; Z.vTag = null; zeichnen(false); }
+    else if (a === 'v-tag') { Z.vTag = Z.vTag === k.dataset.tag ? null : k.dataset.tag; zeichnen(false); }
+    else if (a === 'mittel-vorlesen') { const m = I.mittel[+k.dataset.i]; Stimme.sprechen(ST.sprechtext(`${m.name}. ${m.was} Löst: ${m.loest}. Hilft nicht gegen: ${m.nicht}. Nie auf: ${m.nie}. Menge: ${m.menge}`)); }
     else if (a === 'stumm') { Z.stumm = !Z.stumm; k.setAttribute('aria-pressed', Z.stumm); k.textContent = Z.stumm ? '🔇' : '🔊'; if (Z.stumm) Stimme.stopp(); DB.einst('stumm', Z.stumm); }
     else if (Z.sitzung) {
       const z = Z.sitzung, gesamt = I.stationen[z.nr].schritte.length;
       if (a === 's-wiederholen') sitzungVorlesen();
       else if (a === 's-stopp') Stimme.stopp();
       else if (a === 's-warn-ok') { warnGelesen.add(z.nr); z.i = z.start; sitzungZeigen(); }
-      else if (a === 's-zurueck' && z.i > 0) { z.i--; sitzungZeigen(); }
+      else if (a === 's-zurueck') sitzungZurueck();
       else if (a === 's-weiter') { z.i = Math.min(gesamt, z.i + 1); sitzungZeigen(); }
       else if (a === 's-runde') { z.runde++; z.i = 0; z.start = 0; z.erledigt = 0; sitzungZeigen(); }
       else if (a === 's-fertig') { await erledigen('schritt', I.stationen[z.nr].schritte[z.i].id); z.erledigt++; z.i++; sitzungZeigen(); }
     }
+  });
+  document.addEventListener('submit', ev => {
+    if (!ev.target.matches('[data-frage-form]')) return;
+    ev.preventDefault(); fragen($('#frageFeld').value);
   });
   document.addEventListener('input', ev => {
     if (ev.target.id === 'fleckSuche') $('#fleckListe').innerHTML = fleckenListe(ev.target.value);
@@ -706,18 +908,36 @@
     const y = animiert ? 0 : scrollY;
     ansicht.innerHTML = f(...teile.slice(1));
     document.querySelectorAll('[data-nav]').forEach(n => n.toggleAttribute('aria-current', false));
-    const nav = document.querySelector(`[data-nav="${({ station: 'start', sitzung: 'start', info: 'start', einrichten: 'start', woerter: 'regeln' })[name] || name}"]`);
+    const nav = document.querySelector(`[data-nav="${({ station: 'start', sitzung: 'start', info: 'start', einrichten: 'start', woerter: 'regeln', mittel: 'regeln', fragen: 'start' })[name] || name}"]`);
     if (nav) nav.setAttribute('aria-current', 'page');
     if (animiert) { ansicht.classList.remove('tinte'); void ansicht.offsetWidth; ansicht.classList.add('tinte'); scrollTo(0, 0); }
     else scrollTo(0, y);
+    $('#btnZurueck').hidden = name === 'start';
     if (name === 'sitzung' && animiert) sitzungVorlesen();
     if (name === 'sitzung' && Z.sitzung && Z.sitzung.i >= 0 && !Z.takt) taktStart('arbeit');
     wachHalten(name === 'sitzung');
     uhrenZeigen();
     if (name === 'einrichten' && animiert) Stimme.sprechen(FRAGEN[+teile[1] || 1]);
+    if (name === 'fragen' && animiert && teile[1]) {
+      const e = A.verstehen(teile[1], I), st0 = e.stationen.length ? I.stationen[e.stationen[0]] : null;
+      Stimme.sprechen(!e.verstanden ? 'Das habe ich nicht verstanden. Nenne einen Raum, ein Reinigungsmittel oder einen Fleck.'
+        : st0 ? `Verstanden: ${st0.titel}. ${st0.schritte.length} kleine Schritte. Tippe auf Jetzt starten.`
+        : e.flecken.length ? `Fleck: ${I.flecken[e.flecken[0]].name}. ${ST.sprechtext(I.flecken[e.flecken[0]].mittel + '. ' + I.flecken[e.flecken[0]].griff)}`
+        : e.monat ? `${I.kalender[e.monat - 1].name}: ${I.kalender[e.monat - 1].motto}.` : 'Hier ist, was ich gefunden habe.');
+    }
     if (name === 'kalender' && animiert) { const j = $('details.monat.jetzt'); if (j) scrollTo(0, j.getBoundingClientRect().top + scrollY - 70); }
   }
-  window.addEventListener('hashchange', () => zeichnen(true));
+  // eigener Weg durch die Ansichten, damit „←“ in der Kopfzeile immer weiß, wohin
+  const WEG = [location.hash || '#/'];
+  window.addEventListener('hashchange', () => {
+    const h = location.hash || '#/';
+    if (WEG.length > 1 && WEG[WEG.length - 2] === h) WEG.pop(); else WEG.push(h);
+    zeichnen(true);
+  });
+  function zurueck() {
+    if (Z.sitzung) return sitzungZurueck();
+    if (WEG.length > 1) history.back(); else location.hash = '#/';
+  }
 
   /* ---------- Start ---------- */
   (async function los() {
@@ -728,6 +948,7 @@
     const b = $('#btnStumm'); b.setAttribute('aria-pressed', Z.stumm); b.textContent = Z.stumm ? '🔇' : '🔊';
     zeichnen(true);
     pauseZeigen();
+    try { const n = sessionStorage.getItem('oj_aktualisiert'); if (n !== null) { sessionStorage.removeItem('oj_aktualisiert'); melden(`⟳ Aktualisiert (Version ${VERSION}) · dein Verlauf ist da: ${Z.log.length} Haken`); } } catch (_) {}
     window.OJ_BEREIT = true;
   })();
   if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});

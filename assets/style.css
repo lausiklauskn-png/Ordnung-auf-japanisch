@@ -273,8 +273,13 @@ button.station-kachel { font: inherit; color: inherit; cursor: pointer; width: 1
 
 /* ---------- Wörter ---------- */
 .woerter { display: grid; gap: 10px; margin-top: 12px; }
-.wort { display: grid; grid-template-columns: 4.2rem 1fr auto; gap: 12px; align-items: center; margin: 0; padding: 12px 14px; }
-.wort-ja { font-family: var(--serif-ja); font-size: 1.6rem; font-weight: 800; text-align: center; line-height: 1.1; word-break: keep-all; }
+/* Schriftzeichen und 🔊 oben in einer Zeile, Bedeutung und Lautschrift darunter — lange Ausdrücke (始めましょう,
+   お疲れ様でした) schieben sich so auf schmalen Handys nicht mehr über den Knopf (Klaus 2026-10-21). */
+.wort { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "ja knopf" "text text"; gap: 6px 12px; align-items: center; margin: 0; padding: 12px 14px; }
+.wort-ja { grid-area: ja; font-family: var(--serif-ja); font-size: 1.6rem; font-weight: 800; line-height: 1.2; overflow-wrap: anywhere; min-width: 0; }
+.wort-ja.lang { font-size: 1.3rem; }
+.wort > .knopf { grid-area: knopf; }
+.wort-text { grid-area: text; min-width: 0; }
 .wort-de { font-weight: 650; }
 .laut { color: var(--rot); }
 
@@ -370,3 +375,74 @@ button.station-kachel { font: inherit; color: inherit; cursor: pointer; width: 1
 @keyframes teller { from { opacity: 0; transform: translateY(10px) scale(.94); } to { opacity: 1; transform: none; } }
 .held-laut { text-align: center; }
 .held-laut .aussprache { justify-content: center; }
+
+/* ---------- Kopf: Zurück und Aktualisieren ---------- */
+.kopf { gap: 6px; }
+.kopf .marke { flex: 1 1 auto; min-width: 0; }
+.kopf-knopf { width: 42px; height: 42px; font-size: 1.15rem; }
+.zurueck-knopf[hidden] { display: none; }
+
+/* ---------- Bild hinter dem Text (bilder/<Kennung>.webp) ----------
+   Oben steht das Bild frei, nach unten blendet es in eine helle Papierfläche über — der Text liegt immer auf
+   ruhigem, hellem Grund und bleibt lesbar, egal was das Bild zeigt. */
+.mit-bild { position: relative; isolation: isolate; overflow: hidden; padding-top: 150px; }
+.mit-bild > :not(.kbild) { position: relative; z-index: 1; }
+.kbild { position: absolute; inset: 0; z-index: 0; background-size: cover; background-position: center top; transform-origin: 60% 30%;
+  animation: bildatem 24s ease-in-out infinite alternate; }
+.kbild::after { content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 0, transparent 80px, color-mix(in srgb, var(--karte) 86%, transparent) 150px, var(--karte) 210px); }
+@keyframes bildatem { from { transform: scale(1); } to { transform: scale(1.07) translate(-1%, 1%); } }
+.station-kopf.mit-bild { padding: 150px 14px 14px; border-radius: var(--rund); box-shadow: var(--schatten); background: var(--karte); }
+.gewohnheit-karte.mit-bild { padding-top: 140px; }
+.buehne.mit-bild { padding-top: 170px; }
+.buehne.mit-bild .kbild::after { background: linear-gradient(180deg, transparent 0, transparent 90px, color-mix(in srgb, var(--karte) 88%, transparent) 170px, var(--karte) 230px); }
+.pause { background-size: cover; background-position: center; }
+
+/* ---------- Die 5 Reinigungsmittel ---------- */
+.mittel-karte h2 { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.mittel-art { font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; border-radius: 999px; padding: 2px 10px; }
+.mittel-art.saeure { background: color-mix(in srgb, var(--gold) 22%, transparent); color: var(--tusche); }
+.mittel-art.lauge { background: color-mix(in srgb, var(--matcha) 22%, transparent); color: var(--tusche); }
+.mittel-liste { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; margin: 10px 0 12px; font-size: .95rem; }
+.mittel-liste dt { font-weight: 700; color: var(--tusche-2); }
+.mittel-liste dd { margin: 0; color: var(--tusche-2); }
+@media (max-width: 420px) { .mittel-liste { grid-template-columns: 1fr; } .mittel-liste dd { margin-bottom: 4px; } }
+
+/* ---------- Verlauf: Entwicklung und Monatskalender ---------- */
+.zahlen { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 10px; }
+.zahlen div { display: grid; gap: 2px; text-align: center; padding: 10px 4px; border-radius: 12px; background: color-mix(in srgb, var(--papier-2) 70%, transparent); }
+.zahlen b { font-size: 1.3rem; font-variant-numeric: tabular-nums; }
+.zahlen span { font-size: .75rem; color: var(--leise); line-height: 1.25; }
+.kal-kopf { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.kal-kopf b { font-size: 1.05rem; }
+.kal-raster { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.kal-wt { text-align: center; font-size: .72rem; color: var(--leise); padding: 2px 0; }
+.kal-tag { position: relative; aspect-ratio: 1; min-height: 38px; border-radius: 10px; border: 1px solid var(--linie); background: transparent; cursor: pointer; font: inherit; color: inherit; display: grid; place-items: center; padding: 0; }
+.kal-tag b { font-weight: 500; font-size: .9rem; }
+.kal-tag.an { background: color-mix(in srgb, var(--rot) calc(12% + var(--n) * 7%), transparent); border-color: color-mix(in srgb, var(--rot) 45%, var(--linie)); }
+.kal-tag.an b { font-weight: 800; }
+.kal-tag i { position: absolute; bottom: 2px; right: 4px; font-style: normal; font-size: .62rem; color: var(--rot); font-weight: 800; }
+.kal-tag.heute { outline: 2px solid var(--tusche-2); outline-offset: -2px; }
+.kal-tag.gewaehlt { box-shadow: 0 0 0 3px var(--rot); }
+.kal-leer { aspect-ratio: 1; }
+
+/* Aussprache-Zeilen und Knöpfe brechen sauber um statt sich zu überlagern */
+.aussprache { max-width: 100%; }
+.aussprache .romaji, .aussprache .laut { overflow-wrap: anywhere; }
+.knopf { max-width: 100%; text-align: center; overflow-wrap: anywhere; }
+.steuer .knopf { line-height: 1.2; }
+.g-text { min-width: 0; }
+.kette { flex-wrap: wrap; max-width: 100%; }
+@media (max-width: 360px) { .kette i { width: 7px; height: 7px; } .gewohnheit-karte { grid-template-columns: 46px 1fr; gap: 10px; } .g-haken { width: 46px; height: 46px; } }
+
+/* ---------- Was möchtest du heute tun? ---------- */
+.frage-karte { display: grid; gap: 8px; }
+.frage-zeile { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; align-items: center; }
+.frage-zeile .suche { min-width: 0; }
+.knopf.rund.haupt { width: 48px; min-height: 48px; padding: 0; border-radius: 50%; font-size: 1.3rem; }
+.mikro.hoert { background: var(--rot); color: #fff8f0; border-color: var(--rot); animation: hoert 1s ease-in-out infinite alternate; }
+@keyframes hoert { from { box-shadow: 0 0 0 0 color-mix(in srgb, var(--rot) 40%, transparent); } to { box-shadow: 0 0 0 10px transparent; } }
+.treffer h2 { font-size: 1.35rem; }
+.treffer-liste { margin: 8px 0 10px; padding-left: 1.1em; }
+.treffer-liste li { margin: 6px 0; color: var(--tusche-2); }
+details.warnkarte summary { cursor: pointer; color: var(--rot); }

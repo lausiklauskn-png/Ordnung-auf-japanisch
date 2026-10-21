@@ -52,4 +52,16 @@ Gute Gewohnheiten (Klaus 2026-10-21, 習慣): 24 Gewohnheiten aus allen Räumen 
 `einst/gewohnheiten`, Vorschlag g1/g4/g7 — **wer die Tabelle umsortiert, ändert die Kennungen** (Verlauf und Liste
 hängen daran; neue Zeilen nur unten anfügen). Serie = Tage/Wochen in Folge bis heute oder gestern; „jedes Mal“
 zählt nicht im Heute-Ring. `tests/gewohnheiten.mjs` spult Tage vor.
-Version 1.0 auf main. Noch nicht: Sprachbefehle, Medientasten der Ohrhörer, eigene Musik (Stufen 3–4).
+Version 1.0 auf main.
+1.1 (Klaus 2026-10-21 nachmittags): „Die 5 Reinigungsmittel“ (Schritt 0.1 und eigene Seite `#/mittel` aus der
+Tabelle in INHALT.md; Texte nennen das Mittel beim Namen) · ← Zurück in der Kopfzeile überall, in der Sitzung
+nie gesperrt (vom ersten Schritt in den letzten des vorigen Raums) · Sitzung schreibt den Schritt in die Adresse
+(`history.replaceState`), Neuladen setzt fort · ⟳ Aktualisieren = neueste Fassung laden wie „Neu laden“, Daten
+bleiben (`aktualisieren()`, Meldung danach) · „Alles löschen und neu anfangen“ mit Rückfrage (`DB.allesLoeschen`)
+· Verlauf mit „Deine Entwicklung“ und Monatskalender · „Was möchtest du heute tun?“ (tippen oder 🎤,
+`assets/absicht.js`: Stichwörter je Raum, ohne KI, ohne Netz) · Bildplätze hinter Texten (`bilder/`, nur
+Kennungen aus `inhalt.js` → `bilder`), Text auf heller Verlaufsfläche · Wörterliste ohne Überlagerung bei 320 px.
+Bilder kommen von ChatGPT über `docs/CHATGPT-BRIEF.md` (gebaut aus `docs/BILD-MOTIVE.md`; Grundsatz 間 ma).
+Übergabe an andere Sitzungen: `AGENTS.md` (Codex/ChatGPT), Veröffentlichen und Schlüssel: `docs/VEROEFFENTLICHEN.md`.
+Proben: `tests/speicher.mjs`, `tests/absicht.mjs`. ⚠ Spracheingabe nur gestellt gemessen; am Handy ungemessen.
+Noch nicht: Sprachbefehle während der Sitzung, Medientasten der Ohrhörer, eigene Musik, native Android-Hülle.

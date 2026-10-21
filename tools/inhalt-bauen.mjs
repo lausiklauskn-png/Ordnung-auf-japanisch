@@ -98,6 +98,8 @@ export function bauen(md) {
   const fleckenRegeln = ohneMd(fl.text.join(' '));
   const flecken = fl.tabellen[0].zeilen.map(([name, mittel, griff]) => ({ name, mittel, griff }));
 
+  const rm = finde(/^Die 5 Reinigungsmittel/);
+  const mittel = rm.tabellen[0].zeilen.map(([name, was, loest, nicht, nie, menge, kaufen]) => ({ name, was, loest, nicht, nie, menge, kaufen }));
   const gg = finde(/^Gute Gewohnheiten/);
   const gewohnheiten = gg.tabellen[0].zeilen.map(([titel, wann, takt, handgriff, warum], i) => {
     if (!['täglich', 'Woche', 'Gelegenheit'].includes(takt)) throw new Error('Takt unbekannt: ' + takt);
@@ -117,7 +119,10 @@ export function bauen(md) {
   kalender.einleitung = ohneMd(kal.text.join(' '));
   const vergessen = finde(/drei vergessenen Stellen/).tabellen[0].zeilen.map(([stelle, was]) => ({ stelle: ohneMd(stelle), was: ohneMd(was) }));
 
-  return { stationen, gewohnheiten, warumKurz, leitsaetze, nieMischen, nieWorauf, flecken, fleckenRegeln, takt, pausen, kalender, kalenderEinleitung: kalender.einleitung, vergessen };
+  // Bilder: jede Datei bilder/<Kennung>.webp; die App zeigt nur, was hier steht
+  const bildOrdner = path.join(WURZEL, 'bilder');
+  const bilder = fs.existsSync(bildOrdner) ? fs.readdirSync(bildOrdner).filter(f => f.endsWith('.webp')).map(f => f.slice(0, -5)).sort() : [];
+  return { bilder, stationen, mittel, gewohnheiten, warumKurz, leitsaetze, nieMischen, nieWorauf, flecken, fleckenRegeln, takt, pausen, kalender, kalenderEinleitung: kalender.einleitung, vergessen };
 }
 
 export function alsSkript(daten) {

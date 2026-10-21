@@ -5,7 +5,7 @@
   "description": "整理 · Ordnung auf Japanisch — sprechende Begleit-App fürs Aufräumen (PWA, ohne Build-Schritt)",
   "type": "module",
   "scripts": {
-    "test": "node tests/syntax.mjs && node tests/inhalt.mjs && node tests/manifest-id.mjs && node tests/app.mjs && node tests/uhr.mjs && node tests/gewohnheiten.mjs",
+    "test": "node tests/syntax.mjs && node tests/inhalt.mjs && node tests/absicht.mjs && node tests/manifest-id.mjs && node tests/app.mjs && node tests/uhr.mjs && node tests/gewohnheiten.mjs && node tests/speicher.mjs && node tools/brief-bauen.mjs --pruefen",
     "inhalt": "node tools/inhalt-bauen.mjs",
     "icons": "python3 tools/icon-bauen.py",
     "serve": "python3 -m http.server 8000"

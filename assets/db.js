@@ -42,6 +42,13 @@
       if (!db) { imSpeicher.log = imSpeicher.log.filter(e => e.id !== id); return; }
       await tx('log', 'readwrite', s => s.delete(id));
     },
+    // „Neu anfangen“: Verlauf und Einstellungen weg, die Datenbank selbst bleibt (Name OrdnungJP1)
+    async allesLoeschen() {
+      await DB.bereit;
+      if (!db) { imSpeicher = { log: [], einst: {} }; return; }
+      await tx('log', 'readwrite', s => s.clear());
+      await tx('einst', 'readwrite', s => s.clear());
+    },
     async einst(k, v) {
       await DB.bereit;
       if (v === undefined) return db ? tx('einst', 'readonly', s => s.get(k)) : imSpeicher.einst[k];
