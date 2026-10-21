@@ -14,6 +14,10 @@ const quelle = ctxDaten.window.OJ_INHALT, sprachen = ctxDaten.window.OJ_SPRACHEN
 const LANG = ['de', 'en', 'ru', 'ja', 'es', 'pl'];
 for (const code of LANG.slice(1)) {
   const d = Object.fromEntries(sprachen.quellen.map((q, i) => [q, sprachen.sprachen[code]?.[i]]));
+  const uebertragung = Object.entries(d).filter(([q, v]) => /\n|[\[【]\s*[A-ZА-Я]{1,3}\s*\d{3,4}[\]】]|98765\d{4}/iu.test(v));
+  ok('Sprachdatei ' + code + ': keine vermischten Zeilen oder Paketmarken', !uebertragung.length, uebertragung.slice(0, 2));
+  const kleiderbuegel = { en: /hanger/i, ru: /плечик/i, ja: /ハンガー/u, es: /percha/i, pl: /wieszaki/i };
+  ok('Sprachdatei ' + code + ': Bügel im Kleidungskontext übersetzt', kleiderbuegel[code].test(d['Gleiche Bügel']));
   const fehlt = [], zahlenfehler = [];
   function besuch(v, key = '') {
     if (['id', 'nr', 'kanji', 'lesung', 'bilder'].includes(key) || (key === 'takt' && typeof v === 'string')) return;

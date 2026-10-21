@@ -9,7 +9,7 @@ Japanische Schriftzeichen, Kana und Umschrift behalten ihre Bedeutung und ihre j
 Die Silbenhilfe ist weiterhin für deutsche Aussprache geschrieben; andere Sprachfassungen erklären dies.
 
 `quellen.json` wird durch `tools/sprachkatalog.mjs` gewonnen. Die fünf Sprachdateien enthalten feste
-Erstübersetzungen mit Google Übersetzer (2026-10-21). Fachbegriffe, die vollständigen neun Mischwarnungen je
+Erstübersetzungen mit Google Übersetzer (2026-10-21). Fachbegriffe, mehrdeutige Haushaltsüberschriften, die vollständigen neun Mischwarnungen je
 Sprache und kurze Navigationsnamen wurden in `korrekturen.json` gesondert formuliert. Diese Korrekturen haben
 beim Bauen Vorrang. Sprachliche Gegenprüfung durch Muttersprachler steht aus; technische Proben messen
 Vollständigkeit, Platzhalter, Zahlen, Hervorhebungen und Funktion, keine allgemeine Übersetzungsqualität.

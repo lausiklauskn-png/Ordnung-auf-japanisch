@@ -15,19 +15,20 @@
     const regex = teile.map(teil => { if (/^__OJ_\d+__$/.test(teil)) { keys.push(teil); return '(.*?)'; } return regexSicher(teil); }).join('');
     return { regex: new RegExp('^' + regex + '$', 'u'), keys, ziel, laenge: q.replace(/__OJ_\d+__/g, '').length };
   }).sort((a, b) => b.laenge - a.laenge);
-  const offen = new Set();
+  const ziele = new Set(Object.values(texte));
   function t(wert, tiefe = 0) {
     const roh = String(wert ?? ''); if (code === 'de') return roh;
     const q = norm(roh); if (!q) return roh;
     const anfang = roh.match(/^\s*/u)[0], ende = roh.match(/\s*$/u)[0];
     if (Object.hasOwn(texte, q)) return anfang + texte[q] + ende;
+    if (ziele.has(q)) return roh;
     if (tiefe < 5) for (const m of muster) {
       const treffer = q.match(m.regex); if (!treffer) continue;
       let ziel = m.ziel;
       m.keys.forEach((k, i) => { ziel = ziel.split(k).join(t(treffer[i + 1], tiefe + 1)); });
       return anfang + ziel + ende;
     }
-    offen.add(q); return roh;
+    return roh;
   }
   function dom(root) {
     if (code === 'de') return;
@@ -94,7 +95,7 @@
     es: 'La guía por sílabas se basa en la pronunciación alemana. Las palabras japonesas se leen con una voz japonesa si tu dispositivo dispone de ella.',
     pl: 'Zapis sylab opiera się na niemieckiej wymowie. Japońskie słowa są czytane japońskim głosem, jeśli jest dostępny na urządzeniu.',
   };
-  const api = { ausspracheHinweis: hinweise[code] || '', code, locale: OPTIONEN[code], t, html, dom, mischMuster, original, offen, vorlesetext };
+  const api = { ausspracheHinweis: hinweise[code] || '', code, locale: OPTIONEN[code], t, html, dom, mischMuster, original, vorlesetext };
   (window.OJ = window.OJ || {}).Sprache = api;
   document.documentElement.lang = code;
   dom(document.body);

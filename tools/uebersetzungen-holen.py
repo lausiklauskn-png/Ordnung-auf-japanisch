@@ -30,12 +30,12 @@ def reparieren(text):
     return re.sub(r'_{1,2}\s*OJ\s*_\s*(\d+)\s*_{1,2}', lambda m: '__OJ_' + m[1] + '__', text, flags=re.I).strip()
 
 def gueltig(quelle, ziel):
-    return bool(ziel) and sorted(TOKEN.findall(quelle)) == sorted(TOKEN.findall(ziel))
+    return bool(ziel) and '\n' not in ziel and not re.search(r'[\[【]\s*[A-ZА-Я]{1,3}\s*\d{3,4}[\]】]|98765\d{4}', ziel, flags=re.I) and sorted(TOKEN.findall(quelle)) == sorted(TOKEN.findall(ziel))
 
 def einzel(quelle, sprache):
     for versuch in range(4):
         try:
-            ziel = reparieren(google(quelle, sprache))
+            ziel = reparieren(google(quelle, sprache)).replace('\n', ' ')
             if gueltig(quelle, ziel): return ziel
         except Exception:
             pass

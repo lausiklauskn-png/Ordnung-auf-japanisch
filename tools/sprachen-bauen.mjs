@@ -10,6 +10,7 @@ for (const code of sprachen) {
   const texte = { ...(fs.existsSync(pfad) ? JSON.parse(fs.readFileSync(pfad, 'utf8')) : {}), ...korrekturen[code] };
   daten[code] = quellen.map(q => {
     if (typeof texte[q] !== 'string' || !texte[q].trim()) { console.error(`Fehlt (${code}): ${q}`); fehler++; return q; }
+    if (/\n|[\[【]\s*[A-ZА-Я]{1,3}\s*\d{3,4}[\]】]|98765\d{4}/iu.test(texte[q])) { console.error(`Übertragungsfehler (${code}): ${q}`); fehler++; }
     const token = s => [...s.matchAll(/__OJ_\d+__/g)].map(m => m[0]).sort().join('|');
     if (token(q) !== token(texte[q])) { console.error(`Platzhalter verändert (${code}): ${q}`); fehler++; }
     return texte[q];
