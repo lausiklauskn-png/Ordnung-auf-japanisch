@@ -2,7 +2,7 @@
 
 > GEBAUT von `tools/bilder-einfuegen.py` — nicht von Hand ändern.
 
-**0 von 148** Bildern sind eingebaut. Schlüssel = Kennung aus `docs/CHATGPT-BRIEF.md`, Datei `bilder/<Kennung>.webp`.
+**8 von 148** Bildern sind eingebaut. Schlüssel = Kennung aus `docs/CHATGPT-BRIEF.md`, Datei `bilder/<Kennung>.webp`.
 
 | Kennung | Bild |
 |---|---|
@@ -146,11 +146,11 @@
 | `k10` | — |
 | `k11` | — |
 | `k12` | — |
-| `x-willkommen` | — |
-| `x-warum` | — |
-| `x-pause` | — |
-| `x-gewohnheiten` | — |
-| `x-kalender` | — |
-| `x-flecken` | — |
-| `x-regeln` | — |
-| `x-verlauf` | — |
+| `x-willkommen` | ✅ |
+| `x-warum` | ✅ |
+| `x-pause` | ✅ |
+| `x-gewohnheiten` | ✅ |
+| `x-kalender` | ✅ |
+| `x-flecken` | ✅ |
+| `x-regeln` | ✅ |
+| `x-verlauf` | ✅ |

@@ -40,6 +40,8 @@
   const bildUrl = id => `bilder/${encodeURIComponent(id)}.webp?v=${VERSION}`;
   const bildDiv = id => hatBild(id) ? `<div class="kbild" style="background-image:url('${bildUrl(id)}')" aria-hidden="true"></div>` : '';
   const mitBild = id => hatBild(id) ? ' mit-bild' : '';                                               // so oft erledigt = „sitzt“ (習)
+  const seitenKopf = (id, text) => hatBild(id)
+    ? `<section class="karte mit-bild" data-seitenbild="${id}">${bildDiv(id)}${text}</section>` : text;
 
   /* ---------- Zustand ---------- */
   const Z = { log: [], stats: new Map(), stumm: false, sitzung: null };
@@ -283,8 +285,8 @@
     kalender() {
       const jetzt = new Date().getMonth(), jahr = new Date().getFullYear();
       return `
-      <h1 style="font-size:1.45rem;margin:4px 0 4px"><span lang="ja">暦</span> Jahreskalender ${jahr}</h1>
-      <p class="leise">${esc(I.kalenderEinleitung)}</p>
+      ${seitenKopf('x-kalender', `<h1 style="font-size:1.45rem;margin:4px 0 4px"><span lang="ja">暦</span> Jahreskalender ${jahr}</h1>
+      <p class="leise">${esc(I.kalenderEinleitung)}</p>`)}
       ${I.kalender.map((m, i) => {
         const fertig = m.aufgaben.filter(a => st(a.id).jahr.has(jahr)).length;
         return `<details class="karte monat${i === jetzt ? ' jetzt' : ''}" data-monat="${m.monat}"${i === jetzt ? ' open' : ''}>
@@ -300,15 +302,15 @@
 
     flecken(q) {
       return `
-      <h1 style="font-size:1.45rem;margin:4px 0 4px"><span lang="ja">染</span> Fleckenkarten</h1>
-      <p class="leise">${esc(I.fleckenRegeln)}</p>
+      ${seitenKopf('x-flecken', `<h1 style="font-size:1.45rem;margin:4px 0 4px"><span lang="ja">染</span> Fleckenkarten</h1>
+      <p class="leise">${esc(I.fleckenRegeln)}</p>`)}
       <input class="suche" type="search" id="fleckSuche" placeholder="Fleck suchen, z. B. Rotwein" value="${esc(q || '')}" autocomplete="off" aria-label="Fleck suchen">
       <div class="flecken" id="fleckListe">${fleckenListe(q)}</div>`;
     },
 
     regeln() {
       return `
-      <h1 style="font-size:1.45rem;margin:4px 0 10px"><span lang="ja">規</span> Regeln</h1>
+      ${seitenKopf('x-regeln', `<h1 style="font-size:1.45rem;margin:4px 0 10px"><span lang="ja">規</span> Regeln</h1>`)}
       ${warumKarte()}
       <section class="karte"><h2>Leitsätze</h2><ul>${I.leitsaetze.map(t => `<li>${esc(t)}</li>`).join('')}</ul></section>
       <a class="karte" href="#/mittel" style="display:block;text-decoration:none" data-mittel-link><h2>Die 5 Reinigungsmittel →</h2><p class="leise klein">Essig, Natron, Sauerstoffbleiche, Schmierseife, Zitronensäure: was sie lösen, wo nie, wie viel.</p></a>
@@ -405,8 +407,8 @@
       const ordnen = l => l.slice().sort((a, b) => WANN_ORDNUNG.indexOf(a.wann) - WANN_ORDNUNG.indexOf(b.wann));
       const fest = m.filter(g => g.takt !== 'Gelegenheit'), fertig = fest.filter(g => gStand(g).fertig).length;
       const weitere = ordnen(I.gewohnheiten.filter(g => !ids.has(g.id)));
-      return `<h1 style="font-size:1.45rem;margin:4px 0 2px"><span lang="ja">習慣</span> Gute Gewohnheiten</h1>
-      <p class="lesung">${aussprache(J.wort('shukan'), true)}</p>
+      return `${seitenKopf('x-gewohnheiten', `<h1 style="font-size:1.45rem;margin:4px 0 2px"><span lang="ja">習慣</span> Gute Gewohnheiten</h1>
+      <p class="lesung">${aussprache(J.wort('shukan'), true)}</p>`)}
       <section class="karte g-heute" data-g-heute>
         <div class="g-ring">${enso(fest.length ? fertig / fest.length : 0, fertig + '/' + fest.length)}</div>
         <div><h2>${fertig === fest.length && fest.length ? 'Alles für heute erledigt.' : 'Heute'}</h2>
@@ -420,7 +422,7 @@
 
     verlauf() {
       const titel = e => { if (e.art === 'gewohnheit') { const g = gewohnheit(e.ref); return g ? '習慣 ' + g.titel : e.ref; } if (e.art === 'kalender') { const k = kalAufgabe(e.ref); return k ? `${k.monat.name}: ${k.a.text.split('(')[0].trim()}` : e.ref; } const s = schrittVon(e.ref); return s ? `${I.stationen[s.station].titel} · ${s.titel}` : e.ref; };
-      const kopf = `<h1 style="font-size:1.45rem;margin:4px 0"><span lang="ja">歴</span> Verlauf</h1>`;
+      const kopf = seitenKopf('x-verlauf', `<h1 style="font-size:1.45rem;margin:4px 0"><span lang="ja">歴</span> Verlauf</h1>`);
       if (!Z.log.length) return kopf + `<p class="leer">Noch nichts erledigt. Jeder Haken landet hier, Tag für Tag — mit Datum und Uhrzeit.</p>`;
       const tage = new Map();
       Z.log.slice().sort((a, b) => b.zeit - a.zeit).forEach(e => { const k = tagKey(e.zeit); (tage.get(k) || tage.set(k, []).get(k)).push(e); });

@@ -1,6 +1,15 @@
 // GEBAUT aus docs/INHALT.md mit `node tools/inhalt-bauen.mjs` — nicht von Hand ändern.
 window.OJ_INHALT = {
- "bilder": [],
+ "bilder": [
+  "x-flecken",
+  "x-gewohnheiten",
+  "x-kalender",
+  "x-pause",
+  "x-regeln",
+  "x-verlauf",
+  "x-warum",
+  "x-willkommen"
+ ],
  "stationen": [
   {
    "nr": 0,
