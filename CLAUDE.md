@@ -57,7 +57,11 @@ auch externe Maus an Touch-Geräten wird über `any-hover`/`any-pointer` berück
 Regeln-Seite: kein zusätzliches Flaschenbild und keine getrennte Überschrift im Kopf; „Regeln“ steht als
 Hauptüberschrift im Pinselbild, darunter „Warum in kleinen Schritten?“ im selben Bereich.
 `x-regeln.webp` bleibt als vorhandene Bilddatei erhalten, wird dort aber bewusst nicht angezeigt.
-⚠ Gegenprüfung am echten Handy und mit echten Stimmen steht aus.
+Prüfung: vollständiges `npm test` grün (GitHub-Lauf 39645083726), darunter 49 Gestaltungsproben.
+Bildrahmen in allen sechs Themen, Textüberlappung, 320/380 px und Button-Lichteffekte geprüft.
+Gegenprobe mit absichtlich hartem Bild/Text-Übergang liefert eigene rote Prüfzeilen.
+⚠ Am echten Handy, mit echten Stimmen und beim Kaltstart der installierten PWA nicht gemessen.
+Gegenprüfung der Darstellung durch Klaus steht aus.
 
 Gestaltung (Klaus, 2026-10-21, nach Gegenprüfung der ersten Serie): oben ◐ zur Auswahl der hellen Naturthemen
 Washi, Sand und Salbei; Wahl in `oj_thema`, früh vor dem Stylesheet geladen. Kein dunkles Systemthema mehr.
