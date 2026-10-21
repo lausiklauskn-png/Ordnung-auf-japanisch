@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>整理 · Ordnung auf Japanisch</title>
+<meta name="description" content="Sprechende Begleit-App: Schritt für Schritt durch die Wohnung, bis Ordnung zur Gewohnheit wird.">
+<meta name="theme-color" content="#f3ece0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16120f" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png?v=1" type="image/png">
+<link rel="apple-touch-icon" href="icons/icon-192.png?v=1">
+<link rel="stylesheet" href="assets/style.css?v=3">
+</head>
+<body>
+<svg class="filter" aria-hidden="true" width="0" height="0">
+  <!-- leicht ausgefranste Pinselkante für Kanji und Enso -->
+  <filter id="pinsel"><feTurbulence type="fractalNoise" baseFrequency="0.035 0.6" numOctaves="2" seed="7" result="r"/><feDisplacementMap in="SourceGraphic" in2="r" scale="3"/></filter>
+</svg>
+
+<header class="kopf">
+  <a href="#/" class="marke" aria-label="Start"><span class="marke-kanji" lang="ja">整理</span><span class="marke-text">Ordnung auf Japanisch</span></a>
+  <button class="kopf-knopf" data-aktion="stumm" id="btnStumm" aria-label="Vorlesen an oder aus" title="Vorlesen an/aus">🔊</button>
+</header>
+<div id="uhren" class="uhren" aria-live="polite" hidden></div>
+
+<main id="ansicht" class="ansicht" tabindex="-1" aria-live="polite"></main>
+
+<nav class="leiste" aria-label="Hauptmenü">
+  <a href="#/" data-nav="start"><span lang="ja">家</span>Start</a>
+  <a href="#/kalender" data-nav="kalender"><span lang="ja">暦</span>Kalender</a>
+  <a href="#/flecken" data-nav="flecken"><span lang="ja">染</span>Flecken</a>
+  <a href="#/regeln" data-nav="regeln"><span lang="ja">規</span>Regeln</a>
+  <a href="#/verlauf" data-nav="verlauf"><span lang="ja">歴</span>Verlauf</a>
+</nav>
+
+<div id="meldung" class="meldung" role="status" hidden></div>
+<div id="pause" class="pause" role="dialog" aria-label="Pause" hidden></div>
+<div id="blaetter" class="blaetter" aria-hidden="true"></div>
+
+<script defer src="assets/inhalt.js?v=2"></script>
+<script defer src="assets/sprechtext.js?v=2"></script>
+<script defer src="assets/japanisch.js?v=1"></script>
+<script defer src="assets/db.js?v=1"></script>
+<script defer src="assets/klang.js?v=1"></script>
+<script defer src="assets/app.js?v=4"></script>
+</body>
+</html>
