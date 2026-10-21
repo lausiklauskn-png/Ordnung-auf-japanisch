@@ -43,6 +43,26 @@ npm install && npm test     # Syntax · Inhalt · Manifest/Schale · App im echt
 
 ## Stand
 
+Bildübergänge (Klaus, 2026-10-21, Korrektur nach Gestaltungsschritt): keine harte Trennung zwischen Bild
+und Text. Das Bild läuft unten mit einem transparenten Verlauf in das Papier des gewählten Themas aus;
+nahezu schwarze Schrift beginnt 48–88 px innerhalb des Bildbereichs. Motiv oben länger sichtbar, 3:2 und
+Komprimierungsprofil unverändert. Auch das Pausenbild läuft weich aus, ohne getrennte Textkarte.
+Die vorherige Darstellung mit Text ausschließlich unter dem Bild wurde auf Klaus' Wunsch ersetzt.
+Alle Inhaltsbilder verwenden diesen Verlauf; keine hart abgegrenzten Bild/Text-Flächen.
+Auch Bildrahmen oben und seitlich gehen weich in die Hintergrundfarbe des gewählten Themas über.
+Die feine Kontur bleibt im Textbereich erhalten; Bildränder haben keinen separaten harten Rahmen.
+Weitere helle Themen: Leinen, Morgenlicht und Kirschblüte (zusammen mit Washi, Sand, Salbei jetzt sechs).
+Button-Lichtreflex breiter und heller (eine Sekunde), mit stärkerem Leuchtrand beim Darüberfahren;
+auch externe Maus an Touch-Geräten wird über `any-hover`/`any-pointer` berücksichtigt.
+Regeln-Seite: kein zusätzliches Flaschenbild und keine getrennte Überschrift im Kopf; „Regeln“ steht als
+Hauptüberschrift im Pinselbild, darunter „Warum in kleinen Schritten?“ im selben Bereich.
+`x-regeln.webp` bleibt als vorhandene Bilddatei erhalten, wird dort aber bewusst nicht angezeigt.
+Prüfung: vollständiges `npm test` grün (GitHub-Lauf 39645083726), darunter 49 Gestaltungsproben.
+Bildrahmen in allen sechs Themen, Textüberlappung, 320/380 px und Button-Lichteffekte geprüft.
+Gegenprobe mit absichtlich hartem Bild/Text-Übergang liefert eigene rote Prüfzeilen.
+⚠ Am echten Handy, mit echten Stimmen und beim Kaltstart der installierten PWA nicht gemessen.
+Gegenprüfung der Darstellung durch Klaus steht aus.
+
 Gestaltung (Klaus, 2026-10-21, nach Gegenprüfung der ersten Serie): oben ◐ zur Auswahl der hellen Naturthemen
 Washi, Sand und Salbei; Wahl in `oj_thema`, früh vor dem Stylesheet geladen. Kein dunkles Systemthema mehr.
 Glas-Buttons übernehmen Flächen, Text und 3D-Kante aus dem gewählten Thema; kurze Wackelbewegung und Lichtreflex

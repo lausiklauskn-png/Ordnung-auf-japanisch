@@ -169,8 +169,10 @@
   }
   function fragen(t) { t = (t || '').trim(); if (t) location.hash = '#/fragen/' + encodeURIComponent(t); }
 
-  function warumKarte() {
-    return `<section class="karte${mitBild('x-warum')}" data-warum>${bildDiv('x-warum')}<h2>Warum in kleinen Schritten?</h2>
+  function warumKarte(alsRegeln = false) {
+    return `<section class="karte${mitBild('x-warum')}" data-warum>${bildDiv('x-warum')}
+      ${alsRegeln ? '<h1 style="font-size:1.45rem;margin:4px 0 10px"><span lang="ja">規</span> Regeln</h1>' : ''}
+      <h2>Warum in kleinen Schritten?</h2>
       <ul class="warum">${I.warumKurz.map(w => `<li><b>${esc(w.satz)}</b> ${esc(w.grund)}</li>`).join('')}</ul>
       <div class="knopfreihe"><button class="knopf klein" data-aktion="warum-vorlesen">🔊 Vorlesen</button></div></section>`;
   }
@@ -313,8 +315,7 @@
 
     regeln() {
       return `
-      ${seitenKopf('x-regeln', `<h1 style="font-size:1.45rem;margin:4px 0 10px"><span lang="ja">規</span> Regeln</h1>`)}
-      ${warumKarte()}
+      ${warumKarte(true)}
       <section class="karte"><h2>Leitsätze</h2><ul>${I.leitsaetze.map(t => `<li>${esc(t)}</li>`).join('')}</ul></section>
       <a class="karte" href="#/mittel" style="display:block;text-decoration:none" data-mittel-link><h2>Die 5 Reinigungsmittel →</h2><p class="leise klein">Essig, Natron, Sauerstoffbleiche, Schmierseife, Zitronensäure: was sie lösen, wo nie, wie viel.</p></a>
       ${warnkarte()}

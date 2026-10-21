@@ -32,6 +32,21 @@
   --akzent: #695b3f; --akzent-tief: #51452f; --matcha: #567049;
   --linie: rgba(74, 94, 65, .18);
 }
+:root[data-thema="leinen"] {
+  --papier: #f4f1eb; --papier-2: #e5dfd3; --karte: #fffdf8;
+  --tusche: #433d35; --tusche-2: #5c554b; --leise: #71685c;
+  --akzent: #716451; --akzent-tief: #574b3b; --matcha: #66715b;
+}
+:root[data-thema="morgenlicht"] {
+  --papier: #fbf1df; --papier-2: #eedcc0; --karte: #fffaf0;
+  --tusche: #4b3826; --tusche-2: #6d553c; --leise: #776149;
+  --akzent: #865b33; --akzent-tief: #694322;
+}
+:root[data-thema="kirschbluete"] {
+  --papier: #f8eeec; --papier-2: #ecdad5; --karte: #fff8f5;
+  --tusche: #4b3533; --tusche-2: #6d504b; --leise: #7b625c;
+  --akzent: #855852; --akzent-tief: #69413c;
+}
 
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
@@ -112,7 +127,7 @@ h1, h2, h3 { line-height: 1.2; margin: 0; }
 }
 .knopf::before, .kopf-knopf::before {
   content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background: linear-gradient(110deg, transparent 25%, rgba(255,255,255,.55) 48%, transparent 72%);
+  background: linear-gradient(110deg, transparent 18%, rgba(255,255,255,.35) 34%, rgba(255,255,255,.95) 48%, rgba(255,255,255,.35) 62%, transparent 80%);
   transform: translateX(-140%);
 }
 .knopf {
@@ -129,14 +144,20 @@ h1, h2, h3 { line-height: 1.2; margin: 0; }
 .knopf:focus-visible, .kopf-knopf:focus-visible {
   outline: 3px solid var(--akzent); outline-offset: 5px;
 }
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+@media (any-hover: hover) and (any-pointer: fine) {
   .knopf:not(:disabled):hover, .kopf-knopf:not(:disabled):hover {
     border-color: color-mix(in srgb, var(--akzent) 65%, transparent); border-top-color: #fff;
+    box-shadow: inset 0 2px 0 #fff, inset 0 -1px 0 rgba(255,255,255,.6),
+      0 4px 0 var(--glas-kante), 0 0 20px 2px rgba(255,255,255,.85), 0 9px 20px -8px color-mix(in srgb, var(--akzent) 40%, transparent);
+  }
+}
+@media (any-hover: hover) and (any-pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .knopf:not(:disabled):hover, .kopf-knopf:not(:disabled):hover {
     transform: translateY(-2px);
     animation: glas-wackeln .55s ease-in-out;
   }
   .knopf:not(:disabled):hover::before, .kopf-knopf:not(:disabled):hover::before {
-    animation: glas-licht .7s ease-out;
+    animation: glas-licht 1s ease-out;
   }
 }
 @keyframes glas-licht {
@@ -430,26 +451,54 @@ button.station-kachel { font: inherit; color: inherit; cursor: pointer; width: 1
 .kopf-knopf { width: 42px; height: 42px; font-size: 1.15rem; }
 .zurueck-knopf[hidden] { display: none; }
 
-/* ---------- Ganze Bildfläche, dunkler Text auf ruhigem Papier ----------
-   Bilder bleiben im natürlichen 3:2-Format sichtbar. Kein Zoom und kein Schleier über dem Motiv.
-   Der Lesebereich liegt darunter auf deckendem Papier, auch bei dunkler Systemeinstellung. */
-.mit-bild { --bild-rand: 16px; position: relative; isolation: isolate; overflow: hidden; padding-top: var(--bild-rand); }
+/* ---------- Bild und Schrift gehen weich ineinander über ----------
+   Oben bleibt das Motiv sichtbar. Unten läuft es in das Papier des gewählten Themas aus.
+   Der Text beginnt bereits im Bild; eine helle Verlaufsfläche trägt die dunkle Schrift. */
+.mit-bild { --bild-rand: 16px; --bild-ueberlappung: clamp(48px, 8vw, 88px); position: relative; isolation: isolate; overflow: hidden; padding-top: var(--bild-rand); }
 .mit-bild > :not(.kbild) { position: relative; z-index: 1; }
+.mit-bild, .schritt.mit-bild.erledigt-heute, .buehne.mit-bild.spricht {
+  border-color: transparent; background-clip: padding-box; box-shadow: none;
+}
+.mit-bild::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  border: 1px solid var(--linie); border-radius: inherit;
+}
+.schritt.mit-bild.erledigt-heute::before { border-color: color-mix(in srgb, var(--matcha) 50%, var(--linie)); }
+.buehne.mit-bild.spricht::before { border-color: color-mix(in srgb, var(--akzent) 40%, var(--linie)); }
 .kbild {
   position: relative; width: calc(100% + 2 * var(--bild-rand)); aspect-ratio: 3 / 2;
-  margin: calc(-1 * var(--bild-rand)) calc(-1 * var(--bild-rand)) 4px;
+  margin: calc(-1 * var(--bild-rand)) calc(-1 * var(--bild-rand)) calc(-1 * var(--bild-ueberlappung));
   background-size: contain; background-position: center; background-repeat: no-repeat;
   flex: 0 0 auto; grid-column: 1 / -1;
 }
+.kbild::before, .pause-bild::before {
+  content: ""; position: absolute; inset: -1px; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(90deg, var(--papier), transparent 24px, transparent calc(100% - 24px), var(--papier)),
+    linear-gradient(180deg, var(--papier), transparent 24px);
+  -webkit-mask-image: linear-gradient(180deg, #000, #000 calc(100% - var(--bild-ueberlappung) - 16px), transparent);
+  mask-image: linear-gradient(180deg, #000, #000 calc(100% - var(--bild-ueberlappung) - 16px), transparent);
+}
+.kbild::after, .pause-bild::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg,
+    transparent 0,
+    transparent calc(100% - var(--bild-ueberlappung) - 56px),
+    color-mix(in srgb, var(--bild-papier, var(--karte)) 34%, transparent) calc(100% - var(--bild-ueberlappung) - 30px),
+    color-mix(in srgb, var(--bild-papier, var(--karte)) 82%, transparent) calc(100% - var(--bild-ueberlappung)),
+    color-mix(in srgb, var(--bild-papier, var(--karte)) 96%, transparent) calc(100% - 12px),
+    var(--bild-papier, var(--karte)) 100%);
+}
+.mit-bild > :is(h1, h2, h3, p), .mit-bild .warum li, .mit-bild .warum b { color: #241f1a; }
 .schritt.mit-bild, .gewohnheit-karte.mit-bild { --bild-rand: 14px; }
 .station-kopf.mit-bild {
   --bild-rand: 14px; display: grid; grid-template-columns: auto minmax(0, 1fr);
-  padding: var(--bild-rand); border-radius: var(--rund); box-shadow: var(--schatten); background: var(--karte);
+  padding: var(--bild-rand); border-radius: var(--rund); background: var(--karte); background-clip: padding-box;
 }
 .buehne.mit-bild { --bild-rand: 18px; padding-top: var(--bild-rand); align-content: start; }
 #pause { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 16px; overflow-y: auto; background: var(--papier); }
-.pause-bild { width: min(100%, 720px); aspect-ratio: 3 / 2; flex: 0 0 auto; border-radius: var(--rund); background-size: contain; background-position: center; background-repeat: no-repeat; }
-.pause-innen { padding: 20px; background: var(--karte); border: 1px solid var(--linie); border-radius: var(--rund); }
+.pause-bild { --bild-papier: var(--papier); --bild-ueberlappung: clamp(48px, 8vw, 88px); position: relative; width: min(100%, 720px); aspect-ratio: 3 / 2; flex: 0 0 auto; margin-bottom: calc(-1 * var(--bild-ueberlappung)); background-size: contain; background-position: center; background-repeat: no-repeat; }
+.pause-innen { position: relative; z-index: 1; padding: 20px; color: #241f1a; }
 
 /* ---------- Die 5 Reinigungsmittel ---------- */
 .mittel-karte h2 { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
@@ -532,7 +581,7 @@ details.warnkarte summary { cursor: pointer; color: var(--akzent); }
   background: var(--karte); color: var(--tusche); box-shadow: var(--schatten); }
 .thema-auswahl[hidden] { display: none; }
 .thema-auswahl h2 { font-size: 1.05rem; margin-bottom: 14px; }
-.thema-auswahl .knopfreihe { gap: 12px; }
+.thema-auswahl .knopfreihe { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .thema-auswahl .knopf { flex: 1; padding: 8px 12px; }
 .thema-auswahl .knopf[aria-pressed="true"] { outline: 2px solid var(--akzent); outline-offset: 2px; }
 .thema-auswahl p { margin: 14px 0 0; font-size: .85rem; color: var(--leise); }

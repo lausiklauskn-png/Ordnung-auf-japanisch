@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const SCHLUESSEL = 'oj_thema';
-  const THEMEN = { washi: '#f7f2e9', sand: '#f3e9da', salbei: '#eff2e8' };
+  const THEMEN = { washi: '#f7f2e9', sand: '#f3e9da', salbei: '#eff2e8', leinen: '#f4f1eb', morgenlicht: '#fbf1df', kirschbluete: '#f8eeec' };
   let aktuell = 'washi';
   try { const wert = localStorage.getItem(SCHLUESSEL); if (Object.hasOwn(THEMEN, wert)) aktuell = wert; } catch (_) {}
 
