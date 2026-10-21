@@ -13,9 +13,12 @@ jobs:
       - name: Erstuebersetzungen speichern
         run: python3 tools/uebersetzungen-holen.py
       - name: Nur Sprachdateien in Arbeitszweig sichern
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/uebersetzungen/en.json docs/uebersetzungen/ru.json docs/uebersetzungen/ja.json docs/uebersetzungen/es.json docs/uebersetzungen/pl.json
-          git commit -m "Offline-Erstuebersetzungen in fuenf Zielsprachen vorbereiten"
-          git push origin HEAD:codex/sprachen-vorbereiten
+          git add docs/uebersetzungen/*.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Offline-Erstuebersetzungen in fuenf Zielsprachen vorbereiten"
+            git push origin HEAD:codex/sprachen-vorbereiten
+          fi

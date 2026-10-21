@@ -23,7 +23,7 @@ def google(text, sprache):
     return ''.join(teil[0] for teil in daten[0] if teil and teil[0])
 
 def reparieren(text):
-    return re.sub(r'__\s*OJ\s*_\s*(\d+)\s*__', lambda m: '__OJ_' + m[1] + '__', text, flags=re.I).strip()
+    return re.sub(r'_{1,2}\s*OJ\s*_\s*(\d+)\s*_{1,2}', lambda m: '__OJ_' + m[1] + '__', text, flags=re.I).strip()
 
 def gueltig(quelle, ziel):
     return bool(ziel) and sorted(TOKEN.findall(quelle)) == sorted(TOKEN.findall(ziel))
