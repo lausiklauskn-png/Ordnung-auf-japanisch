@@ -13,7 +13,7 @@ Dieses Profil gilt für jede Bildserie; `tools/bilder-einfuegen.py` wendet es au
 
 ## Messung der ersten Serie
 
-2026-10-21, acht freigegebene Sonderseiten-Bilder, Pillow/WebP. Alle Stufen wurden direkt aus denselben PNGs
+2026-10-21, acht freigegebene Sonderseiten-Bilder, Pillow 12.3.0 / libwebp 1.6.0. Alle Stufen wurden direkt aus denselben PNGs
 erzeugt. Ausgangsgröße der acht PNGs: **15.254.079 Bytes**. Die Ersparnis enthält Verkleinerung und Komprimierung.
 
 | Qualität, Methode 6 | Größe aller acht Bilder | Ersparnis gegenüber PNG | PSNR je Bild |
