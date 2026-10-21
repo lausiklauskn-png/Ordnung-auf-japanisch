@@ -11,7 +11,7 @@
 <link rel="icon" href="icons/favicon-64.png?v=2" type="image/png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2">
 <script src="assets/thema.js?v=3"></script>
-<link rel="stylesheet" href="assets/style.css?v=14">
+<link rel="stylesheet" href="assets/style.css?v=15">
 </head>
 <body>
 <svg class="filter" aria-hidden="true" width="0" height="0">
@@ -22,6 +22,7 @@
 <header class="kopf">
   <button class="kopf-knopf zurueck-knopf" data-aktion="zurueck" id="btnZurueck" aria-label="Zurück" title="Zurück" hidden>←</button>
   <a href="#/" class="marke" aria-label="Start"><img class="marke-bild" src="icons/favicon-64.png?v=2" width="64" height="64" alt="整理" lang="ja"><span class="marke-text">Ordnung auf Japanisch</span></a>
+  <button class="kopf-knopf" id="btnSprache" type="button" aria-label="Sprache wählen" aria-expanded="false" aria-controls="spracheAuswahl" title="Sprache wählen">文</button>
   <button class="kopf-knopf" id="btnThema" type="button" aria-label="Farbthema wählen" aria-expanded="false" aria-controls="themaAuswahl" title="Farbthema wählen">◐</button>
   <button class="kopf-knopf install-knopf" data-aktion="installieren" id="btnInstall" title="Als App auf dieses Gerät legen" aria-label="Als App installieren">📲<span class="lang"> Installieren</span></button>
   <button class="kopf-knopf" data-aktion="aktualisieren" id="btnNeu" aria-label="Aktualisieren — neueste Fassung laden, dein Verlauf bleibt" title="Aktualisieren (dein Verlauf bleibt)">⟳</button>
@@ -41,6 +42,18 @@
   </div>
   <p>Deine Wahl bleibt beim nächsten Besuch erhalten.</p>
 </section>
+<section class="thema-auswahl" id="spracheAuswahl" aria-labelledby="spracheTitel" hidden>
+  <h2 id="spracheTitel">Sprache</h2>
+  <div class="knopfreihe" role="group" aria-label="Sprache" translate="no">
+    <button class="knopf" type="button" data-sprache="de" aria-pressed="true" lang="de">Deutsch</button>
+    <button class="knopf" type="button" data-sprache="en" aria-pressed="false" lang="en">English</button>
+    <button class="knopf" type="button" data-sprache="ru" aria-pressed="false" lang="ru">Русский</button>
+    <button class="knopf" type="button" data-sprache="ja" aria-pressed="false" lang="ja">日本語</button>
+    <button class="knopf" type="button" data-sprache="es" aria-pressed="false" lang="es">Español</button>
+    <button class="knopf" type="button" data-sprache="pl" aria-pressed="false" lang="pl">Polski</button>
+  </div>
+  <p>Alle Texte sind auch ohne Internet verfügbar.</p>
+</section>
 <div id="uhren" class="uhren" aria-live="polite" hidden></div>
 
 <main id="ansicht" class="ansicht" tabindex="-1" aria-live="polite"></main>
@@ -59,12 +72,14 @@
 <div id="blaetter" class="blaetter" aria-hidden="true"></div>
 
 <script defer src="assets/inhalt.js?v=5"></script>
-<script defer src="assets/sprechtext.js?v=2"></script>
+<script defer src="assets/sprechtext.js?v=3"></script>
 <script defer src="assets/japanisch.js?v=1"></script>
 <script defer src="assets/db.js?v=2"></script>
 <script defer src="assets/klang.js?v=1"></script>
-<script defer src="assets/absicht.js?v=1"></script>
+<script defer src="assets/absicht.js?v=2"></script>
 <script defer src="assets/knopf.js?v=1"></script>
-<script defer src="assets/app.js?v=13"></script>
+<script defer src="assets/sprachen.js?v=1"></script>
+<script defer src="assets/sprache.js?v=1"></script>
+<script defer src="assets/app.js?v=14"></script>
 </body>
 </html>

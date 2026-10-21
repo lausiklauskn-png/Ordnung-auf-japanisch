@@ -3,6 +3,7 @@
    Inhalt aus assets/inhalt.js (gebaut aus docs/INHALT.md), Speicher assets/db.js, Vorlesen assets/sprechtext.js. */
 (function () {
   'use strict';
+  const L = window.OJ.Sprache;
   const I = window.OJ_INHALT;
   const DB = window.OJ.DB;
   const ST = window.OJ.Sprechtext;
@@ -22,7 +23,7 @@
     return s;
   }
   function mischWarnung(text) {
-    return fmt(text).replace(/\b(angesetzte Sauerstoffbleiche|saurer WC-Reiniger|Wasserstoffperoxid|Zitronensäure|Zwei Reinigungsmittel|Chlorreiniger|Schmierseife|Rohrreiniger|Glasreiniger|Ammoniak|Salmiak|alter Urin|Spiritus|Sauerstoffbleiche|Natron|Essig|Seife|Säure|Chlor|irgendetwas)\b/gi, '<strong>$1</strong>');
+    return fmt(text).replace(L.mischMuster, '<strong>$1</strong>');
   }
   const heute0 = () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d.getTime(); };
   const tagKey = t => { const d = new Date(t); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
@@ -96,11 +97,12 @@
     laden() {
       if (!('speechSynthesis' in window)) return;
       const v = speechSynthesis.getVoices();
-      Stimme.de = v.find(x => /^de(-|_)DE/i.test(x.lang) && /google|natural|neural/i.test(x.name)) || v.find(x => /^de/i.test(x.lang)) || null;
+      const sprache = L.code;
+      Stimme.de = v.find(x => x.lang.split(/[-_]/)[0] === sprache && /google|natural|neural/i.test(x.name)) || v.find(x => x.lang.split(/[-_]/)[0] === sprache) || null;
       Stimme.ja = v.find(x => /^ja/i.test(x.lang)) || null;
     },
     // ein japanisches Wort: mit japanischer Stimme in Kana, sonst die Lautschrift mit der deutschen Stimme
-    wort(k) { const w = J.wort(k) || J.fuerStation(k); if (!w) return null; return Stimme.ja ? { text: w.kana, ja: true } : { text: J.lautFuerStimme(w) }; },
+    wort(k) { const w = J.wort(k) || J.fuerStation(k); if (!w) return null; return Stimme.ja || L.code !== 'de' ? { text: w.kana, ja: true } : { text: J.lautFuerStimme(w) }; },
     // teile: Text (deutsch) oder {text, ja}; nacheinander gesprochen
     folge(teile, opt = {}) {
       teile = teile.filter(t => t && (t.text || typeof t === 'string'));
@@ -108,7 +110,8 @@
       speechSynthesis.cancel();
       const us = teile.map(t => {
         const ja = typeof t === 'object' && t.ja, u = new SpeechSynthesisUtterance(typeof t === 'string' ? t : t.text);
-        u.lang = ja ? 'ja-JP' : 'de-DE'; const v = ja ? Stimme.ja : Stimme.de; if (v) u.voice = v; u.rate = ja ? .85 : .92; u.pitch = 1;
+        if (!ja && L.code !== 'de') u.text = L.vorlesetext(u.text);
+        u.lang = ja ? 'ja-JP' : L.locale; const v = ja ? Stimme.ja : Stimme.de; if (v) u.voice = v; u.rate = ja ? .85 : .92; u.pitch = 1;
         return u;
       });
       us[0].onstart = () => { K.ducken(true); opt.start && opt.start(); };
@@ -161,7 +164,7 @@
   function hoeren(knopf) {
     if (!HoerenAPI) return;
     Stimme.stopp();
-    const h = new HoerenAPI(); h.lang = 'de-DE'; h.interimResults = true; h.maxAlternatives = 1;
+    const h = new HoerenAPI(); h.lang = L.locale; h.interimResults = true; h.maxAlternatives = 1;
     const feld = $('#frageFeld'); knopf.classList.add('hoert'); knopf.textContent = '●';
     h.onresult = e => { const t = [...e.results].map(r => r[0].transcript).join(' '); feld.value = t; if (e.results[e.results.length - 1].isFinal) { h.stop(); fragen(t); } };
     h.onerror = h.onend = () => { knopf.classList.remove('hoert'); knopf.textContent = '🎤'; };
@@ -329,7 +332,7 @@
     woerter() {
       return `<a class="zurueck" href="#/regeln">← Regeln</a>
       <h1 style="font-size:1.45rem;margin:4px 0 4px">Japanische Wörter</h1>
-      <p class="leise">So spricht man sie: Silben gleich betont, „ß“ scharf, Doppelvokal lang. ${Stimme.ja ? 'Dein Gerät hat eine japanische Stimme.' : 'Auf diesem Gerät gibt es keine japanische Stimme — die deutsche Stimme liest die Lautschrift.'}</p>
+      <p class="leise">${L.code === 'de' ? `So spricht man sie: Silben gleich betont, „ß“ scharf, Doppelvokal lang. ${Stimme.ja ? 'Dein Gerät hat eine japanische Stimme.' : 'Auf diesem Gerät gibt es keine japanische Stimme — die deutsche Stimme liest die Lautschrift.'}` : L.ausspracheHinweis}</p>
       <div class="woerter">${J.WOERTER.map(w => `<article class="karte wort" data-wort="${w.k}">
         <div class="wort-ja${[...w.ja].length > 3 ? ' lang' : ''}" lang="ja">${esc(w.ja)}</div>
         <button class="knopf klein" data-aktion="wort" data-k="${w.k}" aria-label="Aussprechen: ${esc(w.romaji)}">🔊</button>
@@ -451,7 +454,7 @@
       return kopf + `
         <section class="karte fortschritt-karte" data-fortschritt>
           <h2>Deine Entwicklung</h2>
-          <p class="leise klein">Seit ${new Date(erster).toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' })}${DB.dauerhaft() ? '' : ' · ⚠ nur bis zum Schließen gespeichert (privates Fenster?)'}</p>
+          <p class="leise klein">Seit ${new Date(erster).toLocaleDateString(L.locale, { day: 'numeric', month: 'long', year: 'numeric' })}${DB.dauerhaft() ? '' : ' · ⚠ nur bis zum Schließen gespeichert (privates Fenster?)'}</p>
           <div class="zahlen">
             ${[['tage', tage.size, 'Tage aktiv'], ['haken', Z.log.length, 'Haken'], ['schritte', `${schrittJe}/${alleSchritte.length}`, 'Schritte schon gemacht'],
                ['raeume', raeume, 'Räume ganz durch'], ['gewohnheiten', sitzen, 'Gewohnheiten sitzen <span lang="ja">習</span>'], ['kalender', `${kal}/${kalAlle}`, `Jahreskalender ${jahr}`]]
@@ -462,15 +465,15 @@
         <section class="karte kal-karte" data-verlauf-kalender>
           <div class="kal-kopf">
             <button class="knopf rund" data-aktion="v-monat" data-m="${mkey(vor)}" aria-label="Voriger Monat">‹</button>
-            <b data-monat-titel>${erst.toLocaleDateString('de-DE', { month: 'long', year: 'numeric' })}</b>
+            <b data-monat-titel>${erst.toLocaleDateString(L.locale, { month: 'long', year: 'numeric' })}</b>
             <button class="knopf rund" data-aktion="v-monat" data-m="${mkey(nach)}" aria-label="Nächster Monat">›</button>
           </div>
           <div class="kal-raster">${['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map(w => `<span class="kal-wt">${w}</span>`).join('')}${zellen.join('')}</div>
-          ${Z.vTag ? `<p class="leise klein">Nur ${new Date(Z.vTag + 'T12:00').toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' })} · <button class="knopf klein" data-aktion="v-tag" data-tag="${Z.vTag}">Alle Tage zeigen</button></p>` : '<p class="leise klein">Tippe einen Tag an, um nur ihn zu sehen.</p>'}
+          ${Z.vTag ? `<p class="leise klein">Nur ${new Date(Z.vTag + 'T12:00').toLocaleDateString(L.locale, { weekday: 'long', day: 'numeric', month: 'long' })} · <button class="knopf klein" data-aktion="v-tag" data-tag="${Z.vTag}">Alle Tage zeigen</button></p>` : '<p class="leise klein">Tippe einen Tag an, um nur ihn zu sehen.</p>'}
         </section>
         <span id="verlauf-liste"></span>
-        ${liste.length ? liste.map(([k, es]) => `<section class="tag"><h2>${new Date(k + 'T12:00').toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} · ${es.length}</h2>
-          ${es.map(e => `<div class="karte eintrag" data-eintrag="${e.id}"><span>${esc(titel(e))}<br><span class="wann">${new Date(e.zeit).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} Uhr</span></span><button data-aktion="loeschen" data-id="${e.id}" aria-label="Eintrag löschen">✕</button></div>`).join('')}
+        ${liste.length ? liste.map(([k, es]) => `<section class="tag"><h2>${new Date(k + 'T12:00').toLocaleDateString(L.locale, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} · ${es.length}</h2>
+          ${es.map(e => `<div class="karte eintrag" data-eintrag="${e.id}"><span>${esc(titel(e))}<br><span class="wann">${new Date(e.zeit).toLocaleTimeString(L.locale, { hour: '2-digit', minute: '2-digit' })} Uhr</span></span><button data-aktion="loeschen" data-id="${e.id}" aria-label="Eintrag löschen">✕</button></div>`).join('')}
         </section>`).join('') : '<p class="leer">An diesem Tag ist nichts eingetragen.</p>'}
         <p class="leise" style="text-align:center"><a href="#/info">Speicher und Einstellungen →</a></p>`;
     },
@@ -479,7 +482,7 @@
       return `<a class="zurueck" href="#/">← Übersicht</a>
       <h1 style="font-size:1.45rem;margin:4px 0 10px">Einstellungen und Info</h1>
       <section class="karte" data-speicher><h2>Dein Speicher</h2>
-        <p>${Z.log.length} Haken${Z.log.length ? ` seit ${new Date(Math.min(...Z.log.map(e => e.zeit))).toLocaleDateString('de-DE')}` : ''} · ${Z.profil ? 'Räume eingerichtet' : 'noch nicht eingerichtet'} · ${meine().length} Gewohnheiten in deiner Liste.</p>
+        <p>${Z.log.length} Haken${Z.log.length ? ` seit ${new Date(Math.min(...Z.log.map(e => e.zeit))).toLocaleDateString(L.locale)}` : ''} · ${Z.profil ? 'Räume eingerichtet' : 'noch nicht eingerichtet'} · ${meine().length} Gewohnheiten in deiner Liste.</p>
         <p class="leise klein">Gespeichert auf diesem Gerät (${DB.dauerhaft() ? 'dauerhaft' : 'nur bis zum Schließen'}). Der Verlauf zeigt, was du wann erledigt hast.</p>
         <div class="knopfreihe">
           <button class="knopf" data-aktion="aktualisieren" data-aktualisieren-gross>⟳ Aktualisieren</button>
@@ -507,7 +510,7 @@
 
   // Was hinter einer Zahl in „Deine Entwicklung“ steckt (Klaus 2026-10-21: „dass ich direkt dahin klicken kann“)
   function verlaufDetail(d, tage, jahr) {
-    const datum = t => new Date(t).toLocaleDateString('de-DE', { weekday: 'short', day: 'numeric', month: 'short' });
+    const datum = t => new Date(t).toLocaleDateString(L.locale, { weekday: 'short', day: 'numeric', month: 'short' });
     if (d === 'tage') return `<h3>Tage, an denen du etwas gemacht hast</h3><ul class="detail-liste">${[...tage].map(([k, es]) =>
       `<li><button class="detail-knopf" data-aktion="v-tag" data-tag="${k}" data-monat-von="${k.slice(0, 7)}">${datum(k + 'T12:00')}<b>${es.length}</b></button></li>`).join('')}</ul>`;
     if (d === 'haken') return `<h3>Alle Haken</h3><p class="leise klein">Die vollständige Liste steht unten, Tag für Tag mit Uhrzeit.</p><button class="knopf klein" data-aktion="v-zur-liste" data-zur-liste>Zur Liste ↓</button>`;
@@ -611,7 +614,7 @@
     const jetzt = Date.now(), teile = [];
     if (Z.takt) teile.push(`<span class="chip ${Z.takt.phase}" data-chip="takt">${Z.takt.phase === 'arbeit' ? '⏱ Arbeit' : '🍵 Pause'} <b data-rest>${mmss(Z.takt.ende - jetzt)}</b><button data-aktion="takt-stopp" aria-label="Uhr anhalten">✕</button></span>`);
     for (const u of Z.uhren) teile.push(`<span class="chip einwirk" data-chip="${u.ref}">⌛ ${esc(u.titel)} <b>${mmss(u.ende - jetzt)}</b><button data-aktion="uhr-weg" data-ref="${u.ref}" aria-label="Uhr ${esc(u.titel)} löschen">✕</button></span>`);
-    box.innerHTML = teile.join(''); box.hidden = !teile.length;
+    box.innerHTML = L.html(teile.join('')); box.hidden = !teile.length;
     const leiste = $('[data-taktleiste]');
     if (leiste && Z.takt) { leiste.querySelector('[data-rest]').textContent = mmss(Z.takt.ende - jetzt); leiste.querySelector('i').style.width = (100 * (1 - (Z.takt.ende - jetzt) / Z.takt.dauer)).toFixed(1) + '%'; }
     const p = $('#pause [data-rest]'); if (p && Z.takt) p.textContent = mmss(Z.takt.ende - jetzt);
@@ -622,14 +625,14 @@
     el.hidden = !an;
     if (!an) { el.innerHTML = ''; return; }
     const w = J.wort('kyukei');
-    el.innerHTML = `${hatBild('x-pause') ? `<div class="pause-bild" style="background-image:url('${bildUrl('x-pause')}')" aria-hidden="true"></div>` : ''}<div class="pause-innen" data-pausefenster>
+    el.innerHTML = L.html(`${hatBild('x-pause') ? `<div class="pause-bild" style="background-image:url('${bildUrl('x-pause')}')" aria-hidden="true"></div>` : ''}<div class="pause-innen" data-pausefenster>
       <div class="pause-ring">${enso(1)}<div class="pause-mitte"><div class="pause-kanji" lang="ja">休憩</div><b data-rest>${mmss(Z.takt.ende - Date.now())}</b></div></div>
       <p class="held-laut">${aussprache(w, true)}</p>
       <p class="leitsatz">${esc(I.leitsaetze[Math.floor(Date.now() / 6e4) % I.leitsaetze.length])}</p>
       <div class="knopfreihe" style="justify-content:center">
         <button class="knopf" data-aktion="musik" aria-pressed="${K.laeuft()}">${K.laeuft() ? '🎵 Klang aus' : '🎵 Klang an'}</button>
         <button class="knopf haupt" data-aktion="pause-ende">Pause beenden →</button>
-      </div></div>`;
+      </div></div>`);
   }
   setInterval(function tick() {
     const jetzt = Date.now();
@@ -802,7 +805,7 @@
     location.hash = '#/station/' + s.nr;
   }
   function sitzungZeigen(vorlesen = true) {
-    ansicht.innerHTML = sitzungHtml();
+    ansicht.innerHTML = L.html(sitzungHtml());
     const z = Z.sitzung, x = z && I.stationen[z.nr].schritte[z.i];       // Stelle in die Adresse: Neuladen setzt hier fort
     if (x) history.replaceState(null, '', `#/sitzung/${z.nr}/${x.id}`);
     ansicht.classList.remove('tinte'); void ansicht.offsetWidth; ansicht.classList.add('tinte');
@@ -864,7 +867,7 @@
   let meldungUhr = null;
   function melden(text, rueck) {
     const m = $('#meldung');
-    m.innerHTML = `<span>${esc(text)}</span>${rueck ? '<button data-aktion="rueckgaengig">Rückgängig</button>' : ''}`;
+    m.innerHTML = L.html(`<span>${esc(text)}</span>${rueck ? '<button data-aktion="rueckgaengig">Rückgängig</button>' : ''}`);
     m.hidden = false; m._rueck = rueck || null;
     clearTimeout(meldungUhr); meldungUhr = setTimeout(() => { m.hidden = true; m._rueck = null; }, rueck ? 6000 : 2600);
   }
@@ -951,7 +954,7 @@
     ev.preventDefault(); fragen($('#frageFeld').value);
   });
   document.addEventListener('input', ev => {
-    if (ev.target.id === 'fleckSuche') $('#fleckListe').innerHTML = fleckenListe(ev.target.value);
+    if (ev.target.id === 'fleckSuche') $('#fleckListe').innerHTML = L.html(fleckenListe(ev.target.value));
   });
 
   /* ---------- Weg durch die Ansichten ---------- */
@@ -962,7 +965,7 @@
     if (name !== 'einrichten') Z.entwurf = null;
     const f = ANSICHTEN[name] || ANSICHTEN.start;
     const y = animiert ? 0 : scrollY;
-    ansicht.innerHTML = f(...teile.slice(1));
+    ansicht.innerHTML = L.html(f(...teile.slice(1)));
     document.querySelectorAll('[data-nav]').forEach(n => n.toggleAttribute('aria-current', false));
     const nav = document.querySelector(`[data-nav="${({ station: 'start', sitzung: 'start', info: 'start', einrichten: 'start', woerter: 'regeln', mittel: 'regeln', fragen: 'start', installieren: 'start' })[name] || name}"]`);
     if (nav) nav.setAttribute('aria-current', 'page');
