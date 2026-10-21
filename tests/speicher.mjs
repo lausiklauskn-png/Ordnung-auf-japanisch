@@ -96,8 +96,13 @@ try {
   ok('Bühne 2.2 ohne Bild: keine Bildfläche', (await page.locator('[data-buehne] .kbild').count()) === 0);
   await page.click('[data-aktion="s-zurueck"]'); await page.waitForSelector('[data-sitzung][data-ref="s2.1"]');
   ok('Bühne 2.1 mit Bild: Bildfläche hinter dem Text', (await page.locator('[data-buehne].mit-bild .kbild').count()) === 1);
-  const lesbar = await page.evaluate(() => { const h = document.querySelector('[data-buehne] h2'), k = document.querySelector('[data-buehne] .kbild'); return { textUeberBild: getComputedStyle(h).zIndex !== 'auto' || getComputedStyle(h).position === 'relative', grund: getComputedStyle(k, '::after').backgroundImage.includes('gradient') }; });
-  ok('Text liegt über dem Bild auf heller Verlaufsfläche', lesbar.textUeberBild && lesbar.grund, lesbar);
+  const lesbar = await page.evaluate(() => {
+    const h = document.querySelector('[data-buehne] h2'), k = document.querySelector('[data-buehne] .kbild');
+    const bild = k.getBoundingClientRect(), text = h.getBoundingClientRect();
+    return { unterBild: text.top >= bild.bottom, format: Math.abs(bild.width / bild.height - 1.5) < .02,
+      ganz: getComputedStyle(k).backgroundSize === 'contain', papier: getComputedStyle(document.querySelector('[data-buehne]')).backgroundColor };
+  });
+  ok('Bild vollständig in 3:2, Text darunter auf Papier', lesbar.unterBild && lesbar.format && lesbar.ganz && lesbar.papier !== 'rgba(0, 0, 0, 0)', lesbar);
   await geh('#/station/2', '.station-kopf');
   ok('Raum Küche: Kopfbild st2', (await page.locator('.station-kopf.mit-bild .kbild').count()) === 1);
 

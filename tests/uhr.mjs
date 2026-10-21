@@ -82,6 +82,10 @@ try {
   await page.evaluate(() => { window.__gesagt = []; window.__klang = []; });
   await lauf(4 * 60_000 + 2000);
   ok('Arbeit vorbei: Pausenfenster 休憩 ist offen', await page.isVisible('[data-pausefenster]') && (await page.textContent('.pause-kanji')) === '休憩');
+  ok('Pausen-Chip: passende Salbeifarbe, kein Bildschirmfenster', await page.evaluate(() => {
+    const chip = document.querySelector('[data-chip="takt"]'), ring = document.querySelector('#pause .strich');
+    return getComputedStyle(chip).position !== 'fixed' && getComputedStyle(chip).color === getComputedStyle(ring).stroke;
+  }));
   ok('Pause: Gong und Klang an', /gong.*musik-an|musik-an.*gong/.test(await klang()), await klang());
   const p = await gesagt();
   ok('Pause: „Zeit für eine Pause. 5 Minuten“, 休憩 auf Japanisch, ein Grund für kurze Blöcke', p.includes('Zeit für eine Pause. 5 Minuten. Auf Japanisch:') && p.includes('きゅうけい'), p);

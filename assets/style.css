@@ -1,40 +1,36 @@
-/* Ordnung auf Japanisch — Washi, Sumi-Tusche, Urushi-Rot. Handy hochkant zuerst. */
+/* Ordnung auf Japanisch — helles Papier, Sand und warme Brauntöne. Handy hochkant zuerst. */
 :root {
-  --papier: #f3ece0;
-  --papier-2: #ebe2d2;
-  --karte: #fbf7f0;
-  --tusche: #1d1916;
-  --tusche-2: #4a423b;
-  --leise: #7b7067;
-  --rot: #b3261e;
-  --rot-tief: #8c1c16;
-  --gold: #a8854f;
-  --matcha: #5b6e4c;
-  --linie: rgba(29, 25, 22, .12);
-  --schatten: 0 1px 0 rgba(255,255,255,.6) inset, 0 8px 24px -14px rgba(60, 40, 20, .35);
-  --rund: 14px;
+  --papier: #f7f2e9;
+  --papier-2: #eee3d3;
+  --karte: #fffaf2;
+  --tusche: #463a30;
+  --tusche-2: #625345;
+  --leise: #746555;
+  --akzent: #79563b;
+  --akzent-tief: #62432e;
+  --warnung: #96513d;
+  --gold: #8b6b43;
+  --matcha: #637451;
+  --linie: rgba(112, 83, 56, .18);
+  --schatten: 0 1px 0 rgba(255,255,255,.85) inset, 0 10px 28px -18px rgba(112, 83, 56, .24);
+  --rund: 16px;
   --serif-ja: "Noto Serif CJK JP", "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN", "Source Han Serif", serif;
   --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
-  --papier-muster: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .38 0 0 0 0 .3 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+  --papier-muster: none;
   color-scheme: light;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --papier: #16120f; --papier-2: #201a16; --karte: #231d18;
-    --tusche: #efe6d8; --tusche-2: #cfc3b3; --leise: #9d9184;
-    --rot: #e0483c; --rot-tief: #b3261e; --gold: #c9a56a; --matcha: #93a97f;
-    --linie: rgba(239, 230, 216, .12);
-    --schatten: 0 10px 30px -18px rgba(0,0,0,.8);
-    color-scheme: dark;
-  }
+
+
+:root[data-thema="sand"] {
+  --papier: #f3e9da; --papier-2: #e8d7bf; --karte: #fff8ed;
+  --tusche: #49372c; --tusche-2: #68503e; --leise: #755e4b;
+  --akzent: #7f583a; --akzent-tief: #65422b;
 }
-:root[data-theme="dark"] {
-  --papier: #16120f; --papier-2: #201a16; --karte: #231d18;
-  --tusche: #efe6d8; --tusche-2: #cfc3b3; --leise: #9d9184;
-  --rot: #e0483c; --rot-tief: #b3261e; --gold: #c9a56a; --matcha: #93a97f;
-  --linie: rgba(239, 230, 216, .12);
-  --schatten: 0 10px 30px -18px rgba(0,0,0,.8);
-  color-scheme: dark;
+:root[data-thema="salbei"] {
+  --papier: #eff2e8; --papier-2: #dfe6d5; --karte: #fafcf4;
+  --tusche: #354236; --tusche-2: #50604e; --leise: #63715d;
+  --akzent: #695b3f; --akzent-tief: #51452f; --matcha: #567049;
+  --linie: rgba(74, 94, 65, .18);
 }
 
 * { box-sizing: border-box; }
@@ -78,14 +74,14 @@ h1, h2, h3 { line-height: 1.2; margin: 0; }
 .held-kanji {
   font-family: var(--serif-ja); font-weight: 900; font-size: clamp(4.5rem, 26vw, 8rem); line-height: 1;
   letter-spacing: .02em; filter: url(#pinsel);
-  background: linear-gradient(170deg, var(--tusche) 40%, color-mix(in srgb, var(--tusche) 70%, var(--rot)) 100%);
+  background: linear-gradient(170deg, var(--tusche) 40%, color-mix(in srgb, var(--tusche) 70%, var(--akzent)) 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
   text-shadow: 0 0 0 transparent;
 }
 .held-sub { margin-top: 6px; font-size: 1.05rem; letter-spacing: .14em; text-transform: uppercase; color: var(--tusche-2); }
 .held-enso { position: absolute; inset: 0; margin: auto; width: min(64vw, 260px); height: min(64vw, 260px); top: -10px; opacity: .14; pointer-events: none; }
 .leitsatz { margin: 14px auto 6px; max-width: 32ch; text-align: center; font-style: italic; color: var(--tusche-2); }
-.leitsatz::before, .leitsatz::after { content: "「"; font-style: normal; color: var(--rot); margin-right: 2px; }
+.leitsatz::before, .leitsatz::after { content: "「"; font-style: normal; color: var(--akzent); margin-right: 2px; }
 .leitsatz::after { content: "」"; margin: 0 0 0 2px; }
 
 .karte {
@@ -96,15 +92,67 @@ h1, h2, h3 { line-height: 1.2; margin: 0; }
 .karte .klein { font-size: .9rem; }
 .weiter { display: grid; gap: 10px; }
 .weiter .wo { font-size: .85rem; color: var(--leise); letter-spacing: .06em; text-transform: uppercase; }
+/* Mattglas: heller Glanz, durchscheinende warme Fläche und eine kleine Standkante. */
+.knopf, .kopf-knopf {
+  position: relative; isolation: isolate; overflow: hidden;
+  --glas-oben: color-mix(in srgb, var(--karte) 88%, transparent);
+  --glas-unten: color-mix(in srgb, var(--papier-2) 76%, transparent);
+  --glas-kante: color-mix(in srgb, var(--akzent) 32%, var(--papier-2));
+  background: linear-gradient(180deg, var(--glas-oben), var(--glas-unten));
+  border: 1px solid color-mix(in srgb, var(--akzent) 40%, transparent);
+  border-top-color: rgba(255, 255, 255, .95);
+  color: var(--tusche);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9), inset 0 -1px 0 rgba(255,255,255,.35),
+    0 4px 0 var(--glas-kante), 0 8px 16px -8px rgba(112,83,56,.24);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  transform-origin: center 65%;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.knopf::before, .kopf-knopf::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(110deg, transparent 25%, rgba(255,255,255,.55) 48%, transparent 72%);
+  transform: translateX(-140%);
+}
 .knopf {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   min-height: 48px; padding: 10px 18px; border-radius: 999px; cursor: pointer;
-  border: 1px solid var(--linie); background: var(--karte); text-decoration: none; font-weight: 600;
-  transition: transform .12s ease, background .2s;
+  text-decoration: none; font-weight: 600;
 }
-.knopf:active { transform: scale(.97); }
-.knopf.haupt { background: var(--rot); border-color: var(--rot-tief); color: #fff8f0; box-shadow: 0 6px 18px -8px var(--rot); }
-.knopf.tusche { background: var(--tusche); color: var(--papier); border-color: var(--tusche); }
+.knopf.haupt, .knopf.tusche, .install-knopf {
+  --glas-oben: color-mix(in srgb, var(--karte) 85%, var(--akzent));
+  --glas-unten: color-mix(in srgb, var(--papier-2) 72%, var(--akzent));
+  --glas-kante: color-mix(in srgb, var(--akzent) 60%, var(--papier-2));
+  color: var(--tusche); border-color: color-mix(in srgb, var(--akzent) 50%, transparent); border-top-color: var(--karte);
+}
+.knopf:focus-visible, .kopf-knopf:focus-visible {
+  outline: 3px solid var(--akzent); outline-offset: 5px;
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .knopf:not(:disabled):hover, .kopf-knopf:not(:disabled):hover {
+    border-color: color-mix(in srgb, var(--akzent) 65%, transparent); border-top-color: #fff;
+    transform: translateY(-2px);
+    animation: glas-wackeln .55s ease-in-out;
+  }
+  .knopf:not(:disabled):hover::before, .kopf-knopf:not(:disabled):hover::before {
+    animation: glas-licht .7s ease-out;
+  }
+}
+@keyframes glas-licht {
+  from { transform: translateX(-140%); }
+  to { transform: translateX(140%); }
+}
+@keyframes glas-wackeln {
+  0%, 100% { transform: translateY(-2px) rotate(0); }
+  25% { transform: translateY(-3px) rotate(-1.5deg); }
+  60% { transform: translateY(-2px) rotate(1deg); }
+  80% { transform: translateY(-2px) rotate(-.5deg); }
+}
+.knopf:not(:disabled):active, .kopf-knopf:not(:disabled):active {
+  animation: none; transform: translateY(3px) scale(.985);
+  box-shadow: inset 0 1px 3px rgba(112,83,56,.14), 0 1px 0 var(--glas-kante);
+}
 .knopf.klein { min-height: 40px; padding: 6px 14px; font-size: .95rem; }
 .knopfreihe { display: flex; flex-wrap: wrap; gap: 8px; }
 
@@ -120,7 +168,7 @@ h1, h2, h3 { line-height: 1.2; margin: 0; }
 .enso { width: 78px; height: 78px; }
 .enso .grund { fill: none; stroke: var(--linie); stroke-width: 5; }
 .enso .strich { fill: none; stroke: var(--tusche); stroke-width: 6; stroke-linecap: round; filter: url(#pinsel); transition: stroke-dashoffset .8s ease; }
-.enso.voll .strich { stroke: var(--rot); }
+.enso.voll .strich { stroke: var(--akzent); }
 .enso text { font-family: var(--serif-ja); font-size: 28px; font-weight: 800; fill: var(--tusche); }
 .station-kachel .name { font-weight: 650; font-size: .98rem; line-height: 1.25; }
 .station-kachel .stand { font-size: .8rem; color: var(--leise); }
@@ -141,34 +189,34 @@ h1, h2, h3 { line-height: 1.2; margin: 0; }
 .schritt.erledigt-heute { border-color: color-mix(in srgb, var(--matcha) 50%, var(--linie)); }
 .schritt.erledigt-heute::after {
   content: "済"; position: absolute; top: 10px; right: 12px; font-family: var(--serif-ja); font-weight: 900;
-  color: var(--rot); border: 2px solid var(--rot); border-radius: 6px; padding: 0 4px; font-size: .95rem; transform: rotate(-8deg); opacity: .85;
+  color: var(--akzent); border: 2px solid var(--akzent); border-radius: 6px; padding: 0 4px; font-size: .95rem; transform: rotate(-8deg); opacity: .85;
 }
 .gewohnheit { font-family: var(--serif-ja); color: var(--gold); font-weight: 800; margin-left: 4px; }
 
-.warn { color: var(--rot); font-weight: 600; }
+.warn { color: var(--warnung); font-weight: 600; }
 .zeit { white-space: nowrap; font-weight: 600; color: var(--tusche); background: color-mix(in srgb, var(--gold) 18%, transparent); border-radius: 6px; padding: 0 4px; }
 
-.warnkarte { border-left: 4px solid var(--rot); }
-.warnkarte h2 { color: var(--rot); }
+.warnkarte { border-left: 4px solid var(--warnung); }
+.warnkarte h2 { color: var(--warnung); }
 .warnkarte ul { margin: 8px 0 4px; padding-left: 1.1em; }
 .warnkarte li { margin: 4px 0; }
 
 /* ---------- Sitzung ---------- */
 .sitzung { display: grid; gap: 14px; }
 .sitzung .fortschritt { height: 6px; background: var(--linie); border-radius: 3px; overflow: hidden; }
-.sitzung .fortschritt i { display: block; height: 100%; background: var(--rot); transition: width .5s ease; }
+.sitzung .fortschritt i { display: block; height: 100%; background: var(--akzent); transition: width .5s ease; }
 .sitzung .wo { display: flex; justify-content: space-between; color: var(--leise); font-size: .9rem; }
 .buehne { min-height: 46dvh; display: grid; align-content: center; gap: 12px; padding: 22px 18px; }
 .buehne h2 { font-size: 1.6rem; }
 .buehne p { font-size: 1.15rem; line-height: 1.6; margin: 0; }
-.buehne.spricht { box-shadow: 0 0 0 2px color-mix(in srgb, var(--rot) 40%, transparent), var(--schatten); }
+.buehne.spricht { box-shadow: 0 0 0 2px color-mix(in srgb, var(--akzent) 40%, transparent), var(--schatten); }
 .steuer { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .steuer .knopf { min-height: 56px; padding: 8px; font-size: .95rem; }
 .steuer .fertig { grid-column: 1 / -1; min-height: 64px; font-size: 1.15rem; }
 .abschluss { text-align: center; padding: 30px 16px; }
 .hanko {
   display: inline-grid; place-items: center; width: 120px; height: 120px; border-radius: 18px;
-  border: 5px solid var(--rot); color: var(--rot); font-family: var(--serif-ja); font-weight: 900; font-size: 3.6rem;
+  border: 5px solid var(--akzent); color: var(--akzent); font-family: var(--serif-ja); font-weight: 900; font-size: 3.6rem;
   transform: rotate(-9deg); margin: 10px auto 18px; filter: url(#pinsel);
   animation: stempel .5s cubic-bezier(.3,1.6,.5,1) both;
 }
@@ -181,23 +229,23 @@ details.monat summary::-webkit-details-marker { display: none; }
 details.monat summary .titel { font-weight: 700; }
 details.monat summary .motto { color: var(--leise); font-size: .9rem; }
 details.monat[open] summary { border-bottom: 1px solid var(--linie); }
-details.monat.jetzt { border-color: var(--rot); }
+details.monat.jetzt { border-color: var(--akzent); }
 .aufgaben { list-style: none; margin: 0; padding: 6px 8px 10px; }
 .aufgaben li { display: flex; gap: 10px; align-items: flex-start; padding: 8px; border-radius: 10px; }
 .aufgaben li + li { border-top: 1px dashed var(--linie); }
 .haken {
   flex: 0 0 auto; width: 30px; height: 30px; border-radius: 8px; border: 2px solid var(--tusche-2); background: transparent;
-  cursor: pointer; display: grid; place-items: center; font-family: var(--serif-ja); font-weight: 900; color: var(--rot); margin-top: 1px;
+  cursor: pointer; display: grid; place-items: center; font-family: var(--serif-ja); font-weight: 900; color: var(--akzent); margin-top: 1px;
 }
-.haken[aria-pressed="true"] { border-color: var(--rot); }
+.haken[aria-pressed="true"] { border-color: var(--akzent); }
 .haken[aria-pressed="true"]::after { content: "済"; animation: stempel .35s cubic-bezier(.3,1.6,.5,1) both; }
-.aufgaben li.fertig .t { color: var(--leise); text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--rot) 60%, transparent); }
+.aufgaben li.fertig .t { color: var(--leise); text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--akzent) 60%, transparent); }
 
 .suche { width: 100%; min-height: 50px; border-radius: 999px; border: 1px solid var(--linie); background: var(--karte); padding: 10px 18px; font: inherit; color: inherit; }
 .flecken { display: grid; gap: 10px; margin-top: 12px; }
 .fleck { padding: 12px 14px; margin: 0; }
 .fleck h3 { font-size: 1.02rem; display: flex; justify-content: space-between; gap: 8px; align-items: center; }
-.fleck .mittel { color: var(--rot); font-weight: 600; font-size: .92rem; margin-top: 2px; }
+.fleck .mittel { color: var(--akzent); font-weight: 600; font-size: .92rem; margin-top: 2px; }
 .fleck p { margin: 4px 0 0; color: var(--tusche-2); font-size: .95rem; }
 
 .tabelle { width: 100%; border-collapse: collapse; font-size: .93rem; }
@@ -221,22 +269,22 @@ details.monat.jetzt { border-color: var(--rot); }
 }
 .leiste a { display: grid; justify-items: center; gap: 0; padding: 8px 2px 8px; text-decoration: none; font-size: .72rem; color: var(--leise); min-height: 58px; }
 .leiste a span { font-size: 1.35rem; line-height: 1.2; color: var(--tusche-2); }
-.leiste a[aria-current="page"] { color: var(--rot); }
-.leiste a[aria-current="page"] span { color: var(--rot); }
+.leiste a[aria-current="page"] { color: var(--akzent); }
+.leiste a[aria-current="page"] span { color: var(--akzent); }
 
 /* ---------- Meldung, Blätter ---------- */
 .meldung {
   position: fixed; left: 16px; right: 16px; bottom: calc(80px + env(safe-area-inset-bottom)); z-index: 30;
   max-width: 520px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 10px;
-  background: var(--tusche); color: var(--papier); border-radius: 14px; padding: 10px 10px 10px 16px; box-shadow: 0 10px 30px -10px rgba(0,0,0,.5);
+  background: var(--papier-2); color: var(--tusche); border: 1px solid var(--linie); border-radius: 14px; padding: 10px 10px 10px 16px; box-shadow: var(--schatten);
   animation: tinte .3s ease;
 }
 .meldung[hidden] { display: none; }
-.meldung button { background: transparent; border: 1px solid color-mix(in srgb, var(--papier) 40%, transparent); color: var(--papier); border-radius: 999px; padding: 6px 14px; min-height: 40px; cursor: pointer; }
+.meldung button { background: transparent; border: 1px solid var(--linie); color: var(--akzent); border-radius: 999px; padding: 6px 14px; min-height: 40px; cursor: pointer; }
 .blaetter { position: fixed; inset: 0; pointer-events: none; z-index: 40; overflow: hidden; }
 .blatt {
   position: absolute; top: -30px; width: 16px; height: 12px; border-radius: 12px 0 12px 0;
-  background: linear-gradient(135deg, #f6c6cf, #e8899a); opacity: .9;
+  background: linear-gradient(135deg, #e4d5b9, #b3bd9b); opacity: .9;
   animation: fallen var(--dauer, 3.6s) linear forwards;
 }
 @keyframes fallen {
@@ -252,7 +300,7 @@ details.monat.jetzt { border-color: var(--rot); }
 
 /* ---------- Aussprache ---------- */
 .aussprache { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; }
-.aussprache .laut { color: var(--rot); font-weight: 700; letter-spacing: .02em; }
+.aussprache .laut { color: var(--akzent); font-weight: 700; letter-spacing: .02em; }
 .held-laut { margin: 8px 0 0; color: var(--tusche-2); font-size: .95rem; }
 .knopf.mini { min-height: 36px; min-width: 36px; padding: 0 8px; font-size: .9rem; }
 
@@ -261,10 +309,10 @@ details.monat.jetzt { border-color: var(--rot); }
 .zeile-titel h2 { font-size: .98rem; font-weight: 600; }
 .zeile-titel a { white-space: nowrap; min-height: 40px; display: inline-flex; align-items: center; }
 .station-kachel .platz { position: absolute; top: 8px; left: 10px; font-size: .75rem; color: var(--leise); font-weight: 700; }
-.station-kachel .platz.an { color: #fff8f0; background: var(--rot); border-radius: 999px; min-width: 26px; height: 26px; display: grid; place-items: center; font-size: .9rem; }
+.station-kachel .platz.an { color: #fff8f0; background: var(--akzent); border-radius: 999px; min-width: 26px; height: 26px; display: grid; place-items: center; font-size: .9rem; }
 .station-kachel .mal { position: absolute; bottom: 8px; right: 10px; font-size: .75rem; color: var(--gold); font-weight: 800; }
 button.station-kachel { font: inherit; color: inherit; cursor: pointer; width: 100%; }
-.station-kachel.gewaehlt { border-color: var(--rot); box-shadow: 0 0 0 2px color-mix(in srgb, var(--rot) 35%, transparent), var(--schatten); }
+.station-kachel.gewaehlt { border-color: var(--akzent); box-shadow: 0 0 0 2px color-mix(in srgb, var(--akzent) 35%, transparent), var(--schatten); }
 
 /* ---------- Warum kurz ---------- */
 .warum { margin: 8px 0 10px; padding-left: 1.1em; }
@@ -281,13 +329,13 @@ button.station-kachel { font: inherit; color: inherit; cursor: pointer; width: 1
 .wort > .knopf { grid-area: knopf; }
 .wort-text { grid-area: text; min-width: 0; }
 .wort-de { font-weight: 650; }
-.laut { color: var(--rot); }
+.laut { color: var(--akzent); }
 
 /* ---------- Einrichten ---------- */
 .einrichten-kopf { display: flex; justify-content: space-between; align-items: center; margin: 4px 0 10px; }
 .punkte { display: flex; gap: 6px; }
 .punkte i { width: 26px; height: 5px; border-radius: 3px; background: var(--linie); }
-.punkte i.an { background: var(--rot); }
+.punkte i.an { background: var(--akzent); }
 .frage { font-size: 1.5rem; margin: 6px 0 6px; }
 .raeume { padding: 6px 12px; }
 .raum { display: grid; grid-template-columns: 3.1rem 1fr auto; align-items: center; gap: 10px; padding: 8px 0; }
@@ -298,7 +346,7 @@ button.station-kachel { font: inherit; color: inherit; cursor: pointer; width: 1
 .zaehlwerk { display: inline-flex; align-items: center; gap: 8px; }
 .zaehlwerk b { min-width: 1.4em; text-align: center; font-size: 1.15rem; }
 .knopf.rund { width: 44px; min-height: 44px; padding: 0; border-radius: 50%; font-size: 1.2rem; }
-.knopf:disabled { opacity: .35; cursor: default; }
+.knopf:disabled, .kopf-knopf:disabled { opacity: .45; cursor: default; box-shadow: none; transform: none; animation: none; }
 .summe { text-align: right; margin: 6px 4px; color: var(--tusche-2); }
 .wahlreihe { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
 .wahlreihe .knopf { min-width: 76px; }
@@ -323,9 +371,9 @@ button.station-kachel { font: inherit; color: inherit; cursor: pointer; width: 1
 .taktbalken i { display: block; height: 100%; background: var(--tusche-2); transition: width 1s linear; }
 
 /* ---------- Pause ---------- */
-.pause { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 24px 16px;
+#pause { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 24px 16px;
   background: color-mix(in srgb, var(--papier) 94%, transparent) var(--papier-muster); backdrop-filter: blur(6px); animation: tinte .6s ease; }
-.pause[hidden] { display: none; }
+#pause[hidden] { display: none; }
 .pause-innen { max-width: 420px; width: 100%; text-align: center; display: grid; gap: 14px; justify-items: center; }
 .pause-ring { position: relative; width: min(70vw, 280px); aspect-ratio: 1; }
 .pause-ring .enso { width: 100%; height: 100%; }
@@ -352,17 +400,17 @@ button.station-kachel { font: inherit; color: inherit; cursor: pointer; width: 1
   display: grid; place-items: center; font-size: 1.4rem; color: var(--tusche-2); font-weight: 800; transition: transform .15s ease, background .2s;
 }
 .g-haken:active { transform: scale(.92); }
-.g-haken.an { border-color: var(--rot); background: color-mix(in srgb, var(--rot) 10%, transparent); color: var(--rot); }
+.g-haken.an { border-color: var(--akzent); background: color-mix(in srgb, var(--akzent) 10%, transparent); color: var(--akzent); }
 .g-haken.an span { font-family: var(--serif-ja); font-weight: 900; font-size: 1.6rem; animation: stempel .35s cubic-bezier(.3,1.6,.5,1) both; }
 .g-haken b { font-size: 1.05rem; }
 .gewohnheit-karte.fertig { border-color: color-mix(in srgb, var(--matcha) 45%, var(--linie)); }
 .g-fuss { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin: 10px 0 8px; }
 .kette { display: inline-flex; gap: 3px; }
 .kette i { width: 8px; height: 8px; border-radius: 50%; background: var(--linie); }
-.kette i.an { background: var(--rot); }
+.kette i.an { background: var(--akzent); }
 .serie { font-size: .85rem; color: var(--leise); font-weight: 600; }
 .g-start { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center; text-decoration: none; }
-.g-start-kanji { font-family: var(--serif-ja); font-weight: 900; font-size: 1.9rem; color: var(--rot); }
+.g-start-kanji { font-family: var(--serif-ja); font-weight: 900; font-size: 1.9rem; color: var(--akzent); }
 
 /* ---------- der runde Teller (icons/seiri-480.webp, freigestellt) ---------- */
 .marke-bild { width: 38px; height: 38px; border-radius: 50%; flex: 0 0 auto; align-self: center; box-shadow: 0 2px 6px -2px rgba(60, 30, 10, .45); }
@@ -382,21 +430,26 @@ button.station-kachel { font: inherit; color: inherit; cursor: pointer; width: 1
 .kopf-knopf { width: 42px; height: 42px; font-size: 1.15rem; }
 .zurueck-knopf[hidden] { display: none; }
 
-/* ---------- Bild hinter dem Text (bilder/<Kennung>.webp) ----------
-   Oben steht das Bild frei, nach unten blendet es in eine helle Papierfläche über — der Text liegt immer auf
-   ruhigem, hellem Grund und bleibt lesbar, egal was das Bild zeigt. */
-.mit-bild { position: relative; isolation: isolate; overflow: hidden; padding-top: 150px; }
+/* ---------- Ganze Bildfläche, dunkler Text auf ruhigem Papier ----------
+   Bilder bleiben im natürlichen 3:2-Format sichtbar. Kein Zoom und kein Schleier über dem Motiv.
+   Der Lesebereich liegt darunter auf deckendem Papier, auch bei dunkler Systemeinstellung. */
+.mit-bild { --bild-rand: 16px; position: relative; isolation: isolate; overflow: hidden; padding-top: var(--bild-rand); }
 .mit-bild > :not(.kbild) { position: relative; z-index: 1; }
-.kbild { position: absolute; inset: 0; z-index: 0; background-size: cover; background-position: center top; transform-origin: 60% 30%;
-  animation: bildatem 24s ease-in-out infinite alternate; }
-.kbild::after { content: ""; position: absolute; inset: 0;
-  background: linear-gradient(180deg, transparent 0, transparent 80px, color-mix(in srgb, var(--karte) 86%, transparent) 150px, var(--karte) 210px); }
-@keyframes bildatem { from { transform: scale(1); } to { transform: scale(1.07) translate(-1%, 1%); } }
-.station-kopf.mit-bild { padding: 150px 14px 14px; border-radius: var(--rund); box-shadow: var(--schatten); background: var(--karte); }
-.gewohnheit-karte.mit-bild { padding-top: 140px; }
-.buehne.mit-bild { padding-top: 170px; }
-.buehne.mit-bild .kbild::after { background: linear-gradient(180deg, transparent 0, transparent 90px, color-mix(in srgb, var(--karte) 88%, transparent) 170px, var(--karte) 230px); }
-.pause { background-size: cover; background-position: center; }
+.kbild {
+  position: relative; width: calc(100% + 2 * var(--bild-rand)); aspect-ratio: 3 / 2;
+  margin: calc(-1 * var(--bild-rand)) calc(-1 * var(--bild-rand)) 4px;
+  background-size: contain; background-position: center; background-repeat: no-repeat;
+  flex: 0 0 auto; grid-column: 1 / -1;
+}
+.schritt.mit-bild, .gewohnheit-karte.mit-bild { --bild-rand: 14px; }
+.station-kopf.mit-bild {
+  --bild-rand: 14px; display: grid; grid-template-columns: auto minmax(0, 1fr);
+  padding: var(--bild-rand); border-radius: var(--rund); box-shadow: var(--schatten); background: var(--karte);
+}
+.buehne.mit-bild { --bild-rand: 18px; padding-top: var(--bild-rand); align-content: start; }
+#pause { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 16px; overflow-y: auto; background: var(--papier); }
+.pause-bild { width: min(100%, 720px); aspect-ratio: 3 / 2; flex: 0 0 auto; border-radius: var(--rund); background-size: contain; background-position: center; background-repeat: no-repeat; }
+.pause-innen { padding: 20px; background: var(--karte); border: 1px solid var(--linie); border-radius: var(--rund); }
 
 /* ---------- Die 5 Reinigungsmittel ---------- */
 .mittel-karte h2 { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
@@ -419,11 +472,11 @@ button.station-kachel { font: inherit; color: inherit; cursor: pointer; width: 1
 .kal-wt { text-align: center; font-size: .72rem; color: var(--leise); padding: 2px 0; }
 .kal-tag { position: relative; aspect-ratio: 1; min-height: 38px; border-radius: 10px; border: 1px solid var(--linie); background: transparent; cursor: pointer; font: inherit; color: inherit; display: grid; place-items: center; padding: 0; }
 .kal-tag b { font-weight: 500; font-size: .9rem; }
-.kal-tag.an { background: color-mix(in srgb, var(--rot) calc(12% + var(--n) * 7%), transparent); border-color: color-mix(in srgb, var(--rot) 45%, var(--linie)); }
+.kal-tag.an { background: color-mix(in srgb, var(--akzent) calc(12% + var(--n) * 7%), transparent); border-color: color-mix(in srgb, var(--akzent) 45%, var(--linie)); }
 .kal-tag.an b { font-weight: 800; }
-.kal-tag i { position: absolute; bottom: 2px; right: 4px; font-style: normal; font-size: .62rem; color: var(--rot); font-weight: 800; }
+.kal-tag i { position: absolute; bottom: 2px; right: 4px; font-style: normal; font-size: .62rem; color: var(--akzent); font-weight: 800; }
 .kal-tag.heute { outline: 2px solid var(--tusche-2); outline-offset: -2px; }
-.kal-tag.gewaehlt { box-shadow: 0 0 0 3px var(--rot); }
+.kal-tag.gewaehlt { box-shadow: 0 0 0 3px var(--akzent); }
 .kal-leer { aspect-ratio: 1; }
 
 /* Aussprache-Zeilen und Knöpfe brechen sauber um statt sich zu überlagern */
@@ -440,15 +493,15 @@ button.station-kachel { font: inherit; color: inherit; cursor: pointer; width: 1
 .frage-zeile { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; align-items: center; }
 .frage-zeile .suche { min-width: 0; }
 .knopf.rund.haupt { width: 48px; min-height: 48px; padding: 0; border-radius: 50%; font-size: 1.3rem; }
-.mikro.hoert { background: var(--rot); color: #fff8f0; border-color: var(--rot); animation: hoert 1s ease-in-out infinite alternate; }
-@keyframes hoert { from { box-shadow: 0 0 0 0 color-mix(in srgb, var(--rot) 40%, transparent); } to { box-shadow: 0 0 0 10px transparent; } }
+.mikro.hoert { background: var(--akzent); color: #fff8f0; border-color: var(--akzent); animation: hoert 1s ease-in-out infinite alternate; }
+@keyframes hoert { from { box-shadow: 0 0 0 0 color-mix(in srgb, var(--akzent) 40%, transparent); } to { box-shadow: 0 0 0 10px transparent; } }
 .treffer h2 { font-size: 1.35rem; }
 .treffer-liste { margin: 8px 0 10px; padding-left: 1.1em; }
 .treffer-liste li { margin: 6px 0; color: var(--tusche-2); }
-details.warnkarte summary { cursor: pointer; color: var(--rot); }
+details.warnkarte summary { cursor: pointer; color: var(--akzent); }
 
 /* ---------- 📲 Installieren: im Browser sichtbar, als App weg ---------- */
-.install-knopf { width: auto; min-width: 42px; padding: 0 12px; border-radius: 999px; background: var(--rot); border-color: var(--rot-tief); color: #fff8f0; font-size: .95rem; font-weight: 700; white-space: nowrap; }
+.install-knopf { width: auto; min-width: 42px; padding: 0 12px; border-radius: 999px; font-size: .95rem; font-weight: 700; white-space: nowrap; }
 #btnInstall[hidden] { display: none !important; }
 @media (display-mode: standalone) { #btnInstall { display: none !important; } }
 @media (max-width: 480px) { .install-knopf .lang { display: none; } .install-knopf { padding: 0; width: 42px; } }
@@ -460,7 +513,7 @@ details.warnkarte summary { cursor: pointer; color: var(--rot); }
 .zahlen .zahl:active { transform: scale(.97); }
 .zahlen .zahl b { font-size: 1.3rem; font-variant-numeric: tabular-nums; }
 .zahlen .zahl span { font-size: .75rem; color: var(--leise); line-height: 1.25; }
-.zahlen .zahl.offen { border-color: var(--rot); background: color-mix(in srgb, var(--rot) 8%, var(--karte)); }
+.zahlen .zahl.offen { border-color: var(--akzent); background: color-mix(in srgb, var(--akzent) 8%, var(--karte)); }
 .detail { margin-top: 12px; border-top: 1px dashed var(--linie); padding-top: 10px; animation: tinte .3s ease; }
 .detail h3 { font-size: 1rem; margin: 0 0 6px; }
 .detail h4 { font-size: .95rem; margin: 12px 0 4px; }
@@ -469,6 +522,24 @@ details.warnkarte summary { cursor: pointer; color: var(--rot); }
 .detail-knopf { display: flex; justify-content: space-between; align-items: center; gap: 10px; width: 100%; min-height: 42px; padding: 8px 12px; border-radius: 10px;
   border: 1px solid var(--linie); background: var(--karte); font: inherit; color: inherit; text-decoration: none; cursor: pointer; text-align: left; }
 .detail-knopf b { font-size: .85rem; color: var(--leise); white-space: nowrap; }
-.detail-knopf.ganz { border-color: color-mix(in srgb, var(--rot) 45%, var(--linie)); }
-.detail-knopf.ganz b { color: var(--rot); }
+.detail-knopf.ganz { border-color: color-mix(in srgb, var(--akzent) 45%, var(--linie)); }
+.detail-knopf.ganz b { color: var(--akzent); }
 @media (max-width: 380px) { .zahlen { gap: 6px; } .zahlen .zahl span { font-size: .68rem; overflow-wrap: anywhere; hyphens: auto; } }
+
+/* ---------- Farbthemen oben wählen ---------- */
+.thema-auswahl { position: fixed; top: calc(68px + env(safe-area-inset-top)); right: 12px; z-index: 60;
+  width: min(340px, calc(100vw - 24px)); padding: 16px; border: 1px solid var(--linie); border-radius: var(--rund);
+  background: var(--karte); color: var(--tusche); box-shadow: var(--schatten); }
+.thema-auswahl[hidden] { display: none; }
+.thema-auswahl h2 { font-size: 1.05rem; margin-bottom: 14px; }
+.thema-auswahl .knopfreihe { gap: 12px; }
+.thema-auswahl .knopf { flex: 1; padding: 8px 12px; }
+.thema-auswahl .knopf[aria-pressed="true"] { outline: 2px solid var(--akzent); outline-offset: 2px; }
+.thema-auswahl p { margin: 14px 0 0; font-size: .85rem; color: var(--leise); }
+@media (prefers-reduced-motion: reduce) {
+  .knopf::before, .kopf-knopf::before { display: none; }
+  .knopf:not(:disabled):active, .kopf-knopf:not(:disabled):active { transform: none; }
+}
+
+/* Die Stoffnamen sind das Erste, was beim Überfliegen der Warnung auffällt. */
+.warnkarte strong { font-weight: 800; color: var(--tusche); }

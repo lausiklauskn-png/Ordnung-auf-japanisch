@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>整理 · Ordnung auf Japanisch</title>
 <meta name="description" content="Sprechende Begleit-App: Schritt für Schritt durch die Wohnung, bis Ordnung zur Gewohnheit wird.">
-<meta name="theme-color" content="#f3ece0" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#16120f" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f7f2e9">
+<meta name="color-scheme" content="light">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/favicon-64.png?v=2" type="image/png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2">
-<link rel="stylesheet" href="assets/style.css?v=11">
+<script src="assets/thema.js?v=1"></script>
+<link rel="stylesheet" href="assets/style.css?v=12">
 </head>
 <body>
 <svg class="filter" aria-hidden="true" width="0" height="0">
@@ -21,10 +22,20 @@
 <header class="kopf">
   <button class="kopf-knopf zurueck-knopf" data-aktion="zurueck" id="btnZurueck" aria-label="Zurück" title="Zurück" hidden>←</button>
   <a href="#/" class="marke" aria-label="Start"><img class="marke-bild" src="icons/favicon-64.png?v=2" width="64" height="64" alt="整理" lang="ja"><span class="marke-text">Ordnung auf Japanisch</span></a>
+  <button class="kopf-knopf" id="btnThema" type="button" aria-label="Farbthema wählen" aria-expanded="false" aria-controls="themaAuswahl" title="Farbthema wählen">◐</button>
   <button class="kopf-knopf install-knopf" data-aktion="installieren" id="btnInstall" title="Als App auf dieses Gerät legen" aria-label="Als App installieren">📲<span class="lang"> Installieren</span></button>
   <button class="kopf-knopf" data-aktion="aktualisieren" id="btnNeu" aria-label="Aktualisieren — neueste Fassung laden, dein Verlauf bleibt" title="Aktualisieren (dein Verlauf bleibt)">⟳</button>
   <button class="kopf-knopf" data-aktion="stumm" id="btnStumm" aria-label="Vorlesen an oder aus" title="Vorlesen an/aus">🔊</button>
 </header>
+<section class="thema-auswahl" id="themaAuswahl" aria-labelledby="themaTitel" hidden>
+  <h2 id="themaTitel">Helles Farbthema</h2>
+  <div class="knopfreihe" role="group" aria-label="Farbthemen">
+    <button class="knopf" type="button" data-thema-wahl="washi" aria-pressed="true">Washi</button>
+    <button class="knopf" type="button" data-thema-wahl="sand" aria-pressed="false">Sand</button>
+    <button class="knopf" type="button" data-thema-wahl="salbei" aria-pressed="false">Salbei</button>
+  </div>
+  <p>Deine Wahl bleibt beim nächsten Besuch erhalten.</p>
+</section>
 <div id="uhren" class="uhren" aria-live="polite" hidden></div>
 
 <main id="ansicht" class="ansicht" tabindex="-1" aria-live="polite"></main>
@@ -48,6 +59,6 @@
 <script defer src="assets/db.js?v=2"></script>
 <script defer src="assets/klang.js?v=1"></script>
 <script defer src="assets/absicht.js?v=1"></script>
-<script defer src="assets/app.js?v=11"></script>
+<script defer src="assets/app.js?v=12"></script>
 </body>
 </html>
