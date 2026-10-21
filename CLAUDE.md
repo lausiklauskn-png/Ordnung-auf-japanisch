@@ -52,6 +52,7 @@ oder weißen Schleier; dunkler Text darunter auf deckendem Papier. Das gilt auch
 Prüfung: vollständiges `npm test` grün (GitHub-Lauf 39640385636), einschließlich 29 Gestaltungsproben,
 Kontrast mindestens 4,5:1, 320/380 px, gespeicherter Themenwahl, Button-Aktionen und Warnkarten.
 Gegenprobe für Themenwahl, Bildformat und fette Stoffnamen liefert eigene rote Prüfzeilen.
+Nach letzter Farbkorrektur am Pausen-Chip: Uhr- und Gestaltungsproben erneut grün (Lauf 39641068632).
 ⚠ Am echten Handy und mit echten Stimmen nicht gemessen; Gegenprüfung der Darstellung durch Klaus steht aus.
 
 Bilder immer in kleinen Serien (Klaus, 2026-10-21): nur die vorhandene, freigegebene Serie einbauen,
