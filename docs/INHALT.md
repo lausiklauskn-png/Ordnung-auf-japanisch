@@ -1,7 +1,7 @@
 # 整理 Ordnung auf Japanisch — Tipp-Katalog
 
-Herausgezogen aus vier Begleitheften (Stand 2026-10-21, gelesen ganz, 138 Seiten):
-„Das Heft der Mengen“ · „Die zwei Häuser“ · „Fünfzig Rezepte für das Haus“ · „Das Wäsche-Heft“.
+Herausgezogen aus fünf Begleitheften (Stand 2026-10-21, gelesen ganz, 157 Seiten):
+„Das Heft der Mengen“ · „Die zwei Häuser“ · „Fünfzig Rezepte für das Haus“ · „Das Wäsche-Heft“ · „Der Hauskalender“.
 
 **Was hier steht:** nur die Handgriffe, Mengen, Zeiten und Warnungen — in eigenen, kurzen Worten,
 geschrieben zum Vorlesen. **Was hier nicht steht:** die Erzählfigur, ihre Familie, Orte, Anekdoten,
@@ -240,9 +240,10 @@ Erst trocken, dann feucht. Kaltes Wasser halbiert die Wirkung. Wasser wechseln, 
 | **alle 2 Wochen** | Bettwäsche 60 °C · Zimmerecken absaugen |
 | **monatlich** | Fettfilter · Spülmaschinensieb · Urinstein · Waschmittelschublade · Hygiene-Leerlauf · Duschvorhang waschen |
 | **erster Sonntag im Monat** | Hausmittel-Flaschen neu ansetzen (ca. 20 Min.) |
-| **vierteljährlich** | Kühlschrank auswischen · Waschmaschine entkalken (hartes Wasser) · Natronschälchen und -gläser |
+| **vierteljährlich** | Siphon von Hand · Sprüharme Spülmaschine · Kühlschrank auswischen · Waschmaschine entkalken (hartes Wasser) · Natronschälchen und -gläser |
 | **zweimal im Jahr** | Matratze · Kleider-Wechsel (Ostern / Zeitumstellung) · Wintergarten-Glas · Flusensieb Maschine (2–4×) |
-| **jährlich** | Lappenvorrat aus altem Laken · Keller: was zwei Jahre unberührt ist · Kiste des Zweifels prüfen · Geräte, die nicht liefen |
+| **monatsweise** | siehe § 10 Jahreskalender |
+| **jährlich** | Zulaufschlauch Waschmaschine · Lappenvorrat aus altem Laken · Keller: was zwei Jahre unberührt ist · Kiste des Zweifels prüfen · Geräte, die nicht liefen |
 
 ## Pausen-Brücke: Einwirkzeiten
 
@@ -259,3 +260,33 @@ Der Kern für den Arbeit/Pause-Takt — auftragen, etwas anderes tun, zurückkom
 | Angebrannter Topf, Grillrost, WC-Rand | eine Nacht | schlafen |
 | Duschkopf im Beutel | 2 Std. | andere Station |
 | Einweichen Wäsche | 1–4 Std. | andere Station |
+
+---
+
+## 10 · Der Jahreskalender (aus „Der Hauskalender“)
+
+Grundsatz: **nicht alles an einem Tag.** Ein Punkt pro Wochenende, über die Jahreszeit verteilt.
+Zwischen dem 20. und 31. Dezember nichts Neues anfangen. Was im Kalender steht, muss man nicht im Kopf tragen.
+
+| Monat | Aufgaben (⏱ Zeit · Womit) |
+|---|---|
+| **Januar** — Wasser aus der Luft | Kondenswasser morgens von den Scheiben wischen, oben nach unten (3 Min./Zimmer, trockenes Baumwolltuch) · Stoßlüften 3–4× täglich 5 Min., zwei Fenster gegenüber, Thermostat vorher zu · Hygrometer in Schlafzimmer und Bad, Ziel 40–60 % · kein Zimmer unter 16 °C (Stufe 2 ≈ 16 °C, Stufe 3 ≈ 20 °C) · Möbel 5–10 cm von der Außenwand, Heizkörper frei · Gefrierschrank abtauen, solange es draußen kalt ist (1 Std., Ware in Kühltaschen auf den Balkon) · kleine schwarze Punkte an der Fensterdichtung: Spiritus 7:3 mit Wasser aufs Tuch. ⚠ Spiritus brennbar; Schimmel über 0,5 m² oder wiederkehrend: Fachfirma, Mietwohnung erst Vermieter schriftlich. Tipp: Morgentuch eine Woche in ein Glas auswringen — man sieht, wie viel Wasser es ist. |
+| **Februar** — Schränke | Ein Schrank pro Tag, nicht zwei (25 Min.): ganz leeren, zwei Kartons und ein Sack (behalten · weitergeben · weg) · Ecken und Rillen mit Fugendüse saugen, Beutel sofort raus · innen 1 EL Schmierseife / 1 L warm, Türen 1 Std. offen · verdächtige Wolle mind. 3 Tage, besser 1 Woche bei −18 °C, danach 30 °C Wollwaschmittel · Vorratsschrank: Monat auf jede Packung, alt nach vorn, Vorrat für ca. 10 Tage · offenes Mehl und Nüsse in Schraubgläser · Papiere des Vorjahres in den Jahresordner. Lavendel und Zeder vertreiben, töten nicht — der Sauger und die Kälte töten. |
+| **März** — Glas und Luft | An einem bedeckten Tag: Fenster, Rahmen zuerst (10 Min./Fenster, 3 EL Essig + 1 Tropfen Spülmittel / 1 L) — innen waagerecht, außen senkrecht abziehen, dann weiß man, wo ein Streifen sitzt · Rollladenlamellen halb heruntergelassen abwischen (1 TL Schmierseife / 1 L) · Heizkörper zwischen den Lamellen entstauben (Bürste, nasses Handtuch darunter) · Matratze drehen und wenden, Bett einen Tag offen · Kissen und Decken 60 °C, wenn erlaubt, ganz durchtrocknen (Tennisbälle) · Teppiche ausklopfen (Hausordnung). |
+| **April** — nach draußen | Gartenmöbel 1 EL Schmierseife / 5 L, Bürste, Schlauch · graues Holz ölen · Außenwasserhahn öffnen, auf Tropfen prüfen · Fugen kratzen, heißes Wasser, danach Fugensand (20 Min./Woche) · Wäsche wieder draußen trocknen · Kleiderwechsel um Ostern, nur Gewaschenes einlagern, Kisten beschriften. Bis zu den Eisheiligen nichts endgültig. ⚠ Essig/Salz gegen Unkraut auf Pflaster verboten; Abflammen nie bei Trockenheit, nie neben Hecke, Holzzaun, Carport. |
+| **Mai** — durchlässig, auf eigene Bedingungen | Fliegengitter einsetzen/reinigen · bei Pollen lüften: Stadt eher morgens, Land eher abends, danach Böden feucht wischen · Wolle bei 30 °C waschen und mit Zedernholz in Deckelkisten einlagern (nur Gewaschenes!) · Kühlschrankdichtung mit Spülmittelwasser, Papiertest: ein Blatt muss klemmen · Balkonkästen, Untersetzer prüfen · Grillrost über Nacht in 2 EL Soda / 5 L heiß (nicht Alu, Handschuhe). |
+| **Juni** — Wärme draußen lassen | Rollläden auf der Sonnenseite morgens schließen, bevor Sonne aufs Glas fällt (gegen 8 Uhr, nicht erst mittags) · in der kühlsten Stunde früh 15–30 Min. querlüften · tagsüber Fenster zu, wenn draußen wärmer (Thermometer innen und außen) · Wärmequellen aus: Standby, alte Glühbirnen, Backofen · Ventilator nachts ins offene Fenster gerichtet · Duschvorhang und Badvorleger 40 °C mit zwei Handtüchern. |
+| **Juli** — Urlaub | Letzte 3 Tage Kühlschrank leer essen, Reste einfrieren · Hähne an Wasch- und Spülmaschine zu · Siphons mit einem Glas Wasser füllen, WC-Deckel zu · Mülltonnen leeren, Biotonne auswaschen · Nachbarn: Briefkasten, Pflanzen, Rollläden · vor der Abreise Herd, Hähne, Fenster fotografieren · nach der Rückkehr jeden Hahn laufen lassen, bis es gleichmäßig kühl kommt · Fruchtfliegen: Essig, Saft, Tropfen Spülmittel. |
+| **August** — der Keller schimmelt | Keller nur nachts oder früh lüften, tagsüber zu; Hygrometer über 70 %: nicht lüften, trocknen · Kartons ins Regal, 10 cm über Boden, 5 cm von der Wand · Grillrost nach jedem Grillen warm abbürsten · Rasen 5 cm, nicht sprengen · Mülltonnen in den Schatten, Biotonne mit Zeitung · Gläser abdecken gegen Wespen. ⚠ Stich mit Atemnot, Schwindel, Schwellung im Gesicht: 112. Grill nie in Garage, Zelt, Wintergarten. |
+| **September** — Heizung wecken | Jedes Thermostatventil einmal ganz auf und zu (klemmt: melden) · Heizungswartung jetzt bestellen (eigenes Haus) · Heizkörper entlüften, danach Wasserdruck prüfen · Fensterdichtungen abwischen, rissige ersetzen · hinter Schränken an Außenwänden mit Taschenlampe nachsehen — graue Flecken jetzt behandeln · Gartenmöbel reinigen, trocken einlagern · Zählerstand notieren (im April wieder). |
+| **Oktober** — Zeitumstellung als Merktag | Außenhahn vor dem ersten Frost absperren, entleeren, offen lassen · Gartenschlauch leeren, frostfrei lagern · Lüften neu: dreimal am Tag 10 Min., Thermostat dabei zu · am Tag der Zeitumstellung: Uhr, Rauchmelder testen, Kleiderwechsel (Sommer in Kisten, Winter nach vorn) · Fußmatten waschen oder ausklopfen. |
+| **November** — Wasser | Dachrinne und Fallrohr, wenn alles Laub unten ist (⚠ Leiter nur mit Halter, nie bei Nässe/Wind; ab erstem Stock Fachbetrieb) · Laub vom Gehweg wöchentlich (Haftung bei Sturz) · Kellerfenster zu, Lichtschächte leeren · Hygrometer zurück ins Schlafzimmer · Streugut und Schaufel kaufen, bevor alle es tun · Vorrat für zehn Tage prüfen: Wasser, Kerzen, Batterien. |
+| **Dezember** — Wärme halten, dann Ruhe | Zugluft suchen mit einem 20-cm-Faden an der Fingerspitze (Fensterrahmen, Schloss, Rollladenkasten) · Rollläden bei Dunkelheit runter, morgens hoch · Türspalt zum kalten Flur schließen (Zugluftstopper) · Heizkörper entlüften, wenn er gluckert · Rauchmelder vor dem ersten Advent · Streugut an die Haustür · ab dem 20. nichts Neues. ⚠ Adventskranz nach drei Wochen knochentrocken, Kerze nie allein, 50 cm vom Vorhang; Kaminofen braucht Zuluft und geprüften Schornstein (Kohlenmonoxid riecht man nicht); Streusalz oft verboten, Splitt geht immer. |
+
+### Die drei vergessenen Stellen (ganzjährig)
+
+| Stelle | Was · Wie oft |
+|---|---|
+| **Waschmaschine** | Tür und Fach nach jeder Wäsche offen · Manschette auswischen (Wäsche-Heft: wöchentlich mit Essig; Kalender: mindestens monatlich mit Spülmittelwasser) · Fach ausbürsten monatlich · 60-°C-Leerlauf monatlich, entweder 2 EL Sauerstoffbleiche oder 1 EL Vollwaschmittel-Pulver (enthält Bleiche) · Flusensieb vierteljährlich · Zulaufschlauch jährlich auf Risse prüfen. |
+| **Dunstabzug, Spülmaschine** | Metallfettfilter monatlich · Haube innen/außen monatlich warm mit Schmierseife · Kohlefilter bei Umluft nach Hersteller (oft 3–6 Monate) · Spülmaschinensieb monatlich · Sprüharme vierteljährlich mit Zahnstocher. ⚠ Alu-Filter: kein Soda, keine Zitronensäure, kein Backofenspray; Herd vorher aus. |
+| **Siphon** | Vierteljährlich von Hand: Eimer drunter, Überwurfmuttern ohne Zange lösen, Dichtungen nicht verlieren, Haare und Schlamm in den Restmüll, Rohr mit Flaschenbürste, handfest wieder an, auf Tropfen prüfen. Haarsieb in Dusche und Wanne. ⚠ Kein chemischer Rohrreiniger, nie zwei Mittel nacheinander; Rohr hinter der Wand ist Sache des Vermieters. |

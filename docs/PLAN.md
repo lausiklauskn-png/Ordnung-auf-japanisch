@@ -51,7 +51,10 @@ Ziel: jeder Handgriff wird zur **Gewohnheit**. Inhalt: `INHALT.md` (nur Tipps, n
 - „Gewohnheit sitzt“, wenn ein Schritt 21× im Takt erledigt ist → Zeichen (Stempel 習 „gelernt“).
 - Ab und zu passiert etwas: Jahreszeiten-Hintergrund, ein Kirschblütenblatt je erledigtem Schritt,
   Leitsätze als Zwischenruf, Bonsai/Zen-Garten wächst mit den Serien.
-- Später: Kalender aus den nächsten PDFs, Erinnerungen (Notification), Export ins Workflow-Ökosystem.
+- **Jahreskalender** (INHALT § 10): je Monat eine Seite mit den Aufgaben des Monats; die App schlägt
+  „ein Punkt pro Wochenende“ vor und verteilt den Monat auf die Wochenenden. Feste Merktage:
+  Ostern und Zeitumstellung (Kleiderwechsel, Rauchmelder), 1. Advent, ab 20.12. Ruhe.
+  Verlauf: wann was erledigt wurde, als Kalenderansicht. Erinnerungen (Notification) freiwillig.
 
 ## 6 · Gestaltung (Motion)
 
@@ -74,11 +77,11 @@ Wie Workflow PDF: PWA ohne Build-Schritt, `index.html` + `assets/*.js`, Service-
 3. Sprachbefehle + Medientasten + WakeLock (am Tablet/Handy messen).
 4. Pausen-Musik.
 5. Gewohnheit, Serien, Motion.
-6. Kalender (nächste PDFs).
+6. Jahreskalender und Verlauf.
 
 ## 9 · Rechte
 
-- Quelle der Tipps: vier Begleithefte zu einem Haushaltsbuch (Erzählfigur ausdrücklich KI-generiert).
+- Quelle der Tipps: fünf Begleithefte zu einem Haushaltsbuch (Erzählfigur ausdrücklich KI-generiert).
   Übernommen sind nur Fakten — Mengen, Zeiten, Reihenfolgen, Warnungen —, neu formuliert und neu
   geordnet. Kein Text, keine Gestaltung, keine Figur, keine Geschichte.
 - In der App: „© 2026 Klaus — App und Gestaltung“ und ein Quellenhinweis auf die Hefte
