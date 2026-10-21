@@ -10,7 +10,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/favicon-64.png?v=2" type="image/png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2">
-<link rel="stylesheet" href="assets/style.css?v=6">
+<link rel="stylesheet" href="assets/style.css?v=8">
 </head>
 <body>
 <svg class="filter" aria-hidden="true" width="0" height="0">
@@ -19,7 +19,9 @@
 </svg>
 
 <header class="kopf">
+  <button class="kopf-knopf zurueck-knopf" data-aktion="zurueck" id="btnZurueck" aria-label="Zurück" title="Zurück" hidden>←</button>
   <a href="#/" class="marke" aria-label="Start"><img class="marke-bild" src="icons/favicon-64.png?v=2" width="64" height="64" alt="整理" lang="ja"><span class="marke-text">Ordnung auf Japanisch</span></a>
+  <button class="kopf-knopf" data-aktion="aktualisieren" id="btnNeu" aria-label="Aktualisieren — neueste Fassung laden, dein Verlauf bleibt" title="Aktualisieren (dein Verlauf bleibt)">⟳</button>
   <button class="kopf-knopf" data-aktion="stumm" id="btnStumm" aria-label="Vorlesen an oder aus" title="Vorlesen an/aus">🔊</button>
 </header>
 <div id="uhren" class="uhren" aria-live="polite" hidden></div>
@@ -39,11 +41,12 @@
 <div id="pause" class="pause" role="dialog" aria-label="Pause" hidden></div>
 <div id="blaetter" class="blaetter" aria-hidden="true"></div>
 
-<script defer src="assets/inhalt.js?v=3"></script>
+<script defer src="assets/inhalt.js?v=4"></script>
 <script defer src="assets/sprechtext.js?v=2"></script>
 <script defer src="assets/japanisch.js?v=1"></script>
-<script defer src="assets/db.js?v=1"></script>
+<script defer src="assets/db.js?v=2"></script>
 <script defer src="assets/klang.js?v=1"></script>
-<script defer src="assets/app.js?v=6"></script>
+<script defer src="assets/absicht.js?v=1"></script>
+<script defer src="assets/app.js?v=8"></script>
 </body>
 </html>
