@@ -15,12 +15,16 @@ QUELLEN = json.loads((ORDNER / 'quellen.json').read_text())
 TOKEN = re.compile(r'__OJ_(\d+)__')
 
 def google(text, sprache):
+    ids = set(TOKEN.findall(text))
+    text = TOKEN.sub(lambda m: '98765%04d' % int(m[1]), text)
     url = 'https://translate.googleapis.com/translate_a/single?' + urllib.parse.urlencode({
         'client': 'gtx', 'sl': 'de', 'tl': sprache, 'dt': 't', 'q': text})
     request = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
     with urllib.request.urlopen(request, timeout=35) as antwort:
         daten = json.load(antwort)
-    return ''.join(teil[0] for teil in daten[0] if teil and teil[0])
+    ergebnis = ''.join(teil[0] for teil in daten[0] if teil and teil[0])
+    for n in ids: ergebnis = ergebnis.replace('98765%04d' % int(n), '__OJ_' + n + '__')
+    return ergebnis
 
 def reparieren(text):
     return re.sub(r'_{1,2}\s*OJ\s*_\s*(\d+)\s*_{1,2}', lambda m: '__OJ_' + m[1] + '__', text, flags=re.I).strip()
