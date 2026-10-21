@@ -166,8 +166,7 @@
     start() {
       if (!Z.profil) return `
       <section class="held">
-        <div class="held-enso">${enso(.94)}</div>
-        <div class="held-kanji" lang="ja">整理</div>
+        <img class="held-bild" src="icons/seiri-480.webp?v=1" width="480" height="480" alt="整理" lang="ja">
         <div class="held-sub">Ordnung auf Japanisch</div>
         <p class="held-laut">${aussprache(J.wort('seiri'), true)}</p>
       </section>
@@ -185,8 +184,7 @@
       const heute = Z.log.filter(e => e.zeit >= heute0()).length;
       return `
       <section class="held">
-        <div class="held-enso">${enso(.94)}</div>
-        <div class="held-kanji" lang="ja">整理</div>
+        <img class="held-bild" src="icons/seiri-480.webp?v=1" width="480" height="480" alt="整理" lang="ja">
         <div class="held-sub">Ordnung auf Japanisch</div>
         <p class="held-laut">${aussprache(J.wort('seiri'), true)}</p>
         <p class="leitsatz" data-leitsatz>${esc(satz)}</p>

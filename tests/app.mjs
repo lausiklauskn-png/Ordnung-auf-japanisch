@@ -52,7 +52,8 @@ const breiteOk = async name => {
 try {
   /* 0 Erster Besuch: Willkommen und Einrichten */
   await page.goto(URL0); await bereit();
-  ok('Start: Titel 整理', (await page.textContent('.held-kanji')) === '整理');
+  ok('Start: der runde Teller 整理 als Bild', (await page.getAttribute('.held-bild', 'alt')) === '整理' && await page.evaluate(() => document.querySelector('.held-bild').naturalWidth === 480));
+  ok('Kopfzeile: kleiner runder Teller', await page.evaluate(() => { const i = document.querySelector('.marke-bild'); return i.naturalWidth === 64 && getComputedStyle(i).borderRadius === '50%'; }));
   ok('Erster Besuch: Willkommen statt Raumliste', await page.isVisible('[data-willkommen]') && (await page.locator('[data-station]').count()) === 0);
   ok('Erster Besuch: „Warum in kleinen Schritten“ steht da', (await page.textContent('[data-warum]')).includes('dreißig Sekunden'));
   ok('Aussprache von 整理: sprich ßee-ri', (await page.textContent('.held-laut')).includes('ßee-ri'));

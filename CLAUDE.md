@@ -21,8 +21,13 @@ npm install && npm test     # Syntax · Inhalt · Manifest/Schale · App im echt
 - **Manifest-`id` ist `/Ordnung-auf-japanisch/`, nie `./`** (Befund Workflow PDF 2026-10-18).
 - **Cache-Bump:** ändert sich eine Datei der Schale, `CACHE_VERSION` in `sw.js` UND ihr `?v=` in
   `index.html` und `sw.js` erhöhen. `tests/manifest-id.mjs` vergleicht beide Listen.
-- **Icon:** Platzhalter aus `tools/icon-bauen.mjs`. Klaus' ChatGPT-Bild als `icons/quelle.png` ablegen,
-  dann `npm run icons` und `?v=` der Icons erhöhen.
+- **Icon ist RUND** (Klaus 2026-10-21: „nicht runde Ecken, sondern richtig rundes Icon“). Quelle `icons/quelle.png`
+  (sein ChatGPT-Teller), gebaut mit `npm run icons` (`tools/icon-bauen.py`, Pillow). Zwei Plattform-Fassungen
+  (Klaus: „eine zweite Variante … für iOS und Android“): Android/PWA rund und durchsichtig, `maskable` deckend auf
+  Washi (Launcher schneidet selbst), `icons/android/` für Play Store und Adaptive Icon; iOS deckend, Teller auf WEISS
+  wie geliefert (`apple-touch-icon.png`, `icons/ios/AppIcon-1024.png` — iOS erlaubt kein Alpha und rundet selbst
+  zu einem Squircle, rund geht dort nicht). In der App der freigestellte Teller (`seiri-480.webp`).
+  `tests/manifest-id.mjs` prüft Alpha in Ecke und Mitte jeder Datei. Nach einem neuen Bild `?v=` der Icons erhöhen.
 - **`.meldung[hidden]`** braucht eigenes `display:none` — sonst steht ein leerer schwarzer Balken da.
 - Die Warnkarte „Nie mischen“ kommt vor Putzschrank, Küche, Bad, Wäsche — einmal je Station und Tag
   (sessionStorage).
