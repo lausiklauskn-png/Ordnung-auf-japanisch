@@ -25,6 +25,23 @@ npm install && npm test                                         # alles muss gr�
   muss mit einer eigenen roten Zeile reagieren.
 - Arbeit geht über einen Zweig und einen Pull Request nach `main`. `main` wird von GitHub Pages ausgeliefert.
 
+## Bilder einfügen — die Schlüssel sind die Kennungen
+
+Jedes Bild gehört zu genau einer **Kennung** (`s2.1` = Schritt 2.1, `st3` = Raum Bad, `m1` = Essig, `g7` =
+Gewohnheit, `k10` = Oktober, `x-pause` = Pausenfenster). Die vollständige Liste mit Text und Motiv steht in
+`docs/CHATGPT-BRIEF.md`; **was schon eingebaut ist und was fehlt, steht in `docs/BILDER-STAND.md`** — das ist das
+Gedächtnis zwischen den Sitzungen, nicht von Hand ändern.
+
+```bash
+python3 tools/bilder-einfuegen.py <ordner-mit-bildern>     # Dateiname beginnt mit der Kennung: "s2.1 Spüle.png"
+#  → bilder/<Kennung>.webp (1200 × 800), assets/inhalt.js und docs/BILDER-STAND.md werden nachgezogen
+#  → unbekannte Namen werden abgewiesen und genannt (Rückgabe 1): Kennung im Dateinamen korrigieren
+```
+
+Danach `CACHE_VERSION` in `sw.js` um eins erhöhen, `npm test`, PR nach `main`, mergen. Bilder nie über den Grundsatz
+間 ma hinwegsetzen: wenige Dinge, viel Leere, nichts Reißerisches — passt ein Bild nicht, lieber weglassen und in
+der PR-Beschreibung nennen.
+
 ## Veröffentlichen und Schlüssel
 
 Siehe **`docs/VEROEFFENTLICHEN.md`**. Kurz: Die PWA braucht keinen Schlüssel (Merge nach `main` genügt). Für eine
