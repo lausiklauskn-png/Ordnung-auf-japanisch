@@ -7,6 +7,7 @@
   const DB = window.OJ.DB;
   const ST = window.OJ.Sprechtext;
   const J = window.OJ.Japanisch;
+  const K = window.OJ.Klang;
   const $ = s => document.querySelector(s);
   const ansicht = $('#ansicht');
 
@@ -97,8 +98,8 @@
         u.lang = ja ? 'ja-JP' : 'de-DE'; const v = ja ? Stimme.ja : Stimme.de; if (v) u.voice = v; u.rate = ja ? .85 : .92; u.pitch = 1;
         return u;
       });
-      us[0].onstart = () => opt.start && opt.start();
-      const letzte = us[us.length - 1]; letzte.onend = letzte.onerror = () => opt.fertig && opt.fertig();
+      us[0].onstart = () => { K.ducken(true); opt.start && opt.start(); };
+      const letzte = us[us.length - 1]; letzte.onend = letzte.onerror = () => { K.ducken(false); opt.fertig && opt.fertig(); };
       us.forEach(u => speechSynthesis.speak(u));
     },
     sprechen(text, opt = {}) { Stimme.folge([text], opt); },
@@ -152,6 +153,7 @@
       <div class="fuss">
         <span class="zaehler">${x.n ? `${x.n}× · zuletzt ${vorWann(x.zuletzt)}` : 'noch nie'}</span>
         <span class="knopfreihe">
+          ${s.einwirk && s.einwirk <= 120 ? `<button class="knopf klein" data-aktion="uhr" data-ref="${s.id}" aria-label="Uhr für ${s.einwirk} Minuten starten">⌛ ${s.einwirk}′</button>` : ''}
           <button class="knopf klein" data-aktion="vorlesen" data-ref="${s.id}" aria-label="Vorlesen: ${esc(s.titel)}">🔊</button>
           <button class="knopf klein tusche" data-aktion="erledigt" data-ref="${s.id}">✓ Erledigt</button>
         </span>
@@ -306,6 +308,7 @@
       return `<a class="zurueck" href="#/">← Übersicht</a>
       <h1 style="font-size:1.45rem;margin:4px 0 10px">Über die App</h1>
       <section class="karte"><p><b lang="ja">整理</b> (seiri) heißt „Ordnung schaffen“. Die App führt Raum für Raum durch die Wohnung, liest jeden Schritt vor und zählt mit, bis aus dem Handgriff eine Gewohnheit wird.</p>
+        <p class="leise klein" data-version>Version 1.0 · Oktober 2026</p>
         <p class="leise klein">Alles bleibt auf diesem Gerät. Nichts geht ins Netz. Speicher: ${DB.dauerhaft() ? 'dauerhaft (IndexedDB)' : 'nur bis zum Schließen'}.</p></section>
       <section class="karte" data-rechte><h2>Rechte und Quellen</h2>
         <p>© 2026 Klaus — App, Gestaltung und Texte der Ansagen.</p>
@@ -321,6 +324,87 @@
     return treffer.map((f, i) => `<article class="karte fleck" data-fleck="${esc(f.name)}"><h3>${esc(f.name)}<button class="knopf klein" data-aktion="fleck-vorlesen" data-i="${I.flecken.indexOf(f)}" aria-label="Vorlesen: ${esc(f.name)}">🔊</button></h3>
       <div class="mittel">${esc(f.mittel)}</div>${f.griff ? `<p>${fmt(f.griff)}</p>` : ''}</article>`).join('');
   }
+
+  /* ---------- Takt-Uhr (Arbeit/Pause) und Einwirk-Uhren ----------
+     Gerechnet wird mit Endzeiten (Date.now), nicht mit gezählten Sekunden: läuft der Bildschirm aus und der
+     Browser bremst die Uhr, stimmt die Zeit beim Zurückkommen trotzdem. Beide liegen in localStorage. */
+  const lies = (k, v) => { try { return JSON.parse(localStorage.getItem(k)) || v; } catch (_) { return v; } };
+  const merk = (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch (_) {} };
+  Z.takt = lies('oj_takt', null);                                         // {phase: 'arbeit'|'pause', ende, dauer}
+  Z.uhren = lies('oj_uhren', []);                                         // [{ref, titel, ende}]
+  Z.musik = lies('oj_musik', true);
+  const mmss = ms => { const s = Math.max(0, Math.ceil(ms / 1000)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+  function taktStart(phase = 'arbeit') {
+    const min = profil().takt[phase];
+    Z.takt = { phase, ende: Date.now() + min * 60e3, dauer: min * 60e3 };
+    merk('oj_takt', Z.takt); uhrenZeigen();
+  }
+  function taktStopp() { Z.takt = null; merk('oj_takt', null); K.musikStopp(); pauseZeigen(); uhrenZeigen(); }
+  function taktWechsel() {
+    const war = Z.takt.phase;
+    if (war === 'arbeit') {
+      taktStart('pause'); K.gong(); if (navigator.vibrate) try { navigator.vibrate([60, 80, 60]); } catch (_) {}
+      if (Z.musik) K.musikStart();
+      const w = I.warumKurz[Math.floor(Math.random() * I.warumKurz.length)];
+      Stimme.folge([`Zeit für eine Pause. ${profil().takt.pause} Minuten. Auf Japanisch:`, Stimme.wort('kyukei'), `${w.satz} ${w.grund}`]);
+    } else {
+      K.musikStopp(); K.gong(.35); taktStart('arbeit');
+      const z = Z.sitzung, s = z && I.stationen[z.nr], x = s && s.schritte[z.i];
+      Stimme.folge(['Pause vorbei.', x ? `Weiter mit ${x.titel}.` : 'Weiter geht’s.']);
+    }
+    pauseZeigen();
+  }
+  function uhrStart(ref) {
+    const x = schrittVon(ref); if (!x || !x.einwirk) return;
+    Z.uhren = Z.uhren.filter(u => u.ref !== ref).concat({ ref, titel: x.titel, ende: Date.now() + x.einwirk * 60e3 });
+    merk('oj_uhren', Z.uhren); uhrenZeigen();
+    Stimme.sprechen(`Uhr läuft: ${x.einwirk} Minuten für ${x.titel}. Mach in der Zeit etwas anderes.`);
+  }
+  function uhrenZeigen() {
+    const box = $('#uhren'); if (!box) return;
+    const jetzt = Date.now(), teile = [];
+    if (Z.takt) teile.push(`<span class="chip ${Z.takt.phase}" data-chip="takt">${Z.takt.phase === 'arbeit' ? '⏱ Arbeit' : '🍵 Pause'} <b data-rest>${mmss(Z.takt.ende - jetzt)}</b><button data-aktion="takt-stopp" aria-label="Uhr anhalten">✕</button></span>`);
+    for (const u of Z.uhren) teile.push(`<span class="chip einwirk" data-chip="${u.ref}">⌛ ${esc(u.titel)} <b>${mmss(u.ende - jetzt)}</b><button data-aktion="uhr-weg" data-ref="${u.ref}" aria-label="Uhr ${esc(u.titel)} löschen">✕</button></span>`);
+    box.innerHTML = teile.join(''); box.hidden = !teile.length;
+    const leiste = $('[data-taktleiste]');
+    if (leiste && Z.takt) { leiste.querySelector('[data-rest]').textContent = mmss(Z.takt.ende - jetzt); leiste.querySelector('i').style.width = (100 * (1 - (Z.takt.ende - jetzt) / Z.takt.dauer)).toFixed(1) + '%'; }
+    const p = $('#pause [data-rest]'); if (p && Z.takt) p.textContent = mmss(Z.takt.ende - jetzt);
+    const ring = $('#pause .strich'); if (ring && Z.takt) { const u = 2 * Math.PI * 32; ring.setAttribute('stroke-dashoffset', (u * (1 - (Z.takt.ende - jetzt) / Z.takt.dauer)).toFixed(1)); }
+  }
+  function pauseZeigen() {
+    const el = $('#pause'), an = Z.takt && Z.takt.phase === 'pause';
+    el.hidden = !an;
+    if (!an) { el.innerHTML = ''; return; }
+    const w = J.wort('kyukei');
+    el.innerHTML = `<div class="pause-innen" data-pausefenster>
+      <div class="pause-ring">${enso(1)}<div class="pause-mitte"><div class="pause-kanji" lang="ja">休憩</div><b data-rest>${mmss(Z.takt.ende - Date.now())}</b></div></div>
+      <p class="held-laut">${aussprache(w, true)}</p>
+      <p class="leitsatz">${esc(I.leitsaetze[Math.floor(Date.now() / 6e4) % I.leitsaetze.length])}</p>
+      <div class="knopfreihe" style="justify-content:center">
+        <button class="knopf" data-aktion="musik" aria-pressed="${K.laeuft()}">${K.laeuft() ? '🎵 Klang aus' : '🎵 Klang an'}</button>
+        <button class="knopf haupt" data-aktion="pause-ende">Pause beenden →</button>
+      </div></div>`;
+  }
+  setInterval(function tick() {
+    const jetzt = Date.now();
+    if (Z.takt && jetzt >= Z.takt.ende) taktWechsel();
+    const fertig = Z.uhren.filter(u => jetzt >= u.ende);
+    if (fertig.length) {
+      Z.uhren = Z.uhren.filter(u => jetzt < u.ende); merk('oj_uhren', Z.uhren);
+      K.gong(.4); Stimme.sprechen('Einwirkzeit vorbei: ' + fertig.map(u => u.titel).join(', ') + '.');
+      melden('⌛ Einwirkzeit vorbei: ' + fertig.map(u => u.titel).join(', '));
+    }
+    uhrenZeigen();
+  }, 1000);
+  // Bildschirm wach halten, solange eine Sitzung läuft (wo der Browser es kann)
+  let wach = null;
+  async function wachHalten(an) {
+    try {
+      if (an && !wach && navigator.wakeLock) { wach = await navigator.wakeLock.request('screen'); wach.addEventListener('release', () => { wach = null; }); }
+      else if (!an && wach) { await wach.release(); wach = null; }
+    } catch (_) { wach = null; }
+  }
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && Z.sitzung) wachHalten(true); });
 
   /* ---------- Einrichten: Räume, Reihenfolge, Takt ---------- */
   const FRAGEN = {
@@ -420,12 +504,19 @@
         </div></div>`;
     }
     const x = s.schritte[z.i], stx = st(x.id);
+    const t = Z.takt;
     return `<div class="sitzung" data-sitzung data-phase="schritt" data-ref="${x.id}">
+      <div class="taktleiste ${t ? t.phase : ''}" data-taktleiste>
+        <span>${t && t.phase === 'pause' ? '🍵 Pause' : `⏱ Arbeit · ${profil().takt.arbeit} Min.`} · noch <b data-rest>${t ? mmss(t.ende - Date.now()) : profil().takt.arbeit + ':00'}</b></span>
+        <button class="knopf klein" data-aktion="pause-jetzt">🍵 Pause jetzt</button>
+        <div class="taktbalken"><i style="width:${t ? (100 * (1 - (t.ende - Date.now()) / t.dauer)).toFixed(1) : 0}%"></i></div>
+      </div>
       <div class="fortschritt"><i style="width:${(z.i / gesamt * 100).toFixed(1)}%"></i></div>
       <div class="wo"><span><span lang="ja">${esc(s.kanji)}</span> ${esc(s.titel)}${z.runden > 1 ? ` ${z.runde}/${z.runden}` : ''}</span><span>Schritt ${z.i + 1} von ${gesamt}</span></div>
       <section class="karte buehne" data-buehne>
         <h2>${esc(x.titel)}</h2>
         <p>${fmt(x.text)}</p>
+        ${x.einwirk && x.einwirk <= 120 ? `<div><button class="knopf klein" data-aktion="uhr" data-ref="${x.id}">⌛ Uhr für ${x.einwirk} Min. starten</button></div>` : ''}
         <div class="leise klein">${stx.n ? `${stx.n}× gemacht · zuletzt ${vorWann(stx.zuletzt)}` : 'Zum ersten Mal'}${stx.n >= GEWOHNHEIT_AB ? ' · <span class="gewohnheit" lang="ja">習</span> Gewohnheit' : ''}</div>
       </section>
       <div class="steuer">
@@ -452,6 +543,8 @@
     ansicht.innerHTML = sitzungHtml();
     ansicht.classList.remove('tinte'); void ansicht.offsetWidth; ansicht.classList.add('tinte');
     if (vorlesen) sitzungVorlesen();
+    if (Z.sitzung && Z.sitzung.i >= 0 && !Z.takt) taktStart('arbeit');
+    uhrenZeigen();
   }
 
   /* ---------- Handlungen ---------- */
@@ -492,11 +585,18 @@
     zeichnen(false);
   }
 
+  document.addEventListener('click', () => K.wecken(), { capture: true, once: true });
   document.addEventListener('click', async ev => {
     const k = ev.target.closest('[data-aktion]'); if (!k) return;
     const a = k.dataset.aktion, ref = k.dataset.ref;
     if (a === 'vorlesen') { const s = schrittVon(ref); Stimme.sprechen(ST.ansage(s)); }
     else if (a === 'wort') { const w = J.wort(k.dataset.k); Stimme.folge([Stimme.wort(w.k), `${w.de}.`]); }
+    else if (a === 'uhr') uhrStart(ref);
+    else if (a === 'uhr-weg') { Z.uhren = Z.uhren.filter(u => u.ref !== ref); merk('oj_uhren', Z.uhren); uhrenZeigen(); }
+    else if (a === 'takt-stopp') taktStopp();
+    else if (a === 'pause-jetzt') { if (!Z.takt || Z.takt.phase === 'arbeit') { if (!Z.takt) taktStart('arbeit'); Z.takt.ende = Date.now(); taktWechsel(); } }
+    else if (a === 'pause-ende') { Z.takt.ende = Date.now(); taktWechsel(); }
+    else if (a === 'musik') { Z.musik = !K.laeuft(); merk('oj_musik', Z.musik); Z.musik ? K.musikStart() : K.musikStopp(); pauseZeigen(); }
     else if (a === 'warum-vorlesen') Stimme.sprechen('Warum in kleinen Schritten? ' + I.warumKurz.map(w => w.satz + ' ' + w.grund).join(' '));
     else if (a.startsWith('e-')) await einrichtenAktion(a, k);
     else if (a === 'vorlesen-warn') Stimme.sprechen('Nie mischen. ' + I.nieMischen.map(ST.sprechtext).join(' '));
@@ -539,6 +639,9 @@
     if (animiert) { ansicht.classList.remove('tinte'); void ansicht.offsetWidth; ansicht.classList.add('tinte'); scrollTo(0, 0); }
     else scrollTo(0, y);
     if (name === 'sitzung' && animiert) sitzungVorlesen();
+    if (name === 'sitzung' && Z.sitzung && Z.sitzung.i >= 0 && !Z.takt) taktStart('arbeit');
+    wachHalten(name === 'sitzung');
+    uhrenZeigen();
     if (name === 'einrichten' && animiert) Stimme.sprechen(FRAGEN[+teile[1] || 1]);
     if (name === 'kalender' && animiert) { const j = $('details.monat.jetzt'); if (j) scrollTo(0, j.getBoundingClientRect().top + scrollY - 70); }
   }
@@ -551,6 +654,7 @@
     Z.profil = (await DB.einst('profil')) || null;
     const b = $('#btnStumm'); b.setAttribute('aria-pressed', Z.stumm); b.textContent = Z.stumm ? '🔇' : '🔊';
     zeichnen(true);
+    pauseZeigen();
     window.OJ_BEREIT = true;
   })();
   if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});

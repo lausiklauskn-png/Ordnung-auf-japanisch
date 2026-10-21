@@ -37,4 +37,9 @@ Profil in `einst/profil`. Ohne Profil zeigt der Start „Willkommen“ statt der
 Schritten“ steht als Abschnitt in INHALT.md (aus den Heften gesammelt: 30-Sekunden-Entscheidung, Kiste des
 Zweifels, ein Schrank pro Tag …). Japanische Wörter mit Lautschrift in `assets/japanisch.js` — das Kanji je
 Raum muss zu `KANJI` in `tools/inhalt-bauen.mjs` passen (`tests/inhalt.mjs` prüft es).
-Noch nicht: Sprachbefehle, Takt-Uhr und Einwirkzeit-Uhr, Pausen-Musik, Medientasten (Stufen 2–4).
+Takt-Uhr (2026-10-21): Arbeit/Pause nach dem Profil, gerechnet mit Endzeiten in localStorage (`oj_takt`),
+Pausenfenster 休憩 mit Gong und eigenem Pausenklang (`assets/klang.js`, Web Audio, Hirajōshi, keine Dateien),
+Einwirk-Uhren je Schritt bis 120 Min. (`oj_uhren`), Bildschirm wach (WakeLock) während der Sitzung.
+`tests/uhr.mjs` spult die Zeit mit `page.clock` vor — die Zeit läuft dabei weiter, Toleranzen sind gewollt.
+⚠ Bei ausgeschaltetem Bildschirm bremst Android die Uhr; Gong und Ansage kommen dann erst beim Zurückkommen.
+Version 1.0 auf main. Noch nicht: Sprachbefehle, Medientasten der Ohrhörer, eigene Musik (Stufen 3–4).

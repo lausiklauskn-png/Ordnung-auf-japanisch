@@ -302,3 +302,29 @@ button.station-kachel { font: inherit; color: inherit; cursor: pointer; width: 1
 .reihe li span[lang="ja"] { font-weight: 800; margin-right: 4px; }
 .einrichten-fuss { justify-content: space-between; margin-top: 16px; }
 .einrichten-fuss .haupt { flex: 1 1 auto; }
+
+/* ---------- Uhren ---------- */
+.uhren { position: sticky; top: calc(61px + env(safe-area-inset-top)); z-index: 9; display: flex; gap: 6px; flex-wrap: wrap; padding: 6px 16px; background: color-mix(in srgb, var(--papier) 90%, transparent); border-bottom: 1px solid var(--linie); }
+.uhren[hidden] { display: none; }
+.chip { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 2px 4px 2px 12px; background: var(--karte); border: 1px solid var(--linie); font-size: .88rem; max-width: 100%; }
+.chip b { font-variant-numeric: tabular-nums; }
+.chip.arbeit { border-color: var(--tusche-2); }
+.chip.pause { border-color: var(--matcha); color: var(--matcha); }
+.chip.einwirk { border-color: var(--gold); }
+.chip button { border: 0; background: none; cursor: pointer; color: var(--leise); min-width: 32px; min-height: 32px; }
+.taktleiste { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 6px 10px; padding: 8px 12px; border-radius: 12px; background: var(--karte); border: 1px solid var(--linie); }
+.taktleiste b { font-variant-numeric: tabular-nums; font-size: 1.05rem; }
+.taktbalken { grid-column: 1 / -1; height: 4px; border-radius: 2px; background: var(--linie); overflow: hidden; }
+.taktbalken i { display: block; height: 100%; background: var(--tusche-2); transition: width 1s linear; }
+
+/* ---------- Pause ---------- */
+.pause { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 24px 16px;
+  background: color-mix(in srgb, var(--papier) 94%, transparent) var(--papier-muster); backdrop-filter: blur(6px); animation: tinte .6s ease; }
+.pause[hidden] { display: none; }
+.pause-innen { max-width: 420px; width: 100%; text-align: center; display: grid; gap: 14px; justify-items: center; }
+.pause-ring { position: relative; width: min(70vw, 280px); aspect-ratio: 1; }
+.pause-ring .enso { width: 100%; height: 100%; }
+.pause-ring .enso .strich { stroke: var(--matcha); transition: stroke-dashoffset 1s linear; }
+.pause-mitte { position: absolute; inset: 0; display: grid; place-content: center; gap: 4px; }
+.pause-kanji { font-family: var(--serif-ja); font-weight: 900; font-size: clamp(2.6rem, 14vw, 4rem); line-height: 1; filter: url(#pinsel); }
+.pause-mitte b { font-size: 1.6rem; font-variant-numeric: tabular-nums; color: var(--tusche-2); }
