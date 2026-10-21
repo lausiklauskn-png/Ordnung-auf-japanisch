@@ -66,7 +66,11 @@ in `docs/uebersetzungen/korrekturen.json` gesondert formuliert; mehrdeutige Übe
 Kleiderbügeln, Vorratsboxen, Dusche, Hof, Flecken und ähnlichen Haushaltsbegriffen nachgeprüft. Vollständigkeit, Platzhalter und Zahlen geprüft.
 `assets/sprachen.js` wird mit `npm run sprachen` gebaut; deutsche Quelle und alle Kennungen unverändert.
 Vorlesen folgt der gewählten Sprache, japanische Begriffe bleiben japanisch. Passende Offline-Stimmen müssen
-auf dem Gerät verfügbar sein. Sprachliche Gegenprüfung durch Muttersprachler und echte Geräte nicht gemessen.
+auf dem Gerät verfügbar sein. Prüfung: vollständiges `npm test` grün (Lauf 39656462259), darunter
+79 Sprachproben: Cache/Offline-Neuladen, Sprachwechsel, Daten- und Uhrerhalt, Unicode-Suche, Stimmenwahl,
+Mengen/Temperaturen/Zeiten, Haushaltskontext und 320/380 px. Gegenproben für fehlende Sprachtexte,
+abgeschaltete Oberflächenübersetzung und falsche Vorlesesprache liefern eigene rote Prüfzeilen.
+Sprachliche Gegenprüfung durch Muttersprachler und echte Geräte nicht gemessen.
 
 Bildübergänge (Klaus, 2026-10-21, Korrektur nach Gestaltungsschritt): keine harte Trennung zwischen Bild
 und Text. Das Bild läuft unten mit einem transparenten Verlauf in das Papier des gewählten Themas aus;
