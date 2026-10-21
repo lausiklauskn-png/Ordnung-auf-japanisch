@@ -45,6 +45,8 @@ ok('Wörterbuch: jedes Wort hat Kana, Umschrift, Lautschrift, Bedeutung', J.WOER
 ok('Wörterbuch: Kennungen eindeutig', new Set(J.WOERTER.map(w => w.k)).size === J.WOERTER.length);
 ok('Lautschrift für die deutsche Stimme ohne Bindestriche', J.lautFuerStimme(J.wort('hajime')) === 'hadschimemaschoo');
 ok('Warum kurz: sieben Gründe, der erste ist das schnelle Entscheiden', d.warumKurz.length === 7 && /dreißig Sekunden/.test(d.warumKurz[0].grund));
+ok('24 gute Gewohnheiten, jede mit Handgriff und Warum', d.gewohnheiten.length === 24 && d.gewohnheiten.every(g => g.handgriff.length > 15 && g.warum.length > 15));
+ok('Vorschlag g1/g4/g7 = Bett lüften, Dusche abziehen, Spüle am Abend', ['g1', 'g4', 'g7'].map(id => d.gewohnheiten.find(g => g.id === id).titel).join() === 'Bett lüften,Dusche abziehen,Spüle am Abend');
 const alle = d.stationen.flatMap(s => s.schritte).map(S.ansage).join(' ');
 ok('keine Abkürzungen mehr in irgendeiner Ansage', !/\b(EL|TL|Min|Std|Sek)\b|°C|⌛|⏱|⚠|\*\*/.test(alle), (alle.match(/.{20}\b(EL|TL|Min|Std|Sek)\b.{10}|.{10}(°C|⌛|⏱|⚠).{10}/) || [])[0]);
 console.log(`\n${gruen} grün · ${rot} ROT`);
