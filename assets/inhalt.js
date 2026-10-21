@@ -805,6 +805,200 @@ window.OJ_INHALT = {
    ]
   }
  ],
+ "gewohnheiten": [
+  {
+   "id": "g1",
+   "titel": "Bett lüften",
+   "wann": "morgens",
+   "takt": "täglich",
+   "handgriff": "Decke zurückschlagen, Fenster 20 Min. auf, Bett erst nach dem Frühstück machen.",
+   "warum": "Die Feuchtigkeit der Nacht soll hinaus, nicht unter der glatten Decke bleiben."
+  },
+  {
+   "id": "g2",
+   "titel": "Stoßlüften",
+   "wann": "morgens",
+   "takt": "täglich",
+   "handgriff": "Zwei Fenster gegenüber ganz auf, 5 Min., drei- bis viermal am Tag, Thermostat vorher zu. Nicht kippen.",
+   "warum": "Ein Kippfenster tauscht kaum Luft und kühlt die Wand — dort wächst Schimmel."
+  },
+  {
+   "id": "g3",
+   "titel": "Scheiben trocken wischen",
+   "wann": "morgens",
+   "takt": "täglich",
+   "handgriff": "Im Winter Kondenswasser von oben nach unten wischen, vor dem Frühstück.",
+   "warum": "Das Wasser kommt jeden Winter wieder; liegen gelassen wird es zu schwarzen Punkten."
+  },
+  {
+   "id": "g4",
+   "titel": "Dusche abziehen",
+   "wann": "nach dem Duschen",
+   "takt": "täglich",
+   "handgriff": "Wände und Glas von oben nach unten abziehen, 30 Sek.",
+   "warum": "Dreißig Sekunden ersparen fast jeden Kalkreiniger."
+  },
+  {
+   "id": "g5",
+   "titel": "Spiegel mit dem Tuch",
+   "wann": "nach dem Duschen",
+   "takt": "täglich",
+   "handgriff": "Mikrofasertuch am Haken, abwischen, solange er beschlagen ist, 20 Sek.",
+   "warum": "Dann braucht man kaum Glasreiniger."
+  },
+  {
+   "id": "g6",
+   "titel": "Bad lüften",
+   "wann": "nach dem Duschen",
+   "takt": "täglich",
+   "handgriff": "Fenster ganz auf, Tür zu, 5 bis 10 Min.; Duschvorhang ausziehen, Vorleger über den Wannenrand.",
+   "warum": "Kalk, Schimmel und Geruch haben dieselbe Ursache: Wasser, das zu lange steht."
+  },
+  {
+   "id": "g7",
+   "titel": "Spüle am Abend",
+   "wann": "abends",
+   "takt": "täglich",
+   "handgriff": "Sieb leeren, Becken auswischen, trocken reiben, 2 Min.",
+   "warum": "Was abends nass in der Spüle bleibt, riecht morgens."
+  },
+  {
+   "id": "g8",
+   "titel": "Geschirrtuch wechseln",
+   "wann": "abends",
+   "takt": "täglich",
+   "handgriff": "Ein Tuch pro Tag, ein eigenes für die Hände, ab in die 60-°C-Wäsche.",
+   "warum": "Das Geschirrtuch ist das schmutzigste Stück im Haus."
+  },
+  {
+   "id": "g9",
+   "titel": "Flächen leer",
+   "wann": "abends",
+   "takt": "täglich",
+   "handgriff": "Tisch und Kommode abends leer: Schlüssel in die Schale, Post in den Korb.",
+   "warum": "Eine leere Fläche lädt nicht zum Ablegen ein."
+  },
+  {
+   "id": "g10",
+   "titel": "Zurück an seinen Platz",
+   "wann": "nach dem Benutzen",
+   "takt": "Gelegenheit",
+   "handgriff": "Jedes Ding nach dem Benutzen an seinen festen Platz, sichtbar.",
+   "warum": "Was man nicht findet, besitzt man nicht — und kauft es doppelt."
+  },
+  {
+   "id": "g11",
+   "titel": "Schuhe an der Tür",
+   "wann": "beim Heimkommen",
+   "takt": "Gelegenheit",
+   "handgriff": "Hinsetzen, Schuhe aus, Hausschuhe an. Hausschuhe verlassen die Wohnung nicht.",
+   "warum": "Das Haus wird an der Tür schmutzig, nicht in den Zimmern."
+  },
+  {
+   "id": "g12",
+   "titel": "Erst trocken, dann feucht",
+   "wann": "beim Putzen",
+   "takt": "Gelegenheit",
+   "handgriff": "Erst fegen oder saugen, dann wischen.",
+   "warum": "Wer es umdreht, macht aus Staub Schlamm."
+  },
+  {
+   "id": "g13",
+   "titel": "Ein Mittel, ein Schmutz",
+   "wann": "beim Putzen",
+   "takt": "Gelegenheit",
+   "handgriff": "Ein Mittel pro Fläche; vor einem zweiten mit klarem Wasser nachspülen und lüften.",
+   "warum": "Ins Krankenhaus bringen nicht eine Flasche, sondern zwei nacheinander."
+  },
+  {
+   "id": "g14",
+   "titel": "Menge messen",
+   "wann": "beim Putzen",
+   "takt": "Gelegenheit",
+   "handgriff": "Löffel aus dem Beutel, gestrichen, nach der Menge auf dem Etikett.",
+   "warum": "Eine geschätzte Menge kostet immer mehr — in beide Richtungen."
+  },
+  {
+   "id": "g15",
+   "titel": "Wäsche in 20 Minuten aufhängen",
+   "wann": "nach dem Waschen",
+   "takt": "Gelegenheit",
+   "handgriff": "Maschine nur starten, wenn man am Ende da ist; ausschütteln, einzeln aufhängen.",
+   "warum": "In 20 Minuten passiert nichts, nach 4 Stunden ist die Ladung besiedelt."
+  },
+  {
+   "id": "g16",
+   "titel": "Maschine offen lassen",
+   "wann": "nach dem Waschen",
+   "takt": "Gelegenheit",
+   "handgriff": "Tür und Waschmittelfach nach jeder Wäsche offen lassen.",
+   "warum": "Die Maschine ist das einzige Gerät, das nass, warm und geschlossen bleibt."
+  },
+  {
+   "id": "g17",
+   "titel": "Nasses erst trocknen",
+   "wann": "beim Ausziehen",
+   "takt": "Gelegenheit",
+   "handgriff": "Ein nasses Sporthemd erst über Nacht auf den Ständer, dann in den Korb.",
+   "warum": "Der Geruch sitzt sonst schon vor dem Waschen."
+  },
+  {
+   "id": "g18",
+   "titel": "Eins rein, eins raus",
+   "wann": "beim Einkauf",
+   "takt": "Gelegenheit",
+   "handgriff": "Kommt etwas Neues, geht etwas Altes — entschieden in dreißig Sekunden, solange die Tüte in der Hand ist.",
+   "warum": "Wer lange überlegt, findet immer einen Grund zu behalten."
+  },
+  {
+   "id": "g19",
+   "titel": "Nur nach Liste kaufen",
+   "wann": "beim Einkauf",
+   "takt": "Gelegenheit",
+   "handgriff": "Nur, was auf der Liste steht und fast leer ist; nur den Grundpreis vergleichen.",
+   "warum": "Ein Angebot für etwas, das voll im Schrank steht, kostet Platz."
+  },
+  {
+   "id": "g20",
+   "titel": "Bügel andersherum",
+   "wann": "beim Anziehen",
+   "takt": "Gelegenheit",
+   "handgriff": "Was du getragen hast, hängst du andersherum zurück.",
+   "warum": "Nach sechs Monaten sieht man auf einen Blick, was sich nicht bewegt hat."
+  },
+  {
+   "id": "g21",
+   "titel": "Kühlschrank-Reste prüfen",
+   "wann": "Donnerstag",
+   "takt": "Woche",
+   "handgriff": "Reste ansehen, Datum auf Kreppband, was älter als 2–3 Tage ist, einfrieren.",
+   "warum": "Was dann noch da ist, kommt ins Gefrierfach statt in den Müll."
+  },
+  {
+   "id": "g22",
+   "titel": "Briefkorb leeren",
+   "wann": "einmal pro Woche",
+   "takt": "Woche",
+   "handgriff": "Post erledigen, ablegen oder weg; der Korb ist danach leer.",
+   "warum": "Sonst wird aus dem Korb ein Stapel."
+  },
+  {
+   "id": "g23",
+   "titel": "Türgummi der Maschine",
+   "wann": "einmal pro Woche",
+   "takt": "Woche",
+   "handgriff": "Gummi nach außen ziehen, Falte mit Essigtuch auswischen, Tür offen.",
+   "warum": "In der Falte steht nach jeder Wäsche Wasser."
+  },
+  {
+   "id": "g24",
+   "titel": "Vorleger und Waschlappen 60 °C",
+   "wann": "einmal pro Woche",
+   "takt": "Woche",
+   "handgriff": "Badvorleger, Waschlappen, Zahnbürstenbecher heiß waschen.",
+   "warum": "Dort sammelt sich, was im Bad nass bleibt."
+  }
+ ],
  "warumKurz": [
   {
    "satz": "Kurz entscheiden, nicht lange grübeln.",

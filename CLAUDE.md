@@ -42,4 +42,9 @@ Pausenfenster 休憩 mit Gong und eigenem Pausenklang (`assets/klang.js`, Web Au
 Einwirk-Uhren je Schritt bis 120 Min. (`oj_uhren`), Bildschirm wach (WakeLock) während der Sitzung.
 `tests/uhr.mjs` spult die Zeit mit `page.clock` vor — die Zeit läuft dabei weiter, Toleranzen sind gewollt.
 ⚠ Bei ausgeschaltetem Bildschirm bremst Android die Uhr; Gong und Ansage kommen dann erst beim Zurückkommen.
+Gute Gewohnheiten (Klaus 2026-10-21, 習慣): 24 Gewohnheiten aus allen Räumen als Tabelle in INHALT.md
+(Takt täglich · Woche · Gelegenheit), eigener Bereich `#/gewohnheiten` in der Leiste. Eigene Liste in
+`einst/gewohnheiten`, Vorschlag g1/g4/g7 — **wer die Tabelle umsortiert, ändert die Kennungen** (Verlauf und Liste
+hängen daran; neue Zeilen nur unten anfügen). Serie = Tage/Wochen in Folge bis heute oder gestern; „jedes Mal“
+zählt nicht im Heute-Ring. `tests/gewohnheiten.mjs` spult Tage vor.
 Version 1.0 auf main. Noch nicht: Sprachbefehle, Medientasten der Ohrhörer, eigene Musik (Stufen 3–4).

@@ -63,6 +63,13 @@ Ziel: jeder Handgriff wird zur **Gewohnheit**. Inhalt: `INHALT.md` (nur Tipps, n
   Ostern und Zeitumstellung (Kleiderwechsel, Rauchmelder), 1. Advent, ab 20.12. Ruhe.
   Verlauf: wann was erledigt wurde, als Kalenderansicht. Erinnerungen (Notification) freiwillig.
 
+## 5b · Gute Gewohnheiten (Klaus 2026-10-21, gebaut)
+
+Eigener Bereich 習慣 (shūkan): 24 kleine Handgriffe, aus allen Heften herausgezogen (INHALT „Gute Gewohnheiten“),
+je mit Wann, Handgriff und Warum. Eigene Liste (Vorschlag: Bett lüften, Dusche abziehen, Spüle am Abend), Abhaken
+mit Stempel 済, Serie „x Tage in Folge“, Kette der letzten 21 Tage, 習 ab 21-mal. „Jedes Mal“-Gewohnheiten
+(Schuhe an der Tür, eins rein eins raus …) zählen mit. Startseite zeigt „heute x von y“.
+
 ## 6 · Gestaltung (Motion)
 
 Washi-Papier, Tusche-Schwarz, Lackrot, Gold sparsam. Pinselstrich-Übergänge zwischen Stationen,

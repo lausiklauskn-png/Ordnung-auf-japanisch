@@ -98,6 +98,11 @@ export function bauen(md) {
   const fleckenRegeln = ohneMd(fl.text.join(' '));
   const flecken = fl.tabellen[0].zeilen.map(([name, mittel, griff]) => ({ name, mittel, griff }));
 
+  const gg = finde(/^Gute Gewohnheiten/);
+  const gewohnheiten = gg.tabellen[0].zeilen.map(([titel, wann, takt, handgriff, warum], i) => {
+    if (!['täglich', 'Woche', 'Gelegenheit'].includes(takt)) throw new Error('Takt unbekannt: ' + takt);
+    return { id: 'g' + (i + 1), titel, wann, takt, handgriff, warum };
+  });
   const wk = finde(/^Warum in kleinen Schritten/);
   const warumKurz = wk.listen.map(l => { const m = l.match(/^\*\*(.+?)\*\*\s*(.*)$/); return m ? { satz: m[1], grund: m[2].replace(/^—\s*/, '') } : { satz: ohneMd(l), grund: '' }; });
   const takt = finde(/^Gewohnheits-Takt/).tabellen[0].zeilen.map(([wann, was]) => ({ wann: ohneMd(wann), was: was.split(' · ') }));
@@ -112,7 +117,7 @@ export function bauen(md) {
   kalender.einleitung = ohneMd(kal.text.join(' '));
   const vergessen = finde(/drei vergessenen Stellen/).tabellen[0].zeilen.map(([stelle, was]) => ({ stelle: ohneMd(stelle), was: ohneMd(was) }));
 
-  return { stationen, warumKurz, leitsaetze, nieMischen, nieWorauf, flecken, fleckenRegeln, takt, pausen, kalender, kalenderEinleitung: kalender.einleitung, vergessen };
+  return { stationen, gewohnheiten, warumKurz, leitsaetze, nieMischen, nieWorauf, flecken, fleckenRegeln, takt, pausen, kalender, kalenderEinleitung: kalender.einleitung, vergessen };
 }
 
 export function alsSkript(daten) {

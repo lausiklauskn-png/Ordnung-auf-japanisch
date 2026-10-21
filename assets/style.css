@@ -215,7 +215,7 @@ details.monat.jetzt { border-color: var(--rot); }
 /* ---------- Leiste unten ---------- */
 .leiste {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
-  display: grid; grid-template-columns: repeat(5, 1fr);
+  display: grid; grid-template-columns: repeat(6, 1fr);
   background: color-mix(in srgb, var(--papier) 92%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   border-top: 1px solid var(--linie); padding-bottom: env(safe-area-inset-bottom);
 }
@@ -328,3 +328,33 @@ button.station-kachel { font: inherit; color: inherit; cursor: pointer; width: 1
 .pause-mitte { position: absolute; inset: 0; display: grid; place-content: center; gap: 4px; }
 .pause-kanji { font-family: var(--serif-ja); font-weight: 900; font-size: clamp(2.6rem, 14vw, 4rem); line-height: 1; filter: url(#pinsel); }
 .pause-mitte b { font-size: 1.6rem; font-variant-numeric: tabular-nums; color: var(--tusche-2); }
+
+@media (max-width: 380px) { .leiste a { font-size: .64rem; letter-spacing: -.01em; } }
+
+/* ---------- Gute Gewohnheiten ---------- */
+.abschnitt { font-size: 1rem; color: var(--leise); font-weight: 600; margin: 22px 4px 4px; }
+.g-heute { display: grid; grid-template-columns: 96px 1fr; gap: 14px; align-items: center; }
+.g-heute h2 { font-size: 1.2rem; }
+.g-ring .enso { width: 96px; height: 96px; }
+.g-ring .enso text { font-family: var(--sans); font-size: 18px; font-weight: 700; }
+.gewohnheit-karte { display: grid; grid-template-columns: 56px 1fr; gap: 12px; align-items: start; padding: 14px; }
+.gewohnheit-karte h3 { font-size: 1.05rem; }
+.gewohnheit-karte p { margin: 6px 0 0; color: var(--tusche-2); }
+.g-wann { font-size: .8rem; color: var(--leise); text-transform: uppercase; letter-spacing: .05em; margin-top: 2px; }
+.g-warum { font-style: italic; font-size: .93rem; }
+.g-haken {
+  width: 56px; height: 56px; border-radius: 50%; border: 3px solid var(--tusche-2); background: transparent; cursor: pointer;
+  display: grid; place-items: center; font-size: 1.4rem; color: var(--tusche-2); font-weight: 800; transition: transform .15s ease, background .2s;
+}
+.g-haken:active { transform: scale(.92); }
+.g-haken.an { border-color: var(--rot); background: color-mix(in srgb, var(--rot) 10%, transparent); color: var(--rot); }
+.g-haken.an span { font-family: var(--serif-ja); font-weight: 900; font-size: 1.6rem; animation: stempel .35s cubic-bezier(.3,1.6,.5,1) both; }
+.g-haken b { font-size: 1.05rem; }
+.gewohnheit-karte.fertig { border-color: color-mix(in srgb, var(--matcha) 45%, var(--linie)); }
+.g-fuss { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin: 10px 0 8px; }
+.kette { display: inline-flex; gap: 3px; }
+.kette i { width: 8px; height: 8px; border-radius: 50%; background: var(--linie); }
+.kette i.an { background: var(--rot); }
+.serie { font-size: .85rem; color: var(--leise); font-weight: 600; }
+.g-start { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center; text-decoration: none; }
+.g-start-kanji { font-family: var(--serif-ja); font-weight: 900; font-size: 1.9rem; color: var(--rot); }

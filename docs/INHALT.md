@@ -230,6 +230,39 @@ Erst trocken, dann feucht. Kaltes Wasser halbiert die Wirkung. Wasser wechseln, 
 
 ---
 
+## Gute Gewohnheiten
+
+Aus allen Räumen herausgezogen: die kleinen Handgriffe, die man nicht einmal macht, sondern immer — und die
+erst dann wirken. In der App ein eigener Bereich 習慣 (shūkan, Gewohnheit) zum Abhaken mit Serie.
+Takt: **täglich** (einmal am Tag), **Woche** (einmal pro Woche), **Gelegenheit** (jedes Mal, wenn es passt).
+
+| Gewohnheit | Wann | Takt | Handgriff | Warum |
+|---|---|---|---|---|
+| Bett lüften | morgens | täglich | Decke zurückschlagen, Fenster 20 Min. auf, Bett erst nach dem Frühstück machen. | Die Feuchtigkeit der Nacht soll hinaus, nicht unter der glatten Decke bleiben. |
+| Stoßlüften | morgens | täglich | Zwei Fenster gegenüber ganz auf, 5 Min., drei- bis viermal am Tag, Thermostat vorher zu. Nicht kippen. | Ein Kippfenster tauscht kaum Luft und kühlt die Wand — dort wächst Schimmel. |
+| Scheiben trocken wischen | morgens | täglich | Im Winter Kondenswasser von oben nach unten wischen, vor dem Frühstück. | Das Wasser kommt jeden Winter wieder; liegen gelassen wird es zu schwarzen Punkten. |
+| Dusche abziehen | nach dem Duschen | täglich | Wände und Glas von oben nach unten abziehen, 30 Sek. | Dreißig Sekunden ersparen fast jeden Kalkreiniger. |
+| Spiegel mit dem Tuch | nach dem Duschen | täglich | Mikrofasertuch am Haken, abwischen, solange er beschlagen ist, 20 Sek. | Dann braucht man kaum Glasreiniger. |
+| Bad lüften | nach dem Duschen | täglich | Fenster ganz auf, Tür zu, 5 bis 10 Min.; Duschvorhang ausziehen, Vorleger über den Wannenrand. | Kalk, Schimmel und Geruch haben dieselbe Ursache: Wasser, das zu lange steht. |
+| Spüle am Abend | abends | täglich | Sieb leeren, Becken auswischen, trocken reiben, 2 Min. | Was abends nass in der Spüle bleibt, riecht morgens. |
+| Geschirrtuch wechseln | abends | täglich | Ein Tuch pro Tag, ein eigenes für die Hände, ab in die 60-°C-Wäsche. | Das Geschirrtuch ist das schmutzigste Stück im Haus. |
+| Flächen leer | abends | täglich | Tisch und Kommode abends leer: Schlüssel in die Schale, Post in den Korb. | Eine leere Fläche lädt nicht zum Ablegen ein. |
+| Zurück an seinen Platz | nach dem Benutzen | Gelegenheit | Jedes Ding nach dem Benutzen an seinen festen Platz, sichtbar. | Was man nicht findet, besitzt man nicht — und kauft es doppelt. |
+| Schuhe an der Tür | beim Heimkommen | Gelegenheit | Hinsetzen, Schuhe aus, Hausschuhe an. Hausschuhe verlassen die Wohnung nicht. | Das Haus wird an der Tür schmutzig, nicht in den Zimmern. |
+| Erst trocken, dann feucht | beim Putzen | Gelegenheit | Erst fegen oder saugen, dann wischen. | Wer es umdreht, macht aus Staub Schlamm. |
+| Ein Mittel, ein Schmutz | beim Putzen | Gelegenheit | Ein Mittel pro Fläche; vor einem zweiten mit klarem Wasser nachspülen und lüften. | Ins Krankenhaus bringen nicht eine Flasche, sondern zwei nacheinander. |
+| Menge messen | beim Putzen | Gelegenheit | Löffel aus dem Beutel, gestrichen, nach der Menge auf dem Etikett. | Eine geschätzte Menge kostet immer mehr — in beide Richtungen. |
+| Wäsche in 20 Minuten aufhängen | nach dem Waschen | Gelegenheit | Maschine nur starten, wenn man am Ende da ist; ausschütteln, einzeln aufhängen. | In 20 Minuten passiert nichts, nach 4 Stunden ist die Ladung besiedelt. |
+| Maschine offen lassen | nach dem Waschen | Gelegenheit | Tür und Waschmittelfach nach jeder Wäsche offen lassen. | Die Maschine ist das einzige Gerät, das nass, warm und geschlossen bleibt. |
+| Nasses erst trocknen | beim Ausziehen | Gelegenheit | Ein nasses Sporthemd erst über Nacht auf den Ständer, dann in den Korb. | Der Geruch sitzt sonst schon vor dem Waschen. |
+| Eins rein, eins raus | beim Einkauf | Gelegenheit | Kommt etwas Neues, geht etwas Altes — entschieden in dreißig Sekunden, solange die Tüte in der Hand ist. | Wer lange überlegt, findet immer einen Grund zu behalten. |
+| Nur nach Liste kaufen | beim Einkauf | Gelegenheit | Nur, was auf der Liste steht und fast leer ist; nur den Grundpreis vergleichen. | Ein Angebot für etwas, das voll im Schrank steht, kostet Platz. |
+| Bügel andersherum | beim Anziehen | Gelegenheit | Was du getragen hast, hängst du andersherum zurück. | Nach sechs Monaten sieht man auf einen Blick, was sich nicht bewegt hat. |
+| Kühlschrank-Reste prüfen | Donnerstag | Woche | Reste ansehen, Datum auf Kreppband, was älter als 2–3 Tage ist, einfrieren. | Was dann noch da ist, kommt ins Gefrierfach statt in den Müll. |
+| Briefkorb leeren | einmal pro Woche | Woche | Post erledigen, ablegen oder weg; der Korb ist danach leer. | Sonst wird aus dem Korb ein Stapel. |
+| Türgummi der Maschine | einmal pro Woche | Woche | Gummi nach außen ziehen, Falte mit Essigtuch auswischen, Tür offen. | In der Falte steht nach jeder Wäsche Wasser. |
+| Vorleger und Waschlappen 60 °C | einmal pro Woche | Woche | Badvorleger, Waschlappen, Zahnbürstenbecher heiß waschen. | Dort sammelt sich, was im Bad nass bleibt. |
+
 ## Warum in kleinen Schritten
 
 Die App arbeitet in kurzen Blöcken mit Pause dazwischen. Die Gründe stehen verteilt in den Heften;

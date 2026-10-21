@@ -199,6 +199,11 @@
           <a class="knopf" href="#/station/${stn.nr}">Station ansehen</a>
         </div>
       </section>
+      ${(() => { const f = meine().filter(g => g.takt !== 'Gelegenheit'), d = f.filter(g => gStand(g).fertig).length; return `
+      <a class="karte g-start" href="#/gewohnheiten" data-g-start>
+        <span class="g-start-kanji" lang="ja">習慣</span>
+        <span><span class="wo leise klein">Gute Gewohnheiten · heute ${d} von ${f.length}</span><br><b>${f.filter(g => !gStand(g).fertig).map(g => esc(g.titel)).slice(0, 2).join(' · ') || 'Alles für heute erledigt'}</b></span>
+      </a>`; })()}
       <a class="karte" href="#/kalender" style="display:block;text-decoration:none" data-monat-karte>
         <div class="wo leise klein">Dieser Monat · ${mFertig} von ${m.aufgaben.length}</div>
         <h2>${esc(m.name)} — ${esc(m.motto)}</h2>
@@ -292,11 +297,29 @@
 
     einrichten(schritt) { return einrichtenHtml(+schritt || 1); },
 
+    gewohnheiten() {
+      const m = meine(), ids = new Set(m.map(g => g.id));
+      const ordnen = l => l.slice().sort((a, b) => WANN_ORDNUNG.indexOf(a.wann) - WANN_ORDNUNG.indexOf(b.wann));
+      const fest = m.filter(g => g.takt !== 'Gelegenheit'), fertig = fest.filter(g => gStand(g).fertig).length;
+      const weitere = ordnen(I.gewohnheiten.filter(g => !ids.has(g.id)));
+      return `<h1 style="font-size:1.45rem;margin:4px 0 2px"><span lang="ja">習慣</span> Gute Gewohnheiten</h1>
+      <p class="lesung">${aussprache(J.wort('shukan'), true)}</p>
+      <section class="karte g-heute" data-g-heute>
+        <div class="g-ring">${enso(fest.length ? fertig / fest.length : 0, fertig + '/' + fest.length)}</div>
+        <div><h2>${fertig === fest.length && fest.length ? 'Alles für heute erledigt.' : 'Heute'}</h2>
+        <p class="leise klein">Fang mit wenigen an. Sitzt eine (21-mal, Zeichen <span lang="ja">習</span>), nimm die nächste dazu. Kleine, gleiche Handgriffe jeden Tag halten mehr als ein großer Putz am Samstag.</p></div>
+      </section>
+      <h2 class="abschnitt">Meine Gewohnheiten · ${m.length}</h2>
+      ${m.length ? ordnen(m).map(g => gKarte(g, true)).join('') : '<p class="leer">Noch keine gewählt — such dir unten zwei oder drei aus.</p>'}
+      <h2 class="abschnitt">Weitere gute Gewohnheiten aus allen Räumen · ${weitere.length}</h2>
+      ${weitere.map(g => gKarte(g, false)).join('')}`;
+    },
+
     verlauf() {
       if (!Z.log.length) return `<h1 style="font-size:1.45rem"><span lang="ja">歴</span> Verlauf</h1><p class="leer">Noch nichts erledigt. Jeder Haken landet hier, Tag für Tag.</p>`;
       const tage = new Map();
       Z.log.slice().sort((a, b) => b.zeit - a.zeit).forEach(e => { const k = tagKey(e.zeit); (tage.get(k) || tage.set(k, []).get(k)).push(e); });
-      const titel = e => { if (e.art === 'kalender') { const k = kalAufgabe(e.ref); return k ? `${k.monat.name}: ${k.a.text.split('(')[0].trim()}` : e.ref; } const s = schrittVon(e.ref); return s ? `${I.stationen[s.station].titel} · ${s.titel}` : e.ref; };
+      const titel = e => { if (e.art === 'gewohnheit') { const g = gewohnheit(e.ref); return g ? '習慣 ' + g.titel : e.ref; } if (e.art === 'kalender') { const k = kalAufgabe(e.ref); return k ? `${k.monat.name}: ${k.a.text.split('(')[0].trim()}` : e.ref; } const s = schrittVon(e.ref); return s ? `${I.stationen[s.station].titel} · ${s.titel}` : e.ref; };
       return `<h1 style="font-size:1.45rem;margin:4px 0"><span lang="ja">歴</span> Verlauf</h1>
         <p class="leise">${Z.log.length} Haken insgesamt${DB.dauerhaft() ? '' : ' · ⚠ nur bis zum Schließen gespeichert (privates Fenster?)'}</p>
         ${[...tage].map(([k, es]) => `<section class="tag"><h2>${new Date(k + 'T12:00').toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' })} · ${es.length}</h2>
@@ -324,6 +347,47 @@
     return treffer.map((f, i) => `<article class="karte fleck" data-fleck="${esc(f.name)}"><h3>${esc(f.name)}<button class="knopf klein" data-aktion="fleck-vorlesen" data-i="${I.flecken.indexOf(f)}" aria-label="Vorlesen: ${esc(f.name)}">🔊</button></h3>
       <div class="mittel">${esc(f.mittel)}</div>${f.griff ? `<p>${fmt(f.griff)}</p>` : ''}</article>`).join('');
   }
+
+  /* ---------- Gute Gewohnheiten: abhaken, Serie, Kette der letzten 21 Tage/Wochen ---------- */
+  const tagNr = t => Math.round(new Date(t).setHours(0, 0, 0, 0) / 864e5);
+  const wocheNr = t => Math.floor((tagNr(t) + 3) / 7);                    // Wochen ab Montag
+  const ANFANG = ['g7', 'g4', 'g1'];                                       // Vorschlag: Spüle am Abend, Dusche abziehen, Bett lüften
+  const WANN_ORDNUNG = ['morgens', 'nach dem Duschen', 'abends', 'nach dem Benutzen', 'beim Heimkommen', 'beim Putzen', 'nach dem Waschen', 'beim Ausziehen', 'beim Einkauf', 'beim Anziehen', 'Donnerstag', 'einmal pro Woche'];
+  const gewohnheit = id => I.gewohnheiten.find(g => g.id === id);
+  function gStand(g) {
+    const es = Z.log.filter(e => e.art === 'gewohnheit' && e.ref === g.id);
+    const woche = g.takt === 'Woche', nr = woche ? wocheNr : tagNr, jetzt = nr(Date.now());
+    const perioden = new Set(es.map(e => nr(e.zeit)));
+    let serie = 0, p = perioden.has(jetzt) ? jetzt : jetzt - 1;
+    while (perioden.has(p)) { serie++; p--; }
+    const heute = es.filter(e => nr(e.zeit) === jetzt);
+    return { n: es.length, serie, jetzt: heute, fertig: heute.length > 0, kette: Array.from({ length: 21 }, (_, i) => perioden.has(jetzt - 20 + i)), woche };
+  }
+  const meine = () => (Z.meine || ANFANG).map(gewohnheit).filter(Boolean);
+  function gKarte(g, mein) {
+    const x = gStand(g), sitzt = x.n >= GEWOHNHEIT_AB;
+    const knopf = g.takt === 'Gelegenheit'
+      ? `<button class="g-haken${x.fertig ? ' an' : ''}" data-aktion="g-mal" data-ref="${g.id}" aria-label="${esc(g.titel)}: einmal gemacht">${x.jetzt.length ? `<b>${x.jetzt.length}×</b>` : '＋'}</button>`
+      : `<button class="g-haken${x.fertig ? ' an' : ''}" data-aktion="g-haken" data-ref="${g.id}" aria-pressed="${x.fertig}" aria-label="${esc(g.titel)} ${x.woche ? 'diese Woche' : 'heute'} ${x.fertig ? 'erledigt' : 'abhaken'}">${x.fertig ? '<span lang="ja">済</span>' : ''}</button>`;
+    return `<article class="karte gewohnheit-karte${x.fertig ? ' fertig' : ''}" data-gewohnheit="${g.id}">
+      ${knopf}
+      <div class="g-text">
+        <h3>${esc(g.titel)}${sitzt ? ' <span class="gewohnheit" lang="ja" title="Gewohnheit sitzt">習</span>' : ''}</h3>
+        <div class="g-wann">${esc(g.wann)} · ${g.takt === 'Gelegenheit' ? 'jedes Mal' : g.takt === 'Woche' ? 'einmal pro Woche' : 'einmal am Tag'}</div>
+        <p>${fmt(g.handgriff)}</p>
+        <p class="g-warum">${esc(g.warum)}</p>
+        <div class="g-fuss">
+          <span class="kette" aria-label="${x.kette.filter(Boolean).length} der letzten 21 ${x.woche ? 'Wochen' : 'Tage'}">${x.kette.map(k => `<i class="${k ? 'an' : ''}"></i>`).join('')}</span>
+          <span class="serie" data-serie>${x.serie ? `${x.serie} ${x.woche ? (x.serie === 1 ? 'Woche' : 'Wochen') : (x.serie === 1 ? 'Tag' : 'Tage')} in Folge` : (x.n ? x.n + '× bisher' : 'noch nie')}</span>
+        </div>
+        <div class="knopfreihe">
+          <button class="knopf klein" data-aktion="g-vorlesen" data-ref="${g.id}" aria-label="Vorlesen: ${esc(g.titel)}">🔊</button>
+          ${mein ? `<button class="knopf klein" data-aktion="g-weg" data-ref="${g.id}">Aus meiner Liste</button>` : `<button class="knopf klein tusche" data-aktion="g-dazu" data-ref="${g.id}">＋ In meine Liste</button>`}
+        </div>
+      </div>
+    </article>`;
+  }
+  async function meineSpeichern(liste) { Z.meine = liste; await DB.einst('gewohnheiten', liste); }
 
   /* ---------- Takt-Uhr (Arbeit/Pause) und Einwirk-Uhren ----------
      Gerechnet wird mit Endzeiten (Date.now), nicht mit gezählten Sekunden: läuft der Bildschirm aus und der
@@ -591,6 +655,16 @@
     const a = k.dataset.aktion, ref = k.dataset.ref;
     if (a === 'vorlesen') { const s = schrittVon(ref); Stimme.sprechen(ST.ansage(s)); }
     else if (a === 'wort') { const w = J.wort(k.dataset.k); Stimme.folge([Stimme.wort(w.k), `${w.de}.`]); }
+    else if (a === 'g-haken') {
+      const g = gewohnheit(ref), x = gStand(g);
+      if (x.fertig) { for (const e of x.jetzt) await DB.loeschen(e.id); Z.log = Z.log.filter(e => !x.jetzt.includes(e)); rechnen(); }
+      else { await erledigen('gewohnheit', ref); if (gStand(g).n === GEWOHNHEIT_AB) Stimme.folge([Stimme.wort('shukan'), `${g.titel}: Gewohnheit sitzt.`]); }
+      zeichnen(false);
+    }
+    else if (a === 'g-mal') { await erledigen('gewohnheit', ref); zeichnen(false); }
+    else if (a === 'g-vorlesen') { const g = gewohnheit(ref); Stimme.sprechen(ST.sprechtext(`${g.titel}. ${g.wann}. ${g.handgriff} Warum: ${g.warum}`)); }
+    else if (a === 'g-dazu') { await meineSpeichern(meine().map(g => g.id).concat(ref)); zeichnen(false); melden('In deiner Liste: ' + gewohnheit(ref).titel); }
+    else if (a === 'g-weg') { await meineSpeichern(meine().map(g => g.id).filter(id => id !== ref)); zeichnen(false); }
     else if (a === 'uhr') uhrStart(ref);
     else if (a === 'uhr-weg') { Z.uhren = Z.uhren.filter(u => u.ref !== ref); merk('oj_uhren', Z.uhren); uhrenZeigen(); }
     else if (a === 'takt-stopp') taktStopp();
@@ -652,6 +726,7 @@
     Z.log = await DB.alle(); rechnen();
     Z.stumm = !!(await DB.einst('stumm'));
     Z.profil = (await DB.einst('profil')) || null;
+    Z.meine = (await DB.einst('gewohnheiten')) || null;
     const b = $('#btnStumm'); b.setAttribute('aria-pressed', Z.stumm); b.textContent = Z.stumm ? '🔇' : '🔊';
     zeichnen(true);
     pauseZeigen();
