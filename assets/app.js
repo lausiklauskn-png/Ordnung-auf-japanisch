@@ -21,6 +21,9 @@
     s = s.replace(/⚠\s*(.*)$/s, '<span class="warn">⚠ $1</span>');
     return s;
   }
+  function mischWarnung(text) {
+    return fmt(text).replace(/\b(angesetzte Sauerstoffbleiche|saurer WC-Reiniger|Wasserstoffperoxid|Zitronensäure|Zwei Reinigungsmittel|Chlorreiniger|Schmierseife|Rohrreiniger|Glasreiniger|Ammoniak|Salmiak|alter Urin|Spiritus|Sauerstoffbleiche|Natron|Essig|Seife|Säure|Chlor|irgendetwas)\b/gi, '<strong>$1</strong>');
+  }
   const heute0 = () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d.getTime(); };
   const tagKey = t => { const d = new Date(t); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
   function vorWann(t) {
@@ -174,7 +177,7 @@
   function warnkarte(zu) {
     return `<section class="karte warnkarte" data-warnkarte>
       <h2>Nie mischen</h2>
-      <ul>${I.nieMischen.map(t => `<li>${fmt(t)}</li>`).join('')}</ul>
+      <ul>${I.nieMischen.map(t => `<li>${mischWarnung(t)}</li>`).join('')}</ul>
       ${zu ? '' : `<div class="knopfreihe"><button class="knopf klein" data-aktion="vorlesen-warn">🔊 Vorlesen</button></div>`}
     </section>`;
   }
@@ -354,7 +357,7 @@
           <a class="knopf haupt" href="#/sitzung/${s.nr}${e.schritte.find(id => id.startsWith('s' + s.nr + '.')) ? '/' + e.schritte.find(id => id.startsWith('s' + s.nr + '.')) : ''}" data-treffer-start>▶ Jetzt starten</a>
           <a class="knopf" href="#/station/${s.nr}">Alle Schritte ansehen</a>
         </div></section>`);
-      if (s && MISCH_STATIONEN.includes(s.nr)) teile.push(`<details class="karte warnkarte"><summary><b>Vorher beachten: Nie mischen</b></summary><ul>${I.nieMischen.map(t => `<li>${fmt(t)}</li>`).join('')}</ul></details>`);
+      if (s && MISCH_STATIONEN.includes(s.nr)) teile.push(`<details class="karte warnkarte"><summary><b>Vorher beachten: Nie mischen</b></summary><ul>${I.nieMischen.map(t => `<li>${mischWarnung(t)}</li>`).join('')}</ul></details>`);
       const andereSchritte = e.schritte.filter(id => !s || !id.startsWith('s' + s.nr + '.'));
       if (andereSchritte.length) teile.push(`<section class="karte"><h2>Passende Schritte</h2><ul class="treffer-liste">${andereSchritte.slice(0, 6).map(id => { const x = schrittVon(id); return `<li><a href="#/sitzung/${x.station}/${id}">${esc(I.stationen[x.station].titel)} · ${esc(x.titel)}</a></li>`; }).join('')}</ul></section>`);
       if (mIds.length) teile.push(`<section class="karte" data-treffer-mittel><h2>Reinigungsmittel dafür</h2><ul class="treffer-liste">${mIds.map(i => `<li><b>${esc(I.mittel[i].name)}</b> — löst ${esc(I.mittel[i].loest)}. <span class="warn">Nie auf: ${esc(I.mittel[i].nie)}.</span></li>`).join('')}</ul><a class="knopf klein" href="#/mittel">Die 5 Reinigungsmittel im Einzelnen →</a></section>`);
@@ -618,8 +621,7 @@
     el.hidden = !an;
     if (!an) { el.innerHTML = ''; return; }
     const w = J.wort('kyukei');
-    el.style.backgroundImage = hatBild('x-pause') ? `linear-gradient(color-mix(in srgb, var(--papier) 72%, transparent), color-mix(in srgb, var(--papier) 88%, transparent)), url('${bildUrl('x-pause')}')` : '';
-    el.innerHTML = `<div class="pause-innen" data-pausefenster>
+    el.innerHTML = `${hatBild('x-pause') ? `<div class="pause-bild" style="background-image:url('${bildUrl('x-pause')}')" aria-hidden="true"></div>` : ''}<div class="pause-innen" data-pausefenster>
       <div class="pause-ring">${enso(1)}<div class="pause-mitte"><div class="pause-kanji" lang="ja">休憩</div><b data-rest>${mmss(Z.takt.ende - Date.now())}</b></div></div>
       <p class="held-laut">${aussprache(w, true)}</p>
       <p class="leitsatz">${esc(I.leitsaetze[Math.floor(Date.now() / 6e4) % I.leitsaetze.length])}</p>
@@ -725,7 +727,7 @@
     if (z.i === -1) {
       return `<div class="sitzung" data-sitzung data-phase="warn">
         <div class="wo"><span>${esc(s.titel)}</span><span>Vorab</span></div>
-        <section class="karte buehne warnkarte" data-buehne><h2>Beachte bitte vorher</h2><ul>${I.nieMischen.slice(0, 4).map(t => `<li>${fmt(t)}</li>`).join('')}</ul>
+        <section class="karte buehne warnkarte" data-buehne><h2>Beachte bitte vorher</h2><ul>${I.nieMischen.slice(0, 4).map(t => `<li>${mischWarnung(t)}</li>`).join('')}</ul>
           <p class="klein leise">Zwei Mittel auf derselben Fläche: erst ganz abspülen, lüften, neues Tuch.</p></section>
         <div class="steuer">
           <button class="knopf" data-aktion="s-zurueck">← Zurück</button>

@@ -233,13 +233,13 @@ try {
   ok('„ändern“ öffnet das Einrichten mit den gespeicherten Räumen', (await zahl(3)) === '2' && (await zahl(1)) === '0');
   await breiteOk('Einrichten');
 
-  /* 9 kleinste Breite, Dunkel */
+  /* 9 kleinste Breite, helle Naturfarben auch bei dunkler Systemeinstellung */
   await page.setViewportSize({ width: 320, height: 640 });
   await page.goto(URL0 + '#/'); await bereit();
   await breiteOk('Start 320 px');
   await page.emulateMedia({ colorScheme: 'dark' });
   const farben = await page.evaluate(() => [getComputedStyle(document.body).backgroundColor, getComputedStyle(document.body).color]);
-  ok('Dunkel: dunkler Grund, heller Text', farben[0] !== farben[1] && /rgb\(2[0-9], 1[0-9]/.test(farben[0]), farben);
+  ok('Dunkle Systemeinstellung: App bleibt hell, Text bleibt braun', farben[0] === 'rgb(247, 242, 233)' && farben[1] === 'rgb(70, 58, 48)', farben);
 
   /* 10 Gerät ohne japanische Stimme: die deutsche Stimme liest die Lautschrift */
   const ctx2 = await browser.newContext({ viewport: { width: 380, height: 800 } });

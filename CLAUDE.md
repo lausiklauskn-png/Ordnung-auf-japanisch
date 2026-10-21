@@ -43,10 +43,18 @@ npm install && npm test     # Syntax · Inhalt · Manifest/Schale · App im echt
 
 ## Stand
 
+Gestaltung (Klaus, 2026-10-21, nach Gegenprüfung der ersten Serie): oben ◐ zur Auswahl der hellen Naturthemen
+Washi, Sand und Salbei; Wahl in `oj_thema`, früh vor dem Stylesheet geladen. Kein dunkles Systemthema mehr.
+Glas-Buttons übernehmen Flächen, Text und 3D-Kante aus dem gewählten Thema; kurze Wackelbewegung und Lichtreflex
+bei Mausberührung, Einfedern beim Drücken; reduzierte Bewegung respektiert. Bilder vollständig in 3:2 ohne Zoom
+oder weißen Schleier; dunkler Text darunter auf deckendem Papier. Das gilt auch für das Pinselmotiv und die Pause.
+„Nie mischen“: Stoffnamen in allen Warnkarten mit `strong` hervorgehoben, Katalog und Vorlesetext unverändert.
+⚠ Am echten Handy und mit echten Stimmen nicht gemessen; Gegenprüfung der Darstellung durch Klaus steht aus.
+
 Bilder immer in kleinen Serien (Klaus, 2026-10-21): nur die vorhandene, freigegebene Serie einbauen,
 veröffentlichen und Klaus die App zum Aktualisieren geben. Erst nach seiner Gegenprüfung und Freigabe die nächste
 Serie bearbeiten. Keine Bilder auf Vorrat erzeugen. Gewünschte helle Naturpalette und braune Glas-Buttons mit
-sanftem Wackeln, 3D-Druck und Lichtreflex bei Mausberührung sind vorgemerkt; gesondert nach den Bildern umsetzen.
+sanftem Wackeln, 3D-Druck und Lichtreflex bei Mausberührung: im Gestaltungsschritt umgesetzt (siehe unten).
 Komprimierung (Klaus, 2026-10-21): WebP Qualität 80, Methode 6, 1200 × 800, Lanczos, RGB ohne Metadaten;
 immer vom Original importieren. Profil im Werkzeug festgelegt, Messung in `docs/BILDER-KOMPRIMIERUNG.md`.
 Erste Serie: 353.594 Bytes statt 15.254.079 Bytes PNG (97,68 % kleiner).
