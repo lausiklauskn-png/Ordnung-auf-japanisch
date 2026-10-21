@@ -6,12 +6,12 @@
 <title>整理 · Ordnung auf Japanisch</title>
 <meta name="description" content="Sprechende Begleit-App: Schritt für Schritt durch die Wohnung, bis Ordnung zur Gewohnheit wird.">
 <meta name="theme-color" content="#f7f2e9">
-<meta name="color-scheme" content="light">
+<meta name="color-scheme" content="light dark">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/favicon-64.png?v=2" type="image/png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2">
-<script src="assets/thema.js?v=2"></script>
-<link rel="stylesheet" href="assets/style.css?v=13">
+<script src="assets/thema.js?v=3"></script>
+<link rel="stylesheet" href="assets/style.css?v=14">
 </head>
 <body>
 <svg class="filter" aria-hidden="true" width="0" height="0">
@@ -28,7 +28,7 @@
   <button class="kopf-knopf" data-aktion="stumm" id="btnStumm" aria-label="Vorlesen an oder aus" title="Vorlesen an/aus">🔊</button>
 </header>
 <section class="thema-auswahl" id="themaAuswahl" aria-labelledby="themaTitel" hidden>
-  <h2 id="themaTitel">Helles Farbthema</h2>
+  <h2 id="themaTitel">Farbthema</h2>
   <div class="knopfreihe" role="group" aria-label="Farbthemen">
     <button class="knopf" type="button" data-thema-wahl="washi" aria-pressed="true">Washi</button>
     <button class="knopf" type="button" data-thema-wahl="sand" aria-pressed="false">Sand</button>
@@ -36,6 +36,8 @@
     <button class="knopf" type="button" data-thema-wahl="leinen" aria-pressed="false">Leinen</button>
     <button class="knopf" type="button" data-thema-wahl="morgenlicht" aria-pressed="false">Morgenlicht</button>
     <button class="knopf" type="button" data-thema-wahl="kirschbluete" aria-pressed="false">Kirschblüte</button>
+    <button class="knopf" type="button" data-thema-wahl="daemmerung" aria-pressed="false">Dämmerung</button>
+    <button class="knopf" type="button" data-thema-wahl="moos" aria-pressed="false">Moos</button>
   </div>
   <p>Deine Wahl bleibt beim nächsten Besuch erhalten.</p>
 </section>
@@ -62,6 +64,7 @@
 <script defer src="assets/db.js?v=2"></script>
 <script defer src="assets/klang.js?v=1"></script>
 <script defer src="assets/absicht.js?v=1"></script>
+<script defer src="assets/knopf.js?v=1"></script>
 <script defer src="assets/app.js?v=13"></script>
 </body>
 </html>
