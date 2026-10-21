@@ -33,7 +33,7 @@
   const kalAufgabe = id => { for (const m of I.kalender) { const a = m.aufgaben.find(x => x.id === id); if (a) return { monat: m, a }; } return null; };
   const MISCH_STATIONEN = [0, 2, 3, 4];                                    // vor diesen Stationen kommt die Warnkarte
   const GEWOHNHEIT_AB = 21;
-  const VERSION = '1.1';
+  const VERSION = '1.2';
   /* Bilder hinter den Texten: bilder/<Kennung>.webp, nur wenn sie in inhalt.js unter „bilder“ stehen */
   const BILDER = new Set(I.bilder || []);
   const hatBild = id => BILDER.has(id);
@@ -100,10 +100,11 @@
     folge(teile, opt = {}) {
       teile = teile.filter(t => t && (t.text || typeof t === 'string'));
       if (Z.stumm || !('speechSynthesis' in window) || !teile.length) { opt.fertig && opt.fertig(); return; }
+      steuerHoeren.halt();
       speechSynthesis.cancel();
       const us = teile.map(t => {
         const ja = typeof t === 'object' && t.ja, u = new SpeechSynthesisUtterance(typeof t === 'string' ? t : t.text);
-        u.lang = ja ? 'ja-JP' : 'de-DE'; const v = ja ? Stimme.ja : Stimme.de; if (v) u.voice = v; u.rate = ja ? .85 : .92; u.pitch = 1;
+        u.lang = ja ? 'ja-JP' : 'de-DE'; const v = ja ? Stimme.ja : Stimme.de; if (v) u.voice = v; u.rate = ja ? .85 : (Z.langsam ? .72 : .92); u.pitch = 1;
         return u;
       });
       us[0].onstart = () => { K.ducken(true); opt.start && opt.start(); };
@@ -111,7 +112,7 @@
       us.forEach(u => speechSynthesis.speak(u));
     },
     sprechen(text, opt = {}) { Stimme.folge([text], opt); },
-    stopp() { if ('speechSynthesis' in window) speechSynthesis.cancel(); },
+    stopp() { if ('speechSynthesis' in window) speechSynthesis.cancel(); K.ducken(false); },
   };
   if ('speechSynthesis' in window) { Stimme.laden(); speechSynthesis.onvoiceschanged = Stimme.laden; }
 
@@ -143,6 +144,69 @@
   }
   /* ---------- „Was möchtest du heute tun?“ — tippen oder sprechen ---------- */
   const HoerenAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let frageHoeren = null;
+  function frageStopp() {
+    const h = frageHoeren; frageHoeren = null; if (!h) return;
+    if (h.onend) h.onend(); h.onresult = h.onerror = h.onend = null;
+    try { h.abort(); } catch (_) {}
+  }
+  let medien = null, befehlLaeuft = false;
+  const steuerHoeren = window.OJ.Steuerung.zuhoeren({ API: HoerenAPI,
+    erlaubt: () => !!Z.sitzung && document.visibilityState === 'visible' && navigator.onLine && window.isSecureContext,
+    ausfuehren: sprachBefehl,
+    status(text, aktiv) {
+      if (!HoerenAPI || !window.isSecureContext) text = 'Dieser Browser unterstützt die Spracherkennung hier nicht. Nutze die Tasten.';
+      document.querySelectorAll('[data-sprach-status]').forEach(el => { el.textContent = text; });
+      const b = $('#zuhoeren'); if (b) { b.setAttribute('aria-pressed', aktiv); b.textContent = aktiv ? 'Zuhören ausschalten' : 'Zuhören einschalten'; }
+    }
+  });
+  function steuerKarte() {
+    return `<section class="karte" aria-label="Sprachsteuerung">
+      <button class="knopf" id="zuhoeren" data-aktion="sprach-an" aria-pressed="false" ${!HoerenAPI || !window.isSecureContext ? 'disabled' : ''}>Zuhören einschalten</button>
+      <p id="sprachStatus" data-sprach-status role="status">${HoerenAPI && window.isSecureContext ? 'Zuhören ist aus.' : 'Dieser Browser unterstützt die Spracherkennung hier nicht. Nutze die Tasten.'}</p>
+      <p class="klein">Ein Befehl pro Einschalten, höchstens 15 Sekunden. Nur im Vordergrund. Der Browser kann Audio an seinen Erkennungsdienst senden; Spracherkennung ist nicht als Offline-Funktion zugesichert.</p>
+      <details><summary>Befehle und Kopfhörer</summary><p>Fertig / abgehakt · weiter / nächster Schritt · nochmal / wiederholen · langsamer · zurück · Pause / Musik · wie lange noch · warum · Fleck Rotwein · stopp. Die Warnkarte wird nur mit „Verstanden“ am Bildschirm bestätigt.</p>
+      <button class="knopf" data-aktion="medien-an">Kopfhörertasten testen</button>
+      <p id="medienStatus" role="status">Versuch über MediaSession: Play = fertig, nächster Titel = weiter, vorheriger Titel = nochmal, Pause = Arbeitspause. Android kann Tasten an eine andere Medien-App senden. Vorlesen allein garantiert keinen Medienfokus. Falls nichts geschieht: Bildschirmtasten nutzen.</p>
+      <button class="knopf" data-aktion="medien-aus">Kopfhörertasten ausschalten</button></details>
+      <div class="knopfreihe"><button class="knopf" data-aktion="sprach-zeit">Wie lange noch?</button><button class="knopf" data-aktion="sprach-warum">Warum?</button></div>
+    </section>`;
+  }
+  async function sprachBefehl(k) {
+    if (!Z.sitzung || befehlLaeuft || document.visibilityState !== 'visible') return;
+    befehlLaeuft = true;
+    try {
+      steuerHoeren.halt();
+      if (k === 'stopp') { Stimme.stopp(); return; }
+      if (k === 'zeit') {
+        const texte = [];
+        if (Z.takt) texte.push(`${Z.takt.phase === 'pause' ? 'Pause' : 'Arbeit'}: noch ${Math.max(0, Math.ceil((Z.takt.ende - Date.now()) / 60000))} Minuten`);
+        for (const u of Z.uhren) texte.push(`${u.titel}: noch ${Math.max(0, Math.ceil((u.ende - Date.now()) / 60000))} Minuten`);
+        const t = texte.join('. ') || 'Es läuft keine Uhr.'; melden(t); Stimme.sprechen(t); return;
+      }
+      if (k === 'langsamer') { Z.langsam = true; sitzungVorlesen(); return; }
+      if (k === 'warum') { Stimme.sprechen('Warum in kleinen Schritten? ' + I.warumKurz.map(w => w.satz + ' ' + w.grund).join(' ')); return; }
+      if (k === 'fleck') { location.hash = '#/flecken/Rotwein'; return; }
+      if (Z.takt && Z.takt.phase === 'pause') {
+        if (k === 'weiter') { Z.takt.ende = Date.now(); taktWechsel(); }
+        else if (k === 'nochmal') Stimme.sprechen('Du machst gerade Pause. Sage weiter, um sie zu beenden.');
+        return; // kein versehentliches Abhaken hinter dem Pausenfenster
+      }
+      if (k === 'pause') { if (!Z.takt) taktStart(); Z.takt.ende = Date.now(); taktWechsel(); return; }
+      if (k === 'weiter' && Z.sitzung.i >= I.stationen[Z.sitzung.nr].schritte.length) {
+        const runde = $('[data-aktion="s-runde"]'), naechste = $('[data-naechste]');
+        if (runde) await handeln(runde); else if (naechste) naechste.click();
+        return;
+      }
+      const a = { fertig: 's-fertig', weiter: 's-weiter', nochmal: 's-wiederholen', zurück: 's-zurueck' }[k];
+      const b = a && document.querySelector(`[data-aktion="${a}"]`);
+      if (b) await handeln(b);
+    } finally { befehlLaeuft = false; }
+  }
+  function medienAus() { if (medien) medien.stopp(); medien = null; }
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState !== 'visible') { frageStopp(); steuerHoeren.halt('Zuhören beim Verlassen ausgeschaltet.'); medienAus(); } });
+  window.addEventListener('pagehide', () => { frageStopp(); steuerHoeren.halt(); medienAus(); });
+  window.addEventListener('offline', () => { frageStopp(); steuerHoeren.halt('Offline: nutze die Bildschirmtasten.'); });
   function frageKarte(wert = '') {
     return `<form class="karte frage-karte" data-frage-form autocomplete="off">
       <label for="frageFeld"><b>Was möchtest du heute tun?</b></label>
@@ -151,15 +215,19 @@
         ${HoerenAPI ? '<button type="button" class="knopf rund mikro" data-aktion="hoeren" aria-label="Sprechen">🎤</button>' : ''}
         <button type="submit" class="knopf haupt rund" aria-label="Los">→</button>
       </div>
+      <p class="klein leise">🎤 startet die Spracheingabe. Der Browser kann Audio an seinen Erkennungsdienst senden. Offline bitte tippen.</p>
     </form>`;
   }
   function hoeren(knopf) {
     if (!HoerenAPI) return;
+    steuerHoeren.halt();
     Stimme.stopp();
-    const h = new HoerenAPI(); h.lang = 'de-DE'; h.interimResults = true; h.maxAlternatives = 1;
+    frageStopp();
+    const h = frageHoeren = new HoerenAPI(); h.lang = 'de-DE'; h.interimResults = true; h.maxAlternatives = 1;
     const feld = $('#frageFeld'); knopf.classList.add('hoert'); knopf.textContent = '●';
     h.onresult = e => { const t = [...e.results].map(r => r[0].transcript).join(' '); feld.value = t; if (e.results[e.results.length - 1].isFinal) { h.stop(); fragen(t); } };
-    h.onerror = h.onend = () => { knopf.classList.remove('hoert'); knopf.textContent = '🎤'; };
+    h.onend = () => { if (frageHoeren === h) frageHoeren = null; knopf.classList.remove('hoert'); knopf.textContent = '🎤'; };
+    h.onerror = () => { h.onend(); melden('Spracheingabe nicht verfügbar. Bitte den Wunsch eintippen.'); };
     try { h.start(); } catch (_) {}
   }
   function fragen(t) { t = (t || '').trim(); if (t) location.hash = '#/fragen/' + encodeURIComponent(t); }
@@ -587,9 +655,14 @@
       <p class="held-laut">${aussprache(w, true)}</p>
       <p class="leitsatz">${esc(I.leitsaetze[Math.floor(Date.now() / 6e4) % I.leitsaetze.length])}</p>
       <div class="knopfreihe" style="justify-content:center">
-        <button class="knopf" data-aktion="musik" aria-pressed="${K.laeuft()}">${K.laeuft() ? '🎵 Klang aus' : '🎵 Klang an'}</button>
         <button class="knopf haupt" data-aktion="pause-ende">Pause beenden →</button>
-      </div></div>`;
+        <button class="knopf" data-aktion="musik" aria-pressed="${K.laeuft()}">${K.laeuft() ? '🎵 Klang aus' : '🎵 Klang an'}</button>
+        <button class="knopf" data-aktion="sprach-an">Zuhören an / aus</button>
+        <button class="knopf" data-aktion="sprach-zeit">Wie lange noch?</button>
+      </div>
+      <p class="klein">Zuhören: ein Befehl, höchstens 15 Sekunden. Der Browser kann Audio an seinen Erkennungsdienst senden. Offline bitte Tasten nutzen.</p>
+      <p data-sprach-status role="status">Zuhören ist aus.</p>
+      </div>`;
   }
   setInterval(function tick() {
     const jetzt = Date.now();
@@ -762,7 +835,8 @@
     location.hash = '#/station/' + s.nr;
   }
   function sitzungZeigen(vorlesen = true) {
-    ansicht.innerHTML = sitzungHtml();
+    steuerHoeren.halt();
+    ansicht.innerHTML = sitzungHtml() + steuerKarte();
     const z = Z.sitzung, x = z && I.stationen[z.nr].schritte[z.i];       // Stelle in die Adresse: Neuladen setzt hier fort
     if (x) history.replaceState(null, '', `#/sitzung/${z.nr}/${x.id}`);
     ansicht.classList.remove('tinte'); void ansicht.offsetWidth; ansicht.classList.add('tinte');
@@ -837,10 +911,19 @@
   }
 
   document.addEventListener('click', () => K.wecken(), { capture: true, once: true });
-  document.addEventListener('click', async ev => {
-    const k = ev.target.closest('[data-aktion]'); if (!k) return;
+  document.addEventListener('click', ev => { const k = ev.target.closest('[data-aktion]'); if (k) handeln(k); });
+  async function handeln(k) {
     const a = k.dataset.aktion, ref = k.dataset.ref;
-    if (a === 'vorlesen') { const s = schrittVon(ref); Stimme.sprechen(ST.ansage(s)); }
+    if (a !== 'sprach-an') steuerHoeren.halt();
+    if (a === 'sprach-an') { if (steuerHoeren.aktiv) steuerHoeren.halt(); else { frageStopp(); Stimme.stopp(); steuerHoeren.start(); } }
+    else if (a === 'sprach-zeit') await sprachBefehl('zeit');
+    else if (a === 'sprach-warum') await sprachBefehl('warum');
+    else if (a === 'medien-aus') { medienAus(); $('#medienStatus').textContent = 'Kopfhörertasten ausgeschaltet.'; }
+    else if (a === 'medien-an') {
+      medienAus(); medien = window.OJ.Steuerung.medien(navigator.mediaSession, sprachBefehl);
+      $('#medienStatus').textContent = medien.gesetzt.length ? 'Registrierte Aktionen: ' + medien.gesetzt.join(', ') + '. Jetzt am Kopfhörer testen. Keine Reaktion? Nutze die Bildschirmtasten. Nach App-Wechsel erneut aktivieren.' : 'MediaSession wird hier nicht unterstützt. Nutze die Bildschirmtasten.';
+    }
+    else if (a === 'vorlesen') { const s = schrittVon(ref); Stimme.sprechen(ST.ansage(s)); }
     else if (a === 'wort') { const w = J.wort(k.dataset.k); Stimme.folge([Stimme.wort(w.k), `${w.de}.`]); }
     else if (a === 'g-haken') {
       const g = gewohnheit(ref), x = gStand(g);
@@ -889,7 +972,7 @@
       else if (a === 's-runde') { z.runde++; z.i = 0; z.start = 0; z.erledigt = 0; sitzungZeigen(); }
       else if (a === 's-fertig') { await erledigen('schritt', I.stationen[z.nr].schritte[z.i].id); z.erledigt++; z.i++; sitzungZeigen(); }
     }
-  });
+  }
   document.addEventListener('submit', ev => {
     if (!ev.target.matches('[data-frage-form]')) return;
     ev.preventDefault(); fragen($('#frageFeld').value);
@@ -906,7 +989,8 @@
     if (name !== 'einrichten') Z.entwurf = null;
     const f = ANSICHTEN[name] || ANSICHTEN.start;
     const y = animiert ? 0 : scrollY;
-    ansicht.innerHTML = f(...teile.slice(1));
+    frageStopp(); steuerHoeren.halt(); medienAus();
+    ansicht.innerHTML = f(...teile.slice(1)) + (Z.sitzung ? steuerKarte() : '');
     document.querySelectorAll('[data-nav]').forEach(n => n.toggleAttribute('aria-current', false));
     const nav = document.querySelector(`[data-nav="${({ station: 'start', sitzung: 'start', info: 'start', einrichten: 'start', woerter: 'regeln', mittel: 'regeln', fragen: 'start' })[name] || name}"]`);
     if (nav) nav.setAttribute('aria-current', 'page');

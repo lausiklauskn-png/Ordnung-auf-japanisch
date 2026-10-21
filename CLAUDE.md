@@ -64,4 +64,8 @@ Kennungen aus `inhalt.js` → `bilder`), Text auf heller Verlaufsfläche · Wör
 Bilder kommen von ChatGPT über `docs/CHATGPT-BRIEF.md` (gebaut aus `docs/BILD-MOTIVE.md`; Grundsatz 間 ma).
 Übergabe an andere Sitzungen: `AGENTS.md` (Codex/ChatGPT), Veröffentlichen und Schlüssel: `docs/VEROEFFENTLICHEN.md`.
 Proben: `tests/speicher.mjs`, `tests/absicht.mjs`. ⚠ Spracheingabe nur gestellt gemessen; am Handy ungemessen.
-Noch nicht: Sprachbefehle während der Sitzung, Medientasten der Ohrhörer, eigene Musik, native Android-Hülle.
+Noch nicht: eigene Musik, native Android-Hülle.
+1.2 (Codex 2026-10-21): deutsche Sitzungsbefehle mit ausdrücklich aktiviertem 15-Sekunden-Fenster,
+Fehler-/Offline-/Vordergrundprüfung, Warnkarten- und Pausenschutz. Optionaler MediaSession-Testmodus;
+keine Zusage für Bluetooth-Medienfokus. `assets/steuerung.js`, Adapter- und Browserproben, GitHub-Actions.
+Geräteprüfung S21/Tab S6 noch offen; Details und Einschränkungen: `docs/SPRACHSTEUERUNG.md`.
