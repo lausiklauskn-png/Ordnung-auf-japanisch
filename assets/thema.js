@@ -1,8 +1,8 @@
-/* Helle Naturthemen: vor dem Stylesheet anwenden, damit beim Laden nichts dunkel aufblitzt. */
+/* Gewähltes Naturthema vor dem Stylesheet anwenden; Start bleibt helles Washi. */
 (function () {
   'use strict';
   const SCHLUESSEL = 'oj_thema';
-  const THEMEN = { washi: '#f7f2e9', sand: '#f3e9da', salbei: '#eff2e8', leinen: '#f4f1eb', morgenlicht: '#fbf1df', kirschbluete: '#f8eeec' };
+  const THEMEN = { washi: '#f7f2e9', sand: '#f3e9da', salbei: '#eff2e8', leinen: '#f4f1eb', morgenlicht: '#fbf1df', kirschbluete: '#f8eeec', daemmerung: '#3b322c', moos: '#29352f' };
   let aktuell = 'washi';
   try { const wert = localStorage.getItem(SCHLUESSEL); if (Object.hasOwn(THEMEN, wert)) aktuell = wert; } catch (_) {}
 

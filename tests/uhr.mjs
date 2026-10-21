@@ -59,8 +59,18 @@ try {
   await page.waitForSelector('[data-sitzung][data-ref="s2.1"]');
   ok('Sitzung startet die Arbeitsuhr: 10:00', (await page.textContent('[data-taktleiste] [data-rest]')).trim() === '10:00', await page.textContent('[data-taktleiste]'));
   ok('Kopf zeigt „⏱ Arbeit“', (await page.textContent('#uhren')).includes('⏱ Arbeit'));
+  await page.evaluate(() => scrollTo(0, 450));
+  ok('Uhr beim Scrollen: nur deckender Chip, keine breite transparente Fläche', await page.evaluate(() => {
+    const box = document.querySelector('#uhren'), chip = box.querySelector('[data-chip="takt"]');
+    const s = getComputedStyle(box), c = getComputedStyle(chip), r = chip.getBoundingClientRect(), kopf = document.querySelector('.kopf').getBoundingClientRect();
+    return s.backgroundColor === 'rgba(0, 0, 0, 0)' && s.backgroundImage === 'none' && s.borderBottomWidth === '0px'
+      && s.pointerEvents === 'none' && c.pointerEvents === 'auto' && c.backgroundColor !== 'rgba(0, 0, 0, 0)'
+      && r.top >= kopf.bottom - 1 && r.bottom < innerHeight && box.getBoundingClientRect().width < innerWidth;
+  }));
+
   await lauf(61_000);
   ok('nach einer Minute: 9:00 (±1 s, die Anzeige läuft im Sekundentakt)', /^(9:00|8:59)$/.test((await page.textContent('[data-taktleiste] [data-rest]')).trim()), await page.textContent('[data-taktleiste] [data-rest]'));
+  ok('Schwebender Arbeits-Chip zählt weiter', /^(9:00|8:59)$/.test((await page.textContent('#uhren [data-rest]')).trim()));
   ok('Balken wächst (> 10 %)', parseFloat((await page.getAttribute('.taktbalken i', 'style')).match(/[\d.]+/)[0]) > 10);
 
   // Einwirk-Uhr: Kochfeld 5 Min. — erst zum Schritt 2.6

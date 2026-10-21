@@ -43,6 +43,19 @@ npm install && npm test     # Syntax · Inhalt · Manifest/Schale · App im echt
 
 ## Stand
 
+Naturflächen und Orientierung (Klaus, 2026-10-21): aktive Navigation unten mit Schriftgewicht 800,
+hinterlegter Fläche und oberer Markierung. Washi mit unregelmäßigen Papierfasern, Sand mit feinem Korn,
+Leinen mit Webstruktur, Morgenlicht mit weichem Fensterlicht; Kirschblüte bleibt ohne Zusatzmotiv.
+Alle Strukturen als kleine eingebettete SVGs, ohne Netzabruf oder neue Motivbilder.
+Dämmerung und Moos ergänzen die sechs hellen Themen; Start bleibt Washi, nur die eigene Wahl wird gespeichert.
+Bildverläufe und Schrift passen sich auch den dunkleren Flächen an. Die breite transparente Uhrleiste entfällt;
+nur deckende Zeit-Chips schweben beim Scrollen unter dem Kopf. Arbeits-/Pausenlogik unverändert.
+⚠ Am echten Handy, mit echten Stimmen und beim Kaltstart der installierten PWA noch nicht gemessen.
+
+Sprachenwunsch (Klaus, 2026-10-21): Deutsch, Englisch, Russisch, Japanisch, Spanisch und Polnisch;
+fest eingebaute Übersetzungen auch ohne Internet, einschließlich Oberfläche, Anleitungen und Vorlesen.
+Umsetzung als nächster eigener Schritt nach der Gestaltung.
+
 Bildübergänge (Klaus, 2026-10-21, Korrektur nach Gestaltungsschritt): keine harte Trennung zwischen Bild
 und Text. Das Bild läuft unten mit einem transparenten Verlauf in das Papier des gewählten Themas aus;
 nahezu schwarze Schrift beginnt 48–88 px innerhalb des Bildbereichs. Motiv oben länger sichtbar, 3:2 und

@@ -1,4 +1,4 @@
-/* Ordnung auf Japanisch — helles Papier, Sand und warme Brauntöne. Handy hochkant zuerst. */
+/* Ordnung auf Japanisch — Naturflächen, warme Töne. Handy hochkant zuerst. */
 :root {
   --papier: #f7f2e9;
   --papier-2: #eee3d3;
@@ -16,12 +16,15 @@
   --rund: 16px;
   --serif-ja: "Noto Serif CJK JP", "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN", "Source Han Serif", serif;
   --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
-  --papier-muster: none;
+  --papier-muster: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22192%22%20height%3D%22192%22%20viewBox%3D%220%200%20192%20192%22%3E%3Cfilter%20id%3D%22n%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%22.035%20.52%22%20numOctaves%3D%223%22%20seed%3D%2217%22%20stitchTiles%3D%22stitch%22%2F%3E%3CfeColorMatrix%20type%3D%22saturate%22%20values%3D%220%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22192%22%20height%3D%22192%22%20filter%3D%22url%28%23n%29%22%20opacity%3D%22.085%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%238b7356%22%20stroke-width%3D%22.65%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.12%22%3E%3Cpath%20d%3D%22M8%2021q9-3%2019%201m31%2012q12%203%2021-1m33-19%2017%203m21%2044%2024-2M18%2087l19%202m29-25%2017%201m23%2032%2023-2m27%2034%2020%203M5%20151l24-2m21%2021%2024%201m25-31%2017%202m29%2030%2023-3M43%205l11%201M84%20119l16-1%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+  --papier-licht: none;
+  --bild-tusche: #241f1a;
   color-scheme: light;
 }
 
 
 :root[data-thema="sand"] {
+  --papier-muster: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22192%22%20height%3D%22192%22%3E%3Cfilter%20id%3D%22n%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%22.68%22%20numOctaves%3D%223%22%20seed%3D%2231%22%20stitchTiles%3D%22stitch%22%2F%3E%3CfeColorMatrix%20type%3D%22saturate%22%20values%3D%220%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22192%22%20height%3D%22192%22%20filter%3D%22url%28%23n%29%22%20opacity%3D%22.10%22%2F%3E%3Cg%20fill%3D%22%238a6841%22%20opacity%3D%22.15%22%3E%3Ccircle%20cx%3D%2214%22%20cy%3D%2217%22%20r%3D%22.8%22%2F%3E%3Ccircle%20cx%3D%2279%22%20cy%3D%2231%22%20r%3D%22.7%22%2F%3E%3Ccircle%20cx%3D%22141%22%20cy%3D%2212%22%20r%3D%22.9%22%2F%3E%3Ccircle%20cx%3D%2231%22%20cy%3D%2294%22%20r%3D%22.6%22%2F%3E%3Ccircle%20cx%3D%22105%22%20cy%3D%2273%22%20r%3D%22.8%22%2F%3E%3Ccircle%20cx%3D%22167%22%20cy%3D%2298%22%20r%3D%22.7%22%2F%3E%3Ccircle%20cx%3D%2217%22%20cy%3D%22171%22%20r%3D%22.8%22%2F%3E%3Ccircle%20cx%3D%2287%22%20cy%3D%22146%22%20r%3D%22.9%22%2F%3E%3Ccircle%20cx%3D%22143%22%20cy%3D%22178%22%20r%3D%22.6%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
   --papier: #f3e9da; --papier-2: #e8d7bf; --karte: #fff8ed;
   --tusche: #49372c; --tusche-2: #68503e; --leise: #755e4b;
   --akzent: #7f583a; --akzent-tief: #65422b;
@@ -33,26 +36,50 @@
   --linie: rgba(74, 94, 65, .18);
 }
 :root[data-thema="leinen"] {
+  --papier-muster: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22192%22%20height%3D%22192%22%3E%3Cdefs%3E%3Cpattern%20id%3D%22web%22%20width%3D%226%22%20height%3D%226%22%20patternUnits%3D%22userSpaceOnUse%22%3E%3Cpath%20d%3D%22M0%201h6M1%200v6%22%20stroke%3D%22%238c7c65%22%20stroke-opacity%3D%22.11%22%20stroke-width%3D%221%22%2F%3E%3Cpath%20d%3D%22M0%202h6M2%200v6%22%20stroke%3D%22%23fffaf0%22%20stroke-opacity%3D%22.34%22%20stroke-width%3D%221%22%2F%3E%3C%2Fpattern%3E%3Cfilter%20id%3D%22n%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%22.08%20.5%22%20numOctaves%3D%222%22%20seed%3D%229%22%20stitchTiles%3D%22stitch%22%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3Crect%20width%3D%22192%22%20height%3D%22192%22%20fill%3D%22url%28%23web%29%22%2F%3E%3Crect%20width%3D%22192%22%20height%3D%22192%22%20filter%3D%22url%28%23n%29%22%20opacity%3D%22.035%22%2F%3E%3C%2Fsvg%3E");
   --papier: #f4f1eb; --papier-2: #e5dfd3; --karte: #fffdf8;
   --tusche: #433d35; --tusche-2: #5c554b; --leise: #71685c;
   --akzent: #716451; --akzent-tief: #574b3b; --matcha: #66715b;
 }
 :root[data-thema="morgenlicht"] {
+  --papier-licht: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201200%201000%22%3E%3Cdefs%3E%3CradialGradient%20id%3D%22sonne%22%20cx%3D%2285%25%22%20cy%3D%225%25%22%20r%3D%2290%25%22%3E%3Cstop%20stop-color%3D%22%23fffdf0%22%20stop-opacity%3D%22.85%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23f5d493%22%20stop-opacity%3D%220%22%2F%3E%3C%2FradialGradient%3E%3ClinearGradient%20id%3D%22strahl%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20stop-color%3D%22%23fffef6%22%20stop-opacity%3D%22.72%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23ffe1a3%22%20stop-opacity%3D%220%22%2F%3E%3C%2FlinearGradient%3E%3Cfilter%20id%3D%22weich%22%3E%3CfeGaussianBlur%20stdDeviation%3D%2219%22%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3Crect%20width%3D%221200%22%20height%3D%221000%22%20fill%3D%22url%28%23sonne%29%22%2F%3E%3Cg%20transform%3D%22translate%28520%2C-230%29%20rotate%2824%29%22%20filter%3D%22url%28%23weich%29%22%20fill%3D%22url%28%23strahl%29%22%3E%3Crect%20width%3D%22145%22%20height%3D%22410%22%2F%3E%3Crect%20x%3D%22176%22%20width%3D%22145%22%20height%3D%22410%22%2F%3E%3Crect%20y%3D%22443%22%20width%3D%22145%22%20height%3D%22540%22%2F%3E%3Crect%20x%3D%22176%22%20y%3D%22443%22%20width%3D%22145%22%20height%3D%22540%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
   --papier: #fbf1df; --papier-2: #eedcc0; --karte: #fffaf0;
   --tusche: #4b3826; --tusche-2: #6d553c; --leise: #776149;
   --akzent: #865b33; --akzent-tief: #694322;
 }
 :root[data-thema="kirschbluete"] {
+  --papier-muster: none;
   --papier: #f8eeec; --papier-2: #ecdad5; --karte: #fff8f5;
   --tusche: #4b3533; --tusche-2: #6d504b; --leise: #7b625c;
   --akzent: #855852; --akzent-tief: #69413c;
+}
+
+/* Dunklere, warme Alternativen werden nur auf ausdrückliche Auswahl angewandt. */
+:root[data-thema="daemmerung"] {
+  --papier: #3b322c; --papier-2: #463a30; --karte: #4a3e35;
+  --tusche: #f7ead8; --tusche-2: #e4d2bc; --leise: #cbb79f;
+  --akzent: #e5be95; --akzent-tief: #c99d70; --matcha: #b8c99c;
+  --warnung: #f4b5a1; --gold: #e0bf88; --linie: rgba(238, 216, 184, .25);
+  --schatten: 0 1px 0 rgba(255,255,255,.06) inset, 0 10px 28px -18px rgba(0,0,0,.35);
+  --bild-tusche: var(--tusche); color-scheme: dark;
+}
+:root[data-thema="moos"] {
+  --papier: #29352f; --papier-2: #303d33; --karte: #34433a;
+  --tusche: #edf1df; --tusche-2: #d4deca; --leise: #b5c4ae;
+  --akzent: #d6bc95; --akzent-tief: #b89d77; --matcha: #b7ce9e;
+  --warnung: #f0bba6; --gold: #d9c294; --linie: rgba(218, 234, 200, .25);
+  --schatten: 0 1px 0 rgba(255,255,255,.06) inset, 0 10px 28px -18px rgba(0,0,0,.35);
+  --bild-tusche: var(--tusche); color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0; min-height: 100dvh;
-  background: var(--papier) var(--papier-muster);
+  background-color: var(--papier);
+  background-image: var(--papier-licht), var(--papier-muster);
+  background-size: 100vw 100vh, 192px 192px;
+  background-repeat: no-repeat, repeat;
   color: var(--tusche); font: 17px/1.5 var(--sans);
   padding-bottom: calc(72px + env(safe-area-inset-bottom));
   overflow-x: hidden;
@@ -288,9 +315,17 @@ details.monat.jetzt { border-color: var(--akzent); }
   background: color-mix(in srgb, var(--papier) 92%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   border-top: 1px solid var(--linie); padding-bottom: env(safe-area-inset-bottom);
 }
-.leiste a { display: grid; justify-items: center; gap: 0; padding: 8px 2px 8px; text-decoration: none; font-size: .72rem; color: var(--leise); min-height: 58px; }
+.leiste a { position: relative; display: grid; justify-items: center; gap: 0; padding: 8px 2px 8px; text-decoration: none; font-size: .72rem; color: var(--leise); min-height: 58px; }
 .leiste a span { font-size: 1.35rem; line-height: 1.2; color: var(--tusche-2); }
-.leiste a[aria-current="page"] { color: var(--akzent); }
+.leiste a[aria-current="page"] {
+  color: var(--tusche); font-weight: 800;
+  background: color-mix(in srgb, var(--akzent) 17%, var(--papier));
+}
+.leiste a[aria-current="page"]::before {
+  content: ""; position: absolute; top: 0; left: 22%; right: 22%; height: 4px;
+  border-radius: 0 0 4px 4px; background: var(--akzent);
+}
+.leiste a:focus-visible { outline: 3px solid var(--akzent); outline-offset: -4px; }
 .leiste a[aria-current="page"] span { color: var(--akzent); }
 
 /* ---------- Meldung, Blätter ---------- */
@@ -378,7 +413,11 @@ button.station-kachel { font: inherit; color: inherit; cursor: pointer; width: 1
 .einrichten-fuss .haupt { flex: 1 1 auto; }
 
 /* ---------- Uhren ---------- */
-.uhren { position: sticky; top: calc(61px + env(safe-area-inset-top)); z-index: 9; display: flex; gap: 6px; flex-wrap: wrap; padding: 6px 16px; background: color-mix(in srgb, var(--papier) 90%, transparent); border-bottom: 1px solid var(--linie); }
+.uhren { position: sticky; top: calc(61px + env(safe-area-inset-top)); z-index: 9;
+  display: flex; gap: 6px; flex-wrap: wrap; width: fit-content; max-width: 100%;
+  padding: 6px 16px; background: none; border: 0; pointer-events: none; }
+.uhren .chip { pointer-events: auto; box-shadow: 0 3px 12px rgba(0,0,0,.12); font-weight: 600; }
+.uhren .chip b { font-weight: 800; }
 .uhren[hidden] { display: none; }
 .chip { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 2px 4px 2px 12px; background: var(--karte); border: 1px solid var(--linie); font-size: .88rem; max-width: 100%; }
 .chip b { font-variant-numeric: tabular-nums; }
@@ -489,7 +528,7 @@ button.station-kachel { font: inherit; color: inherit; cursor: pointer; width: 1
     color-mix(in srgb, var(--bild-papier, var(--karte)) 96%, transparent) calc(100% - 12px),
     var(--bild-papier, var(--karte)) 100%);
 }
-.mit-bild > :is(h1, h2, h3, p), .mit-bild .warum li, .mit-bild .warum b { color: #241f1a; }
+.mit-bild > :is(h1, h2, h3, p), .mit-bild .warum li, .mit-bild .warum b { color: var(--bild-tusche); }
 .schritt.mit-bild, .gewohnheit-karte.mit-bild { --bild-rand: 14px; }
 .station-kopf.mit-bild {
   --bild-rand: 14px; display: grid; grid-template-columns: auto minmax(0, 1fr);
@@ -498,7 +537,7 @@ button.station-kachel { font: inherit; color: inherit; cursor: pointer; width: 1
 .buehne.mit-bild { --bild-rand: 18px; padding-top: var(--bild-rand); align-content: start; }
 #pause { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 16px; overflow-y: auto; background: var(--papier); }
 .pause-bild { --bild-papier: var(--papier); --bild-ueberlappung: clamp(48px, 8vw, 88px); position: relative; width: min(100%, 720px); aspect-ratio: 3 / 2; flex: 0 0 auto; margin-bottom: calc(-1 * var(--bild-ueberlappung)); background-size: contain; background-position: center; background-repeat: no-repeat; }
-.pause-innen { position: relative; z-index: 1; padding: 20px; color: #241f1a; }
+.pause-innen { position: relative; z-index: 1; padding: 20px; color: var(--bild-tusche); }
 
 /* ---------- Die 5 Reinigungsmittel ---------- */
 .mittel-karte h2 { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
@@ -577,7 +616,7 @@ details.warnkarte summary { cursor: pointer; color: var(--akzent); }
 
 /* ---------- Farbthemen oben wählen ---------- */
 .thema-auswahl { position: fixed; top: calc(68px + env(safe-area-inset-top)); right: 12px; z-index: 60;
-  width: min(340px, calc(100vw - 24px)); padding: 16px; border: 1px solid var(--linie); border-radius: var(--rund);
+  width: min(340px, calc(100vw - 24px)); max-height: calc(100dvh - 92px - env(safe-area-inset-top)); overflow-y: auto; padding: 16px; border: 1px solid var(--linie); border-radius: var(--rund);
   background: var(--karte); color: var(--tusche); box-shadow: var(--schatten); }
 .thema-auswahl[hidden] { display: none; }
 .thema-auswahl h2 { font-size: 1.05rem; margin-bottom: 14px; }
