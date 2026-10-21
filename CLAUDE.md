@@ -53,6 +53,8 @@ Farben folgen dem Naturthema. Touch-Scrollen und reduzierte Bewegung ohne Neigun
 Dämmerung und Moos ergänzen die sechs hellen Themen; Start bleibt Washi, nur die eigene Wahl wird gespeichert.
 Bildverläufe und Schrift passen sich auch den dunkleren Flächen an. Die breite transparente Uhrleiste entfällt;
 nur deckende Zeit-Chips schweben beim Scrollen unter dem Kopf. Arbeits-/Pausenlogik unverändert.
+Prüfung: vollständiges `npm test` grün (Lauf 39651628770). Gegenproben für aktive Navigation,
+Materialstruktur, transparente Uhrfläche und ausgeschaltete Mausneigung reagieren jeweils rot.
 ⚠ Am echten Handy, mit echten Stimmen und beim Kaltstart der installierten PWA noch nicht gemessen.
 
 Sprachenwunsch (Klaus, 2026-10-21): Deutsch, Englisch, Russisch, Japanisch, Spanisch und Polnisch;
