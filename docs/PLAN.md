@@ -43,7 +43,7 @@ Ziel: jeder Handgriff wird zur **Gewohnheit**. Inhalt: `INHALT.md` (nur Tipps, n
 - ⚠ **Grenze, früh messen:** Chrome/Android hört nur mit eingeschaltetem Bildschirm und App im
   Vordergrund; kein Dauer-Zuhören im Hintergrund. Plan: Bildschirm-wach (`WakeLock`), Zuhören
   in Fenstern nach jeder Ansage neu starten, Medientasten der Ohrhörer (`MediaSession`:
-  Play = fertig, Weiter = nächster Schritt, Zurück = wiederholen) als zuverlässiger Rückweg.
+  Play = fertig, Weiter = nächster Schritt, Zurück = wiederholen) als experimenteller zusätzlicher Weg; Medienfokus und Weiterleitung sind nicht garantiert.
 
 ## 4 · Musik in der Pause
 
@@ -82,7 +82,7 @@ Handy hochkant zuerst.
 Wie Workflow PDF: PWA ohne Build-Schritt, `index.html` + `assets/*.js`, Service-Worker, Manifest-`id`
 `/Ordnung-auf-japanisch/`, Speicher IndexedDB (`OrdnungJP1`, nie umbenennen). Inhalt als
 `assets/inhalt.js` (aus `INHALT.md` erzeugt), Proben mit Playwright (`npm test`): Ablauf, Befehle
-(gestellte Erkennung), Takt-Uhr, Speicher. Keine Daten ins Netz.
+(gestellte Erkennung), Takt-Uhr, Speicher. Lokale App-Daten bleiben auf dem Gerät; die freiwillige Browser-Spracherkennung kann Audio an einen Browserdienst senden.
 
 ## 8 · Bau-Reihenfolge
 
@@ -107,3 +107,10 @@ Wie Workflow PDF: PWA ohne Build-Schritt, `index.html` + `assets/*.js`, Service-
 1. Der Takt „10 Min. Arbeit / 10 Min. Pause“ steht in keinem der fünf Hefte — aus dem Hauptbuch?
    Bis dahin: einstellbar, Vorgabe 20/10.
 2. Quellenangabe: Buchtitel und Verlag/Autor fürs Impressum.
+
+## Umsetzung Sprachsteuerung · 21.10.2026
+
+Sitzungsbefehle mit explizitem Zuhörfenster (ein Befehl, höchstens 15 Sekunden), Abschalten bei
+Ansagen/App-Wechsel/Fehlern und vollständiger Tastenalternative implementiert. MediaSession-Handler
+optional als Testmodus; kein verlässlicher Medienfokus durch TTS zugesichert. Bedienung, Grenzen,
+automatisierte Proben und offene Samsung-Gerätetests: [SPRACHSTEUERUNG.md](SPRACHSTEUERUNG.md).

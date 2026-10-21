@@ -446,3 +446,6 @@ button.station-kachel { font: inherit; color: inherit; cursor: pointer; width: 1
 .treffer-liste { margin: 8px 0 10px; padding-left: 1.1em; }
 .treffer-liste li { margin: 6px 0; color: var(--tusche-2); }
 details.warnkarte summary { cursor: pointer; color: var(--rot); }
+
+/* Pausensteuerung bleibt auch bei kleinem Bildschirm und großer Schrift erreichbar. */
+.pause { overflow-y: auto; align-items: safe center; }
