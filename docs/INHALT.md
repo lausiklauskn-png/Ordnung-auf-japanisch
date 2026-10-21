@@ -168,7 +168,7 @@ kein Trockner, solange der Fleck da ist. Jedes Mittel erst an einer inneren Naht
 | 5.1 Stehend falten | T-Shirts und Pullover zu Päckchen, stehend in die Schublade — ein Blick, alles sichtbar. |
 | 5.2 Gleiche Bügel | Gleiche, schmale Bügel schaffen ein Drittel mehr Platz. Drahtbügel zurück zur Reinigung. |
 | 5.3 Bügel-Probe | Heute alle Bügel in dieselbe Richtung. Was getragen wurde, andersherum zurück. In sechs Monaten sieht man, was sich nicht bewegt. |
-| 5.4 Acht Zehntel | Der Schrank wird nur zu acht Zehnteln gefüllt. Eins rein, eins raus — in derselben Woche. |
+| 5.4 Acht Zehntel | Der Schrank wird nur zu acht Zehnteln gefüllt. Eins rein, eins raus — in derselben Woche. Die Entscheidung dauert dreißig Sekunden, solange die Einkaufstüte noch in der Hand ist. |
 | 5.5 Drei Fragen | Dieses Jahr getragen? Würde ich es tragen, wenn jetzt jemand klingelt? Gibt es einen Handgriff, der es rettet — dann diese Woche, sonst geht es. |
 | 5.6 Fertig erkennen | Reißt unter dem Finger · durchsichtig an Ellbogen/Knie · Bündchen kommt nicht zurück · verfilzt · Geruch bleibt nach Sauerstoffbad. Handtuch, das nicht saugt, ist meist nur verschmiert (Rettungsbad 4.8). |
 | 5.7 Zweites Leben | Laken → 30-cm-Lappen · Frottee → Bodentücher · T-Shirt → Staubtuch · Hemd → Kissenbezug, Lavendelsäckchen · verfilzte Wolle → Filzgleiter. Lappenkorb neben die Maschine, Lappen getrennt bei 60 °C. |
@@ -229,6 +229,19 @@ Erst trocken, dann feucht. Kaltes Wasser halbiert die Wirkung. Wasser wechseln, 
 | 9.8 Große Glasflächen | Zweimal im Jahr, bewölkt, Teleskopstange. ⚠ Nie auf ein Glasdach steigen; Leiter nur mit jemandem, der hält. |
 
 ---
+
+## Warum in kleinen Schritten
+
+Die App arbeitet in kurzen Blöcken mit Pause dazwischen. Die Gründe stehen verteilt in den Heften;
+hier gesammelt, so wie die App sie erklärt (Ansage vor dem ersten Block und in der Pause):
+
+- **Kurz entscheiden, nicht lange grübeln.** Eins rein, eins raus braucht kein großes Aufräumen, nur eine Entscheidung von dreißig Sekunden. Wer bei einem Ding lange überlegt, findet fast immer einen Grund, es zu behalten.
+- **Was nicht zu entscheiden ist, kommt in die Kiste des Zweifels** — mit Datum in einem Jahr. Ist sie bis dahin zu geblieben, geht sie, ohne dass man hineinsieht. So hält kein einzelnes Ding den ganzen Block auf.
+- **Der Keller ist kein Versteck.** Was man nicht entscheiden will, landet sonst dort — und bleibt.
+- **Ein Schrank pro Tag, nicht zwei.** Wer zu viel auf einmal will, gibt am dritten Tag auf.
+- **Drei gute Tage statt eines langen.** Den großen Putz an einem Wochenende gibt es nicht; ein Punkt pro Wochenende, und nach drei Monaten ist alles fertig, ohne einen einzigen langen Tag.
+- **Die Wartezeit arbeitet mit.** Viele Mittel brauchen Einwirkzeit. Auftragen, Pause machen, zurückkommen — die Fläche wird sauber, weil man wartet, nicht weil man fester reibt.
+- **Kleine, gleiche Handgriffe werden zur Gewohnheit.** Zwei Minuten an der Spüle jeden Abend halten mehr als vierzig Minuten am Samstag.
 
 ## Gewohnheits-Takt (Grundlage für Kalender und Erinnerungen)
 

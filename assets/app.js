@@ -6,6 +6,7 @@
   const I = window.OJ_INHALT;
   const DB = window.OJ.DB;
   const ST = window.OJ.Sprechtext;
+  const J = window.OJ.Japanisch;
   const $ = s => document.querySelector(s);
   const ansicht = $('#ansicht');
 
@@ -50,6 +51,31 @@
   }
   const st = ref => Z.stats.get(ref) || { n: 0, zuletzt: 0, heute: false, jahr: new Set() };
 
+  /* ---------- Profil: welche Räume, welche Reihenfolge, welcher Takt ---------- */
+  // Räume, nach denen gefragt wird (Putzschrank und Böden gibt es in jeder Wohnung)
+  const RAUM_FRAGEN = [
+    { nr: 1, name: 'Eingang / Flur', max: 2, vor: 1 },
+    { nr: 2, name: 'Küche', max: 2, vor: 1 },
+    { nr: 3, name: 'Bad / WC', max: 4, vor: 1 },
+    { nr: 5, name: 'Schlafzimmer', max: 6, vor: 1 },
+    { nr: 6, name: 'Wohn- / Arbeitszimmer', max: 4, vor: 1 },
+    { nr: 4, name: 'Wäsche (Waschmaschine)', max: 1, vor: 1 },
+    { nr: 8, name: 'Keller / Abstellraum', max: 3, vor: 0 },
+    { nr: 9, name: 'Balkon / Garten', max: 2, vor: 0 },
+  ];
+  const IMMER = [0, 7];
+  const TAKT_ARBEIT = [10, 15, 20, 25], TAKT_PAUSE = [5, 10, 15];
+  const STANDARD = { raeume: Object.fromEntries(RAUM_FRAGEN.map(r => [r.nr, r.vor])), wahl: [], takt: { arbeit: 20, pause: 10 } };
+  const profil = () => Z.profil || STANDARD;
+  const anzahl = nr => IMMER.includes(nr) ? 1 : (profil().raeume[nr] || 0);
+  // gewählte Räume zuerst (in der Reihenfolge des Antippens), dann alle übrigen vorhandenen in Wohnungs-Reihenfolge
+  function reihenfolge(p = profil()) {
+    const da = nr => IMMER.includes(nr) || (p.raeume[nr] || 0) > 0;
+    const wahl = (p.wahl || []).filter(da);
+    return wahl.concat(I.stationen.map(s => s.nr).filter(nr => da(nr) && !wahl.includes(nr)));
+  }
+  const raeumeZahl = (p = profil()) => Object.values(p.raeume).reduce((a, b) => a + b, 0);
+
   /* ---------- Vorlesen ---------- */
   const Stimme = {
     de: null, ja: null,
@@ -59,18 +85,23 @@
       Stimme.de = v.find(x => /^de(-|_)DE/i.test(x.lang) && /google|natural|neural/i.test(x.name)) || v.find(x => /^de/i.test(x.lang)) || null;
       Stimme.ja = v.find(x => /^ja/i.test(x.lang)) || null;
     },
-    sprechen(text, opt = {}) {
-      if (Z.stumm || !('speechSynthesis' in window) || !text) { opt.fertig && opt.fertig(); return; }
+    // ein japanisches Wort: mit japanischer Stimme in Kana, sonst die Lautschrift mit der deutschen Stimme
+    wort(k) { const w = J.wort(k) || J.fuerStation(k); if (!w) return null; return Stimme.ja ? { text: w.kana, ja: true } : { text: J.lautFuerStimme(w) }; },
+    // teile: Text (deutsch) oder {text, ja}; nacheinander gesprochen
+    folge(teile, opt = {}) {
+      teile = teile.filter(t => t && (t.text || typeof t === 'string'));
+      if (Z.stumm || !('speechSynthesis' in window) || !teile.length) { opt.fertig && opt.fertig(); return; }
       speechSynthesis.cancel();
-      const teile = [];
-      if (opt.gruss && Stimme.ja) teile.push(Object.assign(new SpeechSynthesisUtterance(opt.gruss), { lang: 'ja-JP', voice: Stimme.ja, rate: .9 }));
-      const u = new SpeechSynthesisUtterance(text);
-      u.lang = 'de-DE'; if (Stimme.de) u.voice = Stimme.de; u.rate = .92; u.pitch = 1;
-      teile.push(u);
-      u.onstart = () => opt.start && opt.start();
-      u.onend = u.onerror = () => opt.fertig && opt.fertig();
-      teile.forEach(t => speechSynthesis.speak(t));
+      const us = teile.map(t => {
+        const ja = typeof t === 'object' && t.ja, u = new SpeechSynthesisUtterance(typeof t === 'string' ? t : t.text);
+        u.lang = ja ? 'ja-JP' : 'de-DE'; const v = ja ? Stimme.ja : Stimme.de; if (v) u.voice = v; u.rate = ja ? .85 : .92; u.pitch = 1;
+        return u;
+      });
+      us[0].onstart = () => opt.start && opt.start();
+      const letzte = us[us.length - 1]; letzte.onend = letzte.onerror = () => opt.fertig && opt.fertig();
+      us.forEach(u => speechSynthesis.speak(u));
     },
+    sprechen(text, opt = {}) { Stimme.folge([text], opt); },
     stopp() { if ('speechSynthesis' in window) speechSynthesis.cancel(); },
   };
   if ('speechSynthesis' in window) { Stimme.laden(); speechSynthesis.onvoiceschanged = Stimme.laden; }
@@ -89,9 +120,22 @@
   }
   // der nächste sinnvolle Schritt: zuerst nie Erledigtes in Reihenfolge, sonst das am längsten nicht Erledigte
   function naechster() {
-    const nie = alleSchritte.find(s => !st(s.id).n);
+    const meine = reihenfolge().flatMap(nr => alleSchritte.filter(s => s.station === nr));
+    const nie = meine.find(s => !st(s.id).n);
     if (nie) return nie;
-    return alleSchritte.slice().sort((a, b) => st(a.id).zuletzt - st(b.id).zuletzt)[0];
+    return meine.slice().sort((a, b) => st(a.id).zuletzt - st(b.id).zuletzt)[0];
+  }
+  const naechsteStation = nr => { const r = reihenfolge(); const i = r.indexOf(nr); return i >= 0 && i < r.length - 1 ? I.stationen[r[i + 1]] : null; };
+  // Aussprache-Zeile: 玄関 · genkan · sprich gen-kan 🔊
+  function aussprache(w, mitDe) {
+    if (!w) return '';
+    return `<span class="aussprache"><span lang="ja-Latn" class="romaji">${esc(w.romaji)}</span> · sprich <b class="laut">${esc(w.laut)}</b>${mitDe ? ' · ' + esc(w.de) : ''}
+      <button class="knopf mini" data-aktion="wort" data-k="${w.k}" aria-label="Aussprechen: ${esc(w.romaji)}">🔊</button></span>`;
+  }
+  function warumKarte() {
+    return `<section class="karte" data-warum><h2>Warum in kleinen Schritten?</h2>
+      <ul class="warum">${I.warumKurz.map(w => `<li><b>${esc(w.satz)}</b> ${esc(w.grund)}</li>`).join('')}</ul>
+      <div class="knopfreihe"><button class="knopf klein" data-aktion="warum-vorlesen">🔊 Vorlesen</button></div></section>`;
   }
   function warnkarte(zu) {
     return `<section class="karte warnkarte" data-warnkarte>
@@ -118,6 +162,19 @@
   /* ---------- Ansichten ---------- */
   const ANSICHTEN = {
     start() {
+      if (!Z.profil) return `
+      <section class="held">
+        <div class="held-enso">${enso(.94)}</div>
+        <div class="held-kanji" lang="ja">整理</div>
+        <div class="held-sub">Ordnung auf Japanisch</div>
+        <p class="held-laut">${aussprache(J.wort('seiri'), true)}</p>
+      </section>
+      <section class="karte weiter" data-willkommen>
+        <h2>Willkommen.</h2>
+        <p>Drei kurze Fragen, dann geht es los: Welche Räume hast du? Wo möchtest du anfangen? Wie lange am Stück?</p>
+        <div class="knopfreihe"><a class="knopf haupt" href="#/einrichten/1">▶ Einrichten</a></div>
+      </section>
+      ${warumKarte()}`;
       const n = naechster(), stn = I.stationen[n.station];
       const tag = Math.floor(Date.now() / 864e5);
       const satz = I.leitsaetze[tag % I.leitsaetze.length];
@@ -129,6 +186,7 @@
         <div class="held-enso">${enso(.94)}</div>
         <div class="held-kanji" lang="ja">整理</div>
         <div class="held-sub">Ordnung auf Japanisch</div>
+        <p class="held-laut">${aussprache(J.wort('seiri'), true)}</p>
         <p class="leitsatz" data-leitsatz>${esc(satz)}</p>
       </section>
       <section class="karte weiter" data-weiter>
@@ -143,17 +201,18 @@
         <div class="wo leise klein">Dieser Monat · ${mFertig} von ${m.aufgaben.length}</div>
         <h2>${esc(m.name)} — ${esc(m.motto)}</h2>
       </a>
-      <h2 style="margin:22px 4px 6px;font-size:1.05rem" class="leise">Die Wohnung, Raum für Raum</h2>
+      <div class="zeile-titel"><h2 class="leise">Deine Wohnung · ${raeumeZahl()} Räume · Takt ${profil().takt.arbeit}/${profil().takt.pause} Min.</h2><a href="#/einrichten/1" class="leise klein" data-aendern>ändern</a></div>
       <div class="stationen">
-        ${I.stationen.map(s => { const x = stationStand(s); return `
+        ${reihenfolge().map((nr, pos) => { const s = I.stationen[nr], x = stationStand(s), a = anzahl(nr); return `
           <a class="station-kachel" href="#/station/${s.nr}" data-station="${s.nr}">
+            <span class="platz">${pos + 1}</span>${a > 1 ? `<span class="mal">×${a}</span>` : ''}
             ${x.heute ? `<span class="heute">✓ ${x.heute}</span>` : ''}
             ${enso(x.anteil, s.kanji)}
             <span class="name">${esc(s.titel)}</span>
             <span class="stand">${x.je} von ${x.n}</span>
           </a>`; }).join('')}
       </div>
-      <p class="leise" style="text-align:center;margin-top:26px"><a href="#/info">Über die App · Rechte</a></p>`;
+      <p class="leise" style="text-align:center;margin-top:26px"><a href="#/woerter">Japanische Wörter</a> · <a href="#/info">Über die App · Rechte</a></p>`;
     },
 
     station(nr) {
@@ -163,7 +222,7 @@
       <a class="zurueck" href="#/">← Übersicht</a>
       <div class="station-kopf">
         <div class="kanji" lang="ja">${esc(s.kanji)}</div>
-        <div><h1>${esc(s.titel)}</h1><div class="lesung"><span lang="ja-Latn">${esc(s.lesung)}</span>${s.zusatz ? ' · ' + esc(s.zusatz) : ''} · ${x.je} von ${x.n} schon einmal gemacht</div></div>
+        <div><h1>${esc(s.titel)}${anzahl(s.nr) > 1 ? ` <span class="leise">×${anzahl(s.nr)}</span>` : ''}</h1><div class="lesung">${aussprache(J.fuerStation(s.nr))}</div><div class="lesung">${s.zusatz ? esc(s.zusatz) + ' · ' : ''}${x.je} von ${x.n} schon einmal gemacht</div></div>
       </div>
       <div class="knopfreihe"><a class="knopf haupt" href="#/sitzung/${s.nr}" data-start-sitzung>▶ Station Schritt für Schritt</a></div>
       ${s.einleitung ? `<p class="leise">${esc(s.einleitung)}</p>` : ''}
@@ -176,7 +235,7 @@
       let i = startId ? s.schritte.findIndex(x => x.id === startId) : s.schritte.findIndex(x => !st(x.id).heute);
       if (i < 0) i = 0;
       const warn = MISCH_STATIONEN.includes(s.nr) && !warnGelesen.has(s.nr);
-      Z.sitzung = { nr: s.nr, i: warn ? -1 : i, erledigt: 0, start: i };
+      Z.sitzung = { nr: s.nr, i: warn ? -1 : i, erledigt: 0, start: i, runde: 1, runden: Math.max(1, anzahl(s.nr)) };
       return sitzungHtml();
     },
 
@@ -209,13 +268,27 @@
     regeln() {
       return `
       <h1 style="font-size:1.45rem;margin:4px 0 10px"><span lang="ja">規</span> Regeln</h1>
+      ${warumKarte()}
       <section class="karte"><h2>Leitsätze</h2><ul>${I.leitsaetze.map(t => `<li>${esc(t)}</li>`).join('')}</ul></section>
       ${warnkarte()}
       <section class="karte warnkarte"><h2>Nie worauf</h2><ul>${I.nieWorauf.map(t => `<li>${fmt(t)}</li>`).join('')}</ul></section>
       <section class="karte"><h2>Wenn es passiert ist</h2><p>Sofort raus, Tür zu, nicht zurück. Bei Husten, Atemnot oder brennenden Augen <a href="tel:112"><b>112</b></a> rufen und beide Mittel nennen. Giftnotruf: Vorwahl des Bundeslands und 19240.</p></section>
       <section class="karte"><h2>Pausen-Brücke: Einwirkzeiten</h2>
-        <table class="tabelle"><thead><tr><th>Was</th><th>Zeit</th><th>In der Zeit</th></tr></thead><tbody>${I.pausen.map(p => `<tr><td>${esc(p.was)}</td><td>${esc(p.dauer)}</td><td>${esc(p.inDerZeit)}</td></tr>`).join('')}</tbody></table></section>`;
+        <table class="tabelle"><thead><tr><th>Was</th><th>Zeit</th><th>In der Zeit</th></tr></thead><tbody>${I.pausen.map(p => `<tr><td>${esc(p.was)}</td><td>${esc(p.dauer)}</td><td>${esc(p.inDerZeit)}</td></tr>`).join('')}</tbody></table></section>
+      <p class="leise" style="text-align:center"><a href="#/woerter">Die japanischen Wörter der App, mit Aussprache →</a></p>`;
     },
+
+    woerter() {
+      return `<a class="zurueck" href="#/regeln">← Regeln</a>
+      <h1 style="font-size:1.45rem;margin:4px 0 4px">Japanische Wörter</h1>
+      <p class="leise">So spricht man sie: Silben gleich betont, „ß“ scharf, Doppelvokal lang. ${Stimme.ja ? 'Dein Gerät hat eine japanische Stimme.' : 'Auf diesem Gerät gibt es keine japanische Stimme — die deutsche Stimme liest die Lautschrift.'}</p>
+      <div class="woerter">${J.WOERTER.map(w => `<article class="karte wort" data-wort="${w.k}">
+        <div class="wort-ja" lang="ja">${esc(w.ja)}</div>
+        <div><div class="wort-de">${esc(w.de)}</div><div class="leise klein"><span lang="ja-Latn">${esc(w.romaji)}</span> · sprich <b class="laut">${esc(w.laut)}</b></div></div>
+        <button class="knopf klein" data-aktion="wort" data-k="${w.k}" aria-label="Aussprechen: ${esc(w.romaji)}">🔊</button></article>`).join('')}</div>`;
+    },
+
+    einrichten(schritt) { return einrichtenHtml(+schritt || 1); },
 
     verlauf() {
       if (!Z.log.length) return `<h1 style="font-size:1.45rem"><span lang="ja">歴</span> Verlauf</h1><p class="leer">Noch nichts erledigt. Jeder Haken landet hier, Tag für Tag.</p>`;
@@ -249,6 +322,75 @@
       <div class="mittel">${esc(f.mittel)}</div>${f.griff ? `<p>${fmt(f.griff)}</p>` : ''}</article>`).join('');
   }
 
+  /* ---------- Einrichten: Räume, Reihenfolge, Takt ---------- */
+  const FRAGEN = {
+    1: 'Wie viele Räume hast du? Stell die Zahl für jeden Raum ein.',
+    2: 'Was ist dir am wichtigsten? Wo möchtest du starten? Tippe die Räume in der Reihenfolge an, die dir wichtig ist.',
+    3: 'Wie lange möchtest du am Stück arbeiten, und wie lange Pause machen?',
+    4: 'Das ist deine Reihenfolge. Bereit?',
+  };
+  function entwurf() { if (!Z.entwurf) Z.entwurf = JSON.parse(JSON.stringify(Z.profil || STANDARD)); return Z.entwurf; }
+  function einrichtenHtml(n) {
+    const e = entwurf();
+    const kopf = `<div class="einrichten-kopf"><span class="leise">Frage ${Math.min(n, 3)} von 3</span><div class="punkte">${[1, 2, 3, 4].map(i => `<i class="${i <= n ? 'an' : ''}"></i>`).join('')}</div></div>`;
+    const fuss = (weiter, text = 'Weiter →') => `<div class="knopfreihe einrichten-fuss">
+      ${n > 1 ? `<a class="knopf" href="#/einrichten/${n - 1}">← Zurück</a>` : (Z.profil ? '<a class="knopf" href="#/">Abbrechen</a>' : '')}
+      ${weiter}</div>`;
+    if (n === 1) return `<div data-einrichten="1">${kopf}
+      <h1 class="frage">Wie viele Räume hast du?</h1>
+      <p class="leise">Putzschrank und Böden gibt es überall — die kommen von selbst dazu.</p>
+      <section class="karte raeume">${RAUM_FRAGEN.map(r => { const w = J.fuerStation(r.nr), z = e.raeume[r.nr] || 0; return `
+        <div class="raum${z ? '' : ' aus'}" data-raum="${r.nr}">
+          <span class="raum-kanji" lang="ja">${esc(w.ja)}</span>
+          <span class="raum-name">${esc(r.name)}</span>
+          <span class="zaehlwerk">
+            <button class="knopf rund" data-aktion="e-minus" data-nr="${r.nr}" aria-label="${esc(r.name)} weniger"${z <= 0 ? ' disabled' : ''}>−</button>
+            <b data-zahl>${z}</b>
+            <button class="knopf rund" data-aktion="e-plus" data-nr="${r.nr}" aria-label="${esc(r.name)} mehr"${z >= r.max ? ' disabled' : ''}>＋</button>
+          </span></div>`; }).join('')}</section>
+      <p class="summe">Zusammen <b data-summe>${raeumeZahl(e)}</b> Räume</p>
+      ${fuss(`<a class="knopf haupt" href="#/einrichten/2" data-weiter-e${raeumeZahl(e) ? '' : ' aria-disabled="true"'}>Weiter →</a>`)}</div>`;
+    if (n === 2) {
+      const da = reihenfolge(e);
+      return `<div data-einrichten="2">${kopf}
+      <h1 class="frage">Was ist dir am wichtigsten? Wo möchtest du starten?</h1>
+      <p class="leise">Tippe die Räume in der Reihenfolge an, die dir wichtig ist. Der erste ist dein Start. Was du nicht antippst, folgt danach in der üblichen Reihenfolge durch die Wohnung.</p>
+      <div class="stationen wahl">${I.stationen.filter(s => da.includes(s.nr)).map(s => { const i = (e.wahl || []).indexOf(s.nr); return `
+        <button class="station-kachel${i >= 0 ? ' gewaehlt' : ''}" data-aktion="e-wahl" data-nr="${s.nr}" aria-pressed="${i >= 0}">
+          ${i >= 0 ? `<span class="platz an">${i + 1}</span>` : ''}${e.raeume[s.nr] > 1 ? `<span class="mal">×${e.raeume[s.nr]}</span>` : ''}
+          ${enso(i >= 0 ? 1 : 0, s.kanji)}<span class="name">${esc(s.titel)}</span></button>`; }).join('')}</div>
+      ${fuss(`<a class="knopf haupt" href="#/einrichten/3">${(e.wahl || []).length ? 'Weiter →' : 'Übliche Reihenfolge →'}</a>`)}</div>`;
+    }
+    if (n === 3) return `<div data-einrichten="3">${kopf}
+      <h1 class="frage">Wie lange am Stück?</h1>
+      <section class="karte"><h2>Arbeiten</h2><div class="wahlreihe">${TAKT_ARBEIT.map(m => `<button class="knopf${e.takt.arbeit === m ? ' haupt' : ''}" data-aktion="e-arbeit" data-m="${m}" aria-pressed="${e.takt.arbeit === m}">${m} Min.</button>`).join('')}</div>
+        <h2 style="margin-top:14px">Pause</h2><div class="wahlreihe">${TAKT_PAUSE.map(m => `<button class="knopf${e.takt.pause === m ? ' haupt' : ''}" data-aktion="e-pause" data-m="${m}" aria-pressed="${e.takt.pause === m}">${m} Min.</button>`).join('')}</div>
+        <p class="leise klein">In der Pause spielt später Musik deiner Wahl. Einwirkzeiten der Mittel fallen oft genau in die Pause.</p></section>
+      ${warumKarte()}
+      ${fuss(`<a class="knopf haupt" href="#/einrichten/4">Weiter →</a>`)}</div>`;
+    const r = reihenfolge(e);
+    return `<div data-einrichten="4">${kopf}
+      <h1 class="frage">Deine Reihenfolge</h1>
+      <ol class="reihe karte">${r.map(nr => { const s = I.stationen[nr]; return `<li data-reihe="${nr}"><span lang="ja">${esc(s.kanji)}</span> ${esc(s.titel)}${e.raeume[nr] > 1 ? ` <span class="leise">×${e.raeume[nr]}</span>` : ''} <span class="leise klein">· ${s.schritte.length} kleine Schritte</span></li>`; }).join('')}</ol>
+      <p class="leise">Takt: ${e.takt.arbeit} Minuten arbeiten, ${e.takt.pause} Minuten Pause. Jeder Schritt ist klein — erledigt ist er, wenn du „Fertig“ sagst oder tippst.</p>
+      ${fuss(`<button class="knopf haupt" data-aktion="e-los">▶ Los geht’s: ${esc(I.stationen[r[0]].titel)}</button>`)}</div>`;
+  }
+  async function einrichtenAktion(a, k) {
+    const e = entwurf(), nr = +k.dataset.nr;
+    const max = (RAUM_FRAGEN.find(r => r.nr === nr) || {}).max || 1;
+    if (a === 'e-plus') e.raeume[nr] = Math.min(max, (e.raeume[nr] || 0) + 1);
+    else if (a === 'e-minus') { e.raeume[nr] = Math.max(0, (e.raeume[nr] || 0) - 1); if (!e.raeume[nr]) e.wahl = (e.wahl || []).filter(x => x !== nr); }
+    else if (a === 'e-wahl') { e.wahl = e.wahl || []; const i = e.wahl.indexOf(nr); if (i >= 0) e.wahl.splice(i, 1); else e.wahl.push(nr); }
+    else if (a === 'e-arbeit') e.takt.arbeit = +k.dataset.m;
+    else if (a === 'e-pause') e.takt.pause = +k.dataset.m;
+    else if (a === 'e-los') {
+      Z.profil = e; Z.entwurf = null; await DB.einst('profil', e);
+      location.hash = '#/sitzung/' + reihenfolge()[0];
+      return;
+    }
+    zeichnen(false);
+  }
+
   /* ---------- Sitzung: ein Schritt nach dem anderen ---------- */
   function sitzungHtml() {
     const z = Z.sitzung, s = I.stationen[z.nr];
@@ -268,17 +410,19 @@
     if (z.i >= gesamt) {
       return `<div class="sitzung abschluss" data-sitzung data-phase="ende">
         <div class="hanko" lang="ja">済</div>
-        <h2>${esc(s.titel)} geschafft</h2>
-        <p class="leise">${z.erledigt} Schritt${z.erledigt === 1 ? '' : 'e'} erledigt. Otsukaresama deshita.</p>
+        <h2>${esc(s.titel)}${z.runden > 1 ? ` ${z.runde} von ${z.runden}` : ''} geschafft</h2>
+        <p class="leise">${z.erledigt} Schritt${z.erledigt === 1 ? '' : 'e'} erledigt.</p>
+        <p class="held-laut">${aussprache(J.wort('otsukare'), true)}</p>
         <div class="knopfreihe" style="justify-content:center;margin-top:16px">
-          <a class="knopf haupt" href="#/">Zur Übersicht</a>
-          ${I.stationen[s.nr + 1] ? `<a class="knopf" href="#/sitzung/${s.nr + 1}">Weiter: ${esc(I.stationen[s.nr + 1].titel)}</a>` : ''}
+          ${z.runde < z.runden ? `<button class="knopf haupt" data-aktion="s-runde">▶ ${esc(s.titel)} ${z.runde + 1} von ${z.runden}</button>` : ''}
+          ${naechsteStation(s.nr) ? `<a class="knopf${z.runde < z.runden ? '' : ' haupt'}" href="#/sitzung/${naechsteStation(s.nr).nr}" data-naechste>Weiter: ${esc(naechsteStation(s.nr).titel)}</a>` : ''}
+          <a class="knopf" href="#/">Zur Übersicht</a>
         </div></div>`;
     }
     const x = s.schritte[z.i], stx = st(x.id);
     return `<div class="sitzung" data-sitzung data-phase="schritt" data-ref="${x.id}">
       <div class="fortschritt"><i style="width:${(z.i / gesamt * 100).toFixed(1)}%"></i></div>
-      <div class="wo"><span><span lang="ja">${esc(s.kanji)}</span> ${esc(s.titel)}</span><span>Schritt ${z.i + 1} von ${gesamt}</span></div>
+      <div class="wo"><span><span lang="ja">${esc(s.kanji)}</span> ${esc(s.titel)}${z.runden > 1 ? ` ${z.runde}/${z.runden}` : ''}</span><span>Schritt ${z.i + 1} von ${gesamt}</span></div>
       <section class="karte buehne" data-buehne>
         <h2>${esc(x.titel)}</h2>
         <p>${fmt(x.text)}</p>
@@ -296,11 +440,13 @@
   function sitzungVorlesen() {
     const z = Z.sitzung; if (!z) return;
     const s = I.stationen[z.nr], b = $('[data-buehne]');
-    let text, gruss;
-    if (z.i === -1) text = `Station ${s.titel}. Beachte bitte vorher: ` + I.nieMischen.slice(0, 4).map(ST.sprechtext).join(' ');
-    else if (z.i >= s.schritte.length) { text = `${s.titel} geschafft.`; gruss = 'おつかれさまでした'; }
-    else { text = (z.i === z.start ? `Station ${s.titel}. ` : '') + ST.ansage(s.schritte[z.i]); if (z.i === z.start) gruss = 'はじめましょう'; }
-    Stimme.sprechen(text, { gruss, start: () => b && b.classList.add('spricht'), fertig: () => { const bb = $('[data-buehne]'); bb && bb.classList.remove('spricht'); } });
+    let teile;
+    const raum = `${s.titel}${z.runden > 1 ? ', Raum ' + z.runde + ' von ' + z.runden : ''}`;
+    if (z.i === -1) teile = [`Station ${raum}. Beachte bitte vorher: ` + I.nieMischen.slice(0, 4).map(ST.sprechtext).join(' ')];
+    else if (z.i >= s.schritte.length) teile = [Stimme.wort('otsukare'), `Gut gemacht. ${raum} geschafft.`];
+    else if (z.i === z.start) teile = [Stimme.wort('hajime'), `Fangen wir an. Station ${raum}. Auf Japanisch:`, Stimme.wort(s.nr), ST.ansage(s.schritte[z.i])];
+    else teile = [ST.ansage(s.schritte[z.i])];
+    Stimme.folge(teile, { start: () => b && b.classList.add('spricht'), fertig: () => { const bb = $('[data-buehne]'); bb && bb.classList.remove('spricht'); } });
   }
   function sitzungZeigen(vorlesen = true) {
     ansicht.innerHTML = sitzungHtml();
@@ -350,6 +496,9 @@
     const k = ev.target.closest('[data-aktion]'); if (!k) return;
     const a = k.dataset.aktion, ref = k.dataset.ref;
     if (a === 'vorlesen') { const s = schrittVon(ref); Stimme.sprechen(ST.ansage(s)); }
+    else if (a === 'wort') { const w = J.wort(k.dataset.k); Stimme.folge([Stimme.wort(w.k), `${w.de}.`]); }
+    else if (a === 'warum-vorlesen') Stimme.sprechen('Warum in kleinen Schritten? ' + I.warumKurz.map(w => w.satz + ' ' + w.grund).join(' '));
+    else if (a.startsWith('e-')) await einrichtenAktion(a, k);
     else if (a === 'vorlesen-warn') Stimme.sprechen('Nie mischen. ' + I.nieMischen.map(ST.sprechtext).join(' '));
     else if (a === 'fleck-vorlesen') { const f = I.flecken[+k.dataset.i]; Stimme.sprechen(ST.sprechtext(`${f.name}. ${f.mittel}. ${f.griff}`)); }
     else if (a === 'erledigt') {
@@ -367,6 +516,7 @@
       else if (a === 's-warn-ok') { warnGelesen.add(z.nr); z.i = z.start; sitzungZeigen(); }
       else if (a === 's-zurueck' && z.i > 0) { z.i--; sitzungZeigen(); }
       else if (a === 's-weiter') { z.i = Math.min(gesamt, z.i + 1); sitzungZeigen(); }
+      else if (a === 's-runde') { z.runde++; z.i = 0; z.start = 0; z.erledigt = 0; sitzungZeigen(); }
       else if (a === 's-fertig') { await erledigen('schritt', I.stationen[z.nr].schritte[z.i].id); z.erledigt++; z.i++; sitzungZeigen(); }
     }
   });
@@ -379,15 +529,17 @@
     const teile = location.hash.replace(/^#\/?/, '').split('/').map(decodeURIComponent);
     const name = teile[0] || 'start';
     if (name !== 'sitzung') { Z.sitzung = null; Stimme.stopp(); }
+    if (name !== 'einrichten') Z.entwurf = null;
     const f = ANSICHTEN[name] || ANSICHTEN.start;
     const y = animiert ? 0 : scrollY;
     ansicht.innerHTML = f(...teile.slice(1));
     document.querySelectorAll('[data-nav]').forEach(n => n.toggleAttribute('aria-current', false));
-    const nav = document.querySelector(`[data-nav="${name === 'station' || name === 'sitzung' || name === 'info' ? 'start' : name}"]`);
+    const nav = document.querySelector(`[data-nav="${({ station: 'start', sitzung: 'start', info: 'start', einrichten: 'start', woerter: 'regeln' })[name] || name}"]`);
     if (nav) nav.setAttribute('aria-current', 'page');
     if (animiert) { ansicht.classList.remove('tinte'); void ansicht.offsetWidth; ansicht.classList.add('tinte'); scrollTo(0, 0); }
     else scrollTo(0, y);
     if (name === 'sitzung' && animiert) sitzungVorlesen();
+    if (name === 'einrichten' && animiert) Stimme.sprechen(FRAGEN[+teile[1] || 1]);
     if (name === 'kalender' && animiert) { const j = $('details.monat.jetzt'); if (j) scrollTo(0, j.getBoundingClientRect().top + scrollY - 70); }
   }
   window.addEventListener('hashchange', () => zeichnen(true));
@@ -396,10 +548,11 @@
   (async function los() {
     Z.log = await DB.alle(); rechnen();
     Z.stumm = !!(await DB.einst('stumm'));
+    Z.profil = (await DB.einst('profil')) || null;
     const b = $('#btnStumm'); b.setAttribute('aria-pressed', Z.stumm); b.textContent = Z.stumm ? '🔇' : '🔊';
     zeichnen(true);
     window.OJ_BEREIT = true;
   })();
   if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
-  window.OJ.App = { stimme: Stimme, zustand: Z };
+  window.OJ.App = { stimme: Stimme, zustand: Z, reihenfolge };
 })();

@@ -473,7 +473,7 @@ window.OJ_INHALT = {
      "id": "s5.4",
      "nr": "5.4",
      "titel": "Acht Zehntel",
-     "text": "Der Schrank wird nur zu acht Zehnteln gefüllt. Eins rein, eins raus — in derselben Woche.",
+     "text": "Der Schrank wird nur zu acht Zehnteln gefüllt. Eins rein, eins raus — in derselben Woche. Die Entscheidung dauert dreißig Sekunden, solange die Einkaufstüte noch in der Hand ist.",
      "einwirk": null,
      "arbeit": null
     },
@@ -803,6 +803,36 @@ window.OJ_INHALT = {
      "arbeit": null
     }
    ]
+  }
+ ],
+ "warumKurz": [
+  {
+   "satz": "Kurz entscheiden, nicht lange grübeln.",
+   "grund": "Eins rein, eins raus braucht kein großes Aufräumen, nur eine Entscheidung von dreißig Sekunden. Wer bei einem Ding lange überlegt, findet fast immer einen Grund, es zu behalten."
+  },
+  {
+   "satz": "Was nicht zu entscheiden ist, kommt in die Kiste des Zweifels",
+   "grund": "mit Datum in einem Jahr. Ist sie bis dahin zu geblieben, geht sie, ohne dass man hineinsieht. So hält kein einzelnes Ding den ganzen Block auf."
+  },
+  {
+   "satz": "Der Keller ist kein Versteck.",
+   "grund": "Was man nicht entscheiden will, landet sonst dort — und bleibt."
+  },
+  {
+   "satz": "Ein Schrank pro Tag, nicht zwei.",
+   "grund": "Wer zu viel auf einmal will, gibt am dritten Tag auf."
+  },
+  {
+   "satz": "Drei gute Tage statt eines langen.",
+   "grund": "Den großen Putz an einem Wochenende gibt es nicht; ein Punkt pro Wochenende, und nach drei Monaten ist alles fertig, ohne einen einzigen langen Tag."
+  },
+  {
+   "satz": "Die Wartezeit arbeitet mit.",
+   "grund": "Viele Mittel brauchen Einwirkzeit. Auftragen, Pause machen, zurückkommen — die Fläche wird sauber, weil man wartet, nicht weil man fester reibt."
+  },
+  {
+   "satz": "Kleine, gleiche Handgriffe werden zur Gewohnheit.",
+   "grund": "Zwei Minuten an der Spüle jeden Abend halten mehr als vierzig Minuten am Samstag."
   }
  ],
  "leitsaetze": [

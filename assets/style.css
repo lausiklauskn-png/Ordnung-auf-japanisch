@@ -249,3 +249,56 @@ details.monat.jetzt { border-color: var(--rot); }
   *, *::before, *::after { animation-duration: .001s !important; animation-iteration-count: 1 !important; transition: none !important; }
   .blaetter { display: none; }
 }
+
+/* ---------- Aussprache ---------- */
+.aussprache { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; }
+.aussprache .laut { color: var(--rot); font-weight: 700; letter-spacing: .02em; }
+.held-laut { margin: 8px 0 0; color: var(--tusche-2); font-size: .95rem; }
+.knopf.mini { min-height: 36px; min-width: 36px; padding: 0 8px; font-size: .9rem; }
+
+/* ---------- Start: Kopfzeile der Räume, Platz und Anzahl ---------- */
+.zeile-titel { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin: 22px 4px 6px; }
+.zeile-titel h2 { font-size: .98rem; font-weight: 600; }
+.zeile-titel a { white-space: nowrap; min-height: 40px; display: inline-flex; align-items: center; }
+.station-kachel .platz { position: absolute; top: 8px; left: 10px; font-size: .75rem; color: var(--leise); font-weight: 700; }
+.station-kachel .platz.an { color: #fff8f0; background: var(--rot); border-radius: 999px; min-width: 26px; height: 26px; display: grid; place-items: center; font-size: .9rem; }
+.station-kachel .mal { position: absolute; bottom: 8px; right: 10px; font-size: .75rem; color: var(--gold); font-weight: 800; }
+button.station-kachel { font: inherit; color: inherit; cursor: pointer; width: 100%; }
+.station-kachel.gewaehlt { border-color: var(--rot); box-shadow: 0 0 0 2px color-mix(in srgb, var(--rot) 35%, transparent), var(--schatten); }
+
+/* ---------- Warum kurz ---------- */
+.warum { margin: 8px 0 10px; padding-left: 1.1em; }
+.warum li { margin: 6px 0; color: var(--tusche-2); }
+.warum b { color: var(--tusche); }
+
+/* ---------- Wörter ---------- */
+.woerter { display: grid; gap: 10px; margin-top: 12px; }
+.wort { display: grid; grid-template-columns: 4.2rem 1fr auto; gap: 12px; align-items: center; margin: 0; padding: 12px 14px; }
+.wort-ja { font-family: var(--serif-ja); font-size: 1.6rem; font-weight: 800; text-align: center; line-height: 1.1; word-break: keep-all; }
+.wort-de { font-weight: 650; }
+.laut { color: var(--rot); }
+
+/* ---------- Einrichten ---------- */
+.einrichten-kopf { display: flex; justify-content: space-between; align-items: center; margin: 4px 0 10px; }
+.punkte { display: flex; gap: 6px; }
+.punkte i { width: 26px; height: 5px; border-radius: 3px; background: var(--linie); }
+.punkte i.an { background: var(--rot); }
+.frage { font-size: 1.5rem; margin: 6px 0 6px; }
+.raeume { padding: 6px 12px; }
+.raum { display: grid; grid-template-columns: 3.1rem 1fr auto; align-items: center; gap: 10px; padding: 8px 0; }
+.raum + .raum { border-top: 1px dashed var(--linie); }
+.raum.aus .raum-name, .raum.aus .raum-kanji { opacity: .45; }
+.raum-kanji { font-family: var(--serif-ja); font-size: 1.25rem; font-weight: 800; text-align: center; white-space: nowrap; }
+.raum-name { font-weight: 600; line-height: 1.25; }
+.zaehlwerk { display: inline-flex; align-items: center; gap: 8px; }
+.zaehlwerk b { min-width: 1.4em; text-align: center; font-size: 1.15rem; }
+.knopf.rund { width: 44px; min-height: 44px; padding: 0; border-radius: 50%; font-size: 1.2rem; }
+.knopf:disabled { opacity: .35; cursor: default; }
+.summe { text-align: right; margin: 6px 4px; color: var(--tusche-2); }
+.wahlreihe { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.wahlreihe .knopf { min-width: 76px; }
+.reihe { padding: 10px 14px 10px 36px; }
+.reihe li { padding: 6px 0; }
+.reihe li span[lang="ja"] { font-weight: 800; margin-right: 4px; }
+.einrichten-fuss { justify-content: space-between; margin-top: 16px; }
+.einrichten-fuss .haupt { flex: 1 1 auto; }

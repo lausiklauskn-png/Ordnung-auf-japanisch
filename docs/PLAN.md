@@ -12,7 +12,13 @@ Ziel: jeder Handgriff wird zur **Gewohnheit**. Inhalt: `INHALT.md` (nur Tipps, n
 
 ## 2 · Ablauf einer Sitzung
 
-1. **Start:** „Wo fangen wir an?“ — Vorschlag nach Reihenfolge und Fälligkeit (Gewohnheits-Takt).
+0. **Einrichten (Klaus 2026-10-21, gebaut):** drei Fragen, jede wird vorgelesen —
+   *Wie viele Räume hast du?* (Zähler je Raumart; Putzschrank und Böden immer) ·
+   *Was ist dir am wichtigsten, wo möchtest du starten?* (Räume in der gewünschten Reihenfolge antippen;
+   der Rest folgt in Wohnungs-Reihenfolge) · *Wie lange am Stück?* (10/15/20/25 Min. Arbeit, 5/10/15 Pause,
+   dazu „Warum in kleinen Schritten“). Danach „Los geht’s“ direkt in den ersten Raum. Mehrere gleiche
+   Räume (zwei Bäder) laufen als Runden mit denselben Schritten. Änderbar über „ändern“ auf der Startseite.
+1. **Start:** „Weiter mit …“ — der nächste offene Schritt in DEINER Reihenfolge.
    Reihenfolge durch die Wohnung: 0 Putzschrank → 1 Eingang → 2 Küche → 3 Bad → 4 Wäsche →
    5 Schlafzimmer/Schrank → 6 Wohnen/Papiere → 7 Böden → 8 Keller → 9 Draußen.
 2. **Station:** Ansage „Station Bad. Beachte bitte folgende Hinweise …“ — Pflicht-Warnkarte
@@ -26,8 +32,9 @@ Ziel: jeder Handgriff wird zur **Gewohnheit**. Inhalt: `INHALT.md` (nur Tipps, n
 ## 3 · Sprache
 
 - **Ausgabe:** Web Speech `speechSynthesis`, deutsche Stimme, ruhiges Tempo (0,9). Japanische
-  Färbung: Begrüßung/Abschied und Stationsnamen von einer `ja-JP`-Stimme („Hajimemashou“, „Otsukaresama“),
-  Rest Deutsch. Ein echter „japanischer Akzent“ auf Deutsch gibt es in Browser-Stimmen nicht —
+  Wörter (Gruß, Raumname, Abschied) spricht eine `ja-JP`-Stimme; fehlt sie, liest die deutsche Stimme
+  die Lautschrift (`assets/japanisch.js`, z. B. 始めましょう · hajimemashō · sprich ha-dschi-me-ma-schoo).
+  Jede Seite zeigt Umschrift und Lautschrift mit 🔊; Liste aller Wörter unter Regeln → Japanische Wörter. Ein echter „japanischer Akzent“ auf Deutsch gibt es in Browser-Stimmen nicht —
   später optional vorab erzeugte Audiodateien.
 - **Befehle** (`SpeechRecognition`, de-DE, nur auf Knopfdruck „Zuhören“ einschalten):
   „wiederholen“ / „nochmal“ · „langsamer“ · „weiter“ / „nächster Schritt“ · „fertig“ / „abgehakt“ ·
@@ -90,6 +97,6 @@ Wie Workflow PDF: PWA ohne Build-Schritt, `index.html` + `assets/*.js`, Service-
 
 ## Offene Fragen an Klaus
 
-1. Der Takt „10 Min. Arbeit / 10 Min. Pause“ steht in keinem der vier Hefte — aus dem Hauptbuch?
+1. Der Takt „10 Min. Arbeit / 10 Min. Pause“ steht in keinem der fünf Hefte — aus dem Hauptbuch?
    Bis dahin: einstellbar, Vorgabe 20/10.
 2. Quellenangabe: Buchtitel und Verlag/Autor fürs Impressum.

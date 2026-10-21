@@ -50,12 +50,58 @@ const breiteOk = async name => {
 };
 
 try {
-  /* 1 Start */
+  /* 0 Erster Besuch: Willkommen und Einrichten */
   await page.goto(URL0); await bereit();
   ok('Start: Titel 整理', (await page.textContent('.held-kanji')) === '整理');
-  ok('Start: 10 Stationen', (await page.locator('[data-station]').count()) === 10);
+  ok('Erster Besuch: Willkommen statt Raumliste', await page.isVisible('[data-willkommen]') && (await page.locator('[data-station]').count()) === 0);
+  ok('Erster Besuch: „Warum in kleinen Schritten“ steht da', (await page.textContent('[data-warum]')).includes('dreißig Sekunden'));
+  ok('Aussprache von 整理: sprich ßee-ri', (await page.textContent('.held-laut')).includes('ßee-ri'));
+  await page.click('[data-aktion="wort"][data-k="seiri"]');
+  const sw = await page.evaluate(() => window.__gesagt.slice(-2));
+  ok('🔊 bei 整理: japanische Stimme spricht せいり, dann die Bedeutung', sw[0].lang === 'ja-JP' && sw[0].text === 'せいり' && sw[1].text.startsWith('Ordnung schaffen'), sw);
+  await page.click('[data-willkommen] a.haupt');
+  await page.waitForSelector('[data-einrichten="1"]');
+  ok('Frage 1 wird vorgelesen', (await page.evaluate(() => window.__gesagt.at(-1).text)).startsWith('Wie viele Räume hast du?'));
+  ok('Frage 1: acht Raumarten', (await page.locator('[data-raum]').count()) === 8);
+  const zahl = nr => page.textContent(`[data-raum="${nr}"] [data-zahl]`);
+  await page.click('[data-aktion="e-plus"][data-nr="3"]');                         // zweites Bad
+  await page.click('[data-aktion="e-plus"][data-nr="8"]');                         // Keller ja
+  ok('Bad ＋ → 2, Keller ＋ → 1', (await zahl(3)) === '2' && (await zahl(8)) === '1');
+  ok('Summe zählt mit: 8 Räume', (await page.textContent('[data-summe]')) === '8', await page.textContent('[data-summe]'));
+  await page.click('[data-aktion="e-minus"][data-nr="1"]');                        // kein Flur
+  ok('Eingang − → 0, Zeile wird blass', (await zahl(1)) === '0' && await page.locator('[data-raum="1"].aus').count() === 1);
+  await page.click('[data-weiter-e]');
+  await page.waitForSelector('[data-einrichten="2"]');
+  ok('Frage 2 fragt nach Wichtigkeit und Start', (await page.textContent('.frage')).includes('am wichtigsten') && (await page.evaluate(() => window.__gesagt.at(-1).text)).includes('Wo möchtest du starten'));
+  ok('Frage 2: Eingang fehlt, Draußen fehlt, Keller ist da', !(await page.isVisible('[data-aktion="e-wahl"][data-nr="1"]')) && !(await page.isVisible('[data-aktion="e-wahl"][data-nr="9"]')) && await page.isVisible('[data-aktion="e-wahl"][data-nr="8"]'));
+  await page.click('[data-aktion="e-wahl"][data-nr="3"]');
+  await page.click('[data-aktion="e-wahl"][data-nr="2"]');
+  await page.click('[data-aktion="e-wahl"][data-nr="5"]');
+  await page.click('[data-aktion="e-wahl"][data-nr="5"]');                         // zweiter Tipp nimmt wieder raus
+  ok('Antippen nummeriert: Bad 1, Küche 2, Schlafzimmer wieder ohne Nummer', (await page.textContent('[data-nr="3"] .platz')) === '1' && (await page.textContent('[data-nr="2"] .platz')) === '2' && (await page.locator('[data-nr="5"] .platz').count()) === 0);
+  await page.click('[data-einrichten="2"] a.haupt');
+  await page.waitForSelector('[data-einrichten="3"]');
+  await page.click('[data-aktion="e-arbeit"][data-m="15"]');
+  ok('Frage 3: Takt 15 Minuten gewählt, Warum-Karte steht da', (await page.getAttribute('[data-aktion="e-arbeit"][data-m="15"]', 'aria-pressed')) === 'true' && await page.isVisible('[data-warum]'));
+  await page.click('[data-aktion="warum-vorlesen"]');
+  ok('Warum wird vorgelesen', (await page.evaluate(() => window.__gesagt.at(-1).text)).startsWith('Warum in kleinen Schritten? Kurz entscheiden'));
+  await page.click('[data-einrichten="3"] a.haupt');
+  await page.waitForSelector('[data-einrichten="4"]');
+  const reihe = await page.$$eval('[data-reihe]', l => l.map(x => +x.dataset.reihe));
+  ok('Reihenfolge: Bad, Küche, dann Putzschrank, Wäsche, Schlafzimmer, Wohnen, Böden, Keller', reihe.join() === '3,2,0,4,5,6,7,8', reihe);
+  ok('Übersicht nennt Takt 15/10', (await page.textContent('[data-einrichten="4"]')).includes('15 Minuten arbeiten, 10 Minuten Pause'));
+  await page.click('[data-aktion="e-los"]');
+  await page.waitForSelector('[data-sitzung][data-phase="warn"]');
+  ok('Los geht’s startet die Sitzung im Bad (mit Warnkarte)', (await page.textContent('[data-sitzung] .wo')).includes('Bad'));
+
+  /* 1 Start mit Profil */
+  await page.goto(URL0 + '#/'); await page.reload(); await bereit();
+  const kacheln = await page.$$eval('[data-station]', l => l.map(x => +x.dataset.station));
+  ok('Start: 8 Räume in deiner Reihenfolge', kacheln.join() === '3,2,0,4,5,6,7,8', kacheln);
+  ok('Start: Bad trägt ×2 und Platz 1', (await page.locator('[data-station="3"] .mal').count()) === 1 && (await page.textContent('[data-station="3"] .mal')) === '×2' && (await page.textContent('[data-station="3"] .platz')) === '1');
+  ok('Start: Kopfzeile nennt 7 Räume (ohne Flur) und Takt 15/10', /7 Räume · Takt 15\/10/.test(await page.textContent('.zeile-titel')));
   ok('Start: Leitsatz steht da', ((await page.textContent('[data-leitsatz]')) || '').length > 10);
-  ok('Start: „Weiter mit“ beginnt beim Putzschrank', /Grundlagen · Die fünf Mittel/.test(await page.textContent('[data-weiter] h2')), await page.textContent('[data-weiter] h2'));
+  ok('Start: „Weiter mit“ beginnt im Bad', /Bad · Nach jedem Duschen/.test(await page.textContent('[data-weiter] h2')), await page.textContent('[data-weiter] h2'));
   const monat = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'][new Date().getMonth()];
   ok('Start: Karte „Dieser Monat“ nennt ' + monat, (await page.textContent('[data-monat-karte]')).includes(monat));
   await breiteOk('Start 380 px');
@@ -64,6 +110,7 @@ try {
   await page.click('[data-station="2"]');
   await page.waitForSelector('.station-kopf');
   ok('Küche: Kanji 台所', (await page.textContent('.station-kopf .kanji')) === '台所');
+  ok('Küche: Aussprache daidokoro · sprich dai-do-ko-ro', /daidokoro · sprich dai-do-ko-ro/.test(await page.textContent('.station-kopf')));
   ok('Küche: Warnkarte „Nie mischen“', await page.isVisible('[data-warnkarte]'));
   ok('Küche: 13 Schritte', (await page.locator('[data-schritt]').count()) === 13);
   ok('Einwirkzeit ist hervorgehoben (Backofen)', (await page.textContent('[data-schritt="s2.8"] .zeit')).includes('eine Nacht'));
@@ -96,8 +143,8 @@ try {
   ok('Warnkarte wird vorgelesen', /Beachte bitte vorher: Chlorreiniger/.test((await page.evaluate(() => window.__gesagt.at(-1))).text));
   await page.click('[data-aktion="s-warn-ok"]');
   await page.waitForSelector('[data-sitzung][data-phase="schritt"][data-ref="s3.1"]');
-  const g2 = await page.evaluate(() => window.__gesagt.slice(-2));
-  ok('Erster Schritt: japanischer Gruß, dann deutsche Ansage', g2[0].lang === 'ja-JP' && g2[1].lang === 'de-DE' && g2[1].text.startsWith('Station Bad. Nach jedem Duschen.'), g2);
+  const g2 = await page.evaluate(() => window.__gesagt.slice(-4));
+  ok('Erster Schritt: はじめましょう, „Fangen wir an“, ふろ, dann die Ansage', g2[0].text === 'はじめましょう' && g2[0].lang === 'ja-JP' && g2[1].text === 'Fangen wir an. Station Bad, Raum 1 von 2. Auf Japanisch:' && g2[2].text === 'ふろ' && g2[2].lang === 'ja-JP' && g2[3].lang === 'de-DE' && g2[3].text.startsWith('Nach jedem Duschen.'), g2);
   await page.click('[data-aktion="s-wiederholen"]');
   ok('„Nochmal“ liest denselben Schritt noch einmal', (await page.evaluate(() => window.__gesagt.at(-1).text)).includes('Nach jedem Duschen'));
   await page.click('[data-aktion="s-fertig"]');
@@ -111,8 +158,12 @@ try {
   await breiteOk('Sitzung');
   for (let i = 0; i < 9; i++) await page.click('[data-aktion="s-weiter"]');
   await page.waitForSelector('[data-sitzung][data-phase="ende"]');
-  ok('Ende: Stempel 済 und „Bad geschafft“', (await page.textContent('.hanko')) === '済' && (await page.textContent('[data-sitzung] h2')).includes('Bad geschafft'));
-  ok('Ende: Weiter zur nächsten Station (Wäsche)', (await page.textContent('[data-sitzung]')).includes('Weiter: Wäsche'));
+  ok('Ende: Stempel 済 und „Bad 1 von 2 geschafft“', (await page.textContent('.hanko')) === '済' && (await page.textContent('[data-sitzung] h2')).includes('Bad 1 von 2 geschafft'));
+  ok('Ende: お疲れ様でした mit Aussprache', (await page.textContent('[data-sitzung] .held-laut')).includes('o-tsu-ka-re-ßa-ma desch-ta'));
+  ok('Ende: weiter in DEINER Reihenfolge (Küche, nicht Wäsche)', (await page.textContent('[data-naechste]')).includes('Weiter: Küche'));
+  await page.click('[data-aktion="s-runde"]');
+  await page.waitForSelector('[data-sitzung][data-ref="s3.1"]');
+  ok('Zweites Bad: dieselben Schritte von vorn, „Bad 2/2“', (await page.textContent('[data-sitzung] .wo')).includes('Bad 2/2'));
   await page.goto(URL0 + '#/'); await page.reload(); await bereit();
   await page.evaluate(() => { location.hash = '#/sitzung/3'; }); await page.waitForSelector('[data-sitzung]');
   ok('Warnkarte nur einmal je Besuch', (await page.getAttribute('[data-sitzung]', 'data-phase')) === 'schritt');
@@ -172,6 +223,15 @@ try {
   await page.reload(); await bereit();
   ok('Stumm bleibt nach Neuladen', (await page.getAttribute('#btnStumm', 'aria-pressed')) === 'true');
 
+  /* 8b Wörter, Einrichten ändern */
+  await page.goto(URL0 + '#/woerter'); await page.waitForSelector('[data-wort]');
+  ok('Wörter: alle Räume und Sätze mit Lautschrift', (await page.locator('[data-wort]').count()) >= 20 && (await page.textContent('[data-wort="hajime"]')).includes('ha-dschi-me-ma-schoo'));
+  await breiteOk('Wörter');
+  await page.goto(URL0 + '#/'); await bereit();
+  await page.click('[data-aendern]'); await page.waitForSelector('[data-einrichten="1"]');
+  ok('„ändern“ öffnet das Einrichten mit den gespeicherten Räumen', (await zahl(3)) === '2' && (await zahl(1)) === '0');
+  await breiteOk('Einrichten');
+
   /* 9 kleinste Breite, Dunkel */
   await page.setViewportSize({ width: 320, height: 640 });
   await page.goto(URL0 + '#/'); await bereit();
@@ -179,6 +239,18 @@ try {
   await page.emulateMedia({ colorScheme: 'dark' });
   const farben = await page.evaluate(() => [getComputedStyle(document.body).backgroundColor, getComputedStyle(document.body).color]);
   ok('Dunkel: dunkler Grund, heller Text', farben[0] !== farben[1] && /rgb\(2[0-9], 1[0-9]/.test(farben[0]), farben);
+
+  /* 10 Gerät ohne japanische Stimme: die deutsche Stimme liest die Lautschrift */
+  const ctx2 = await browser.newContext({ viewport: { width: 380, height: 800 } });
+  await ctx2.addInitScript(STIMME);
+  await ctx2.addInitScript(() => { const g = window.speechSynthesis.getVoices; window.speechSynthesis.getVoices = () => g().filter(v => !v.lang.startsWith('ja')); });
+  const p2 = await ctx2.newPage(); p2.on('pageerror', e => fehler.push(String(e)));
+  await p2.goto(URL0 + '#/woerter'); await p2.waitForSelector('[data-wort]');
+  await p2.click('[data-wort="genkan"] [data-aktion="wort"]');
+  const ohne = await p2.evaluate(() => window.__gesagt.slice(-2));
+  ok('Ohne japanische Stimme: „genkan“ deutsch als Lautschrift, dann „Eingang.“', ohne[0].lang === 'de-DE' && ohne[0].text === 'genkan' && ohne[1].text === 'Eingang.', ohne);
+  ok('Ohne japanische Stimme: die Seite sagt es', (await p2.textContent('#ansicht')).includes('keine japanische Stimme'));
+  await ctx2.close();
 
   ok('keine Fehler in der Konsole', fehler.length === 0, fehler);
 } catch (e) {

@@ -1,9 +1,9 @@
 /* Ordnung auf Japanisch — Service Worker. Cacht die SCHALE (App-Dateien), nie den Verlauf (der liegt in IndexedDB).
    Wer eine Datei aus SCHALE ändert, erhöht CACHE_VERSION und das ?v= der Datei. */
-const CACHE_VERSION = 'ordnung-jp-v1';
+const CACHE_VERSION = 'ordnung-jp-v2';
 const SCHALE = [
   './', './index.html', './manifest.webmanifest',
-  './assets/style.css?v=1', './assets/inhalt.js?v=1', './assets/sprechtext.js?v=1', './assets/db.js?v=1', './assets/app.js?v=1',
+  './assets/style.css?v=2', './assets/inhalt.js?v=2', './assets/sprechtext.js?v=2', './assets/japanisch.js?v=1', './assets/db.js?v=1', './assets/app.js?v=2',
   './icons/icon-192.png?v=1', './icons/icon-512.png?v=1', './icons/icon-512-maskable.png?v=1',
 ];
 self.addEventListener('install', e => {
