@@ -101,6 +101,23 @@ try {
   await geh('#/station/2', '.station-kopf');
   ok('Raum Küche: Kopfbild st2', (await page.locator('.station-kopf.mit-bild .kbild').count()) === 1);
 
+  // Die fünf Sonderseiten verwenden ihr zugeordnetes Bild auch im Kopf.
+  for (const name of ['gewohnheiten', 'kalender', 'flecken', 'regeln', 'verlauf']) {
+    await geh('#/' + name, 'h1');
+    const bild = await page.evaluate(id => {
+      const kopf = document.querySelector(`[data-seitenbild="${id}"]`);
+      const flaeche = kopf && kopf.querySelector('.kbild');
+      return !!(kopf && kopf.querySelector('h1') && flaeche && getComputedStyle(flaeche).backgroundImage.includes(id + '.webp'));
+    }, 'x-' + name);
+    ok('Sonderseite ' + name + ': zugeordnetes Bild hinter der Überschrift', bild);
+    const breite = await page.evaluate(id => {
+      const kopf = document.querySelector(`[data-seitenbild="${id}"]`);
+      return !!kopf && kopf.scrollWidth <= kopf.clientWidth + 2
+        && document.documentElement.scrollWidth <= innerWidth;
+    }, 'x-' + name);
+    ok('Bildkopf ' + name + ': Bild und Text passen auf das Handy', breite);
+  }
+
   /* 4 Die 5 Reinigungsmittel */
   await geh('#/station/0', '[data-schritt="s0.1"]');
   ok('Schritt heißt „Die 5 Reinigungsmittel“', (await text('[data-schritt="s0.1"] h3')).includes('Die 5 Reinigungsmittel'));

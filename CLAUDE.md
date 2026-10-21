@@ -43,6 +43,19 @@ npm install && npm test     # Syntax · Inhalt · Manifest/Schale · App im echt
 
 ## Stand
 
+Bilder immer in kleinen Serien (Klaus, 2026-10-21): nur die vorhandene, freigegebene Serie einbauen,
+veröffentlichen und Klaus die App zum Aktualisieren geben. Erst nach seiner Gegenprüfung und Freigabe die nächste
+Serie bearbeiten. Keine Bilder auf Vorrat erzeugen. Gewünschte helle Naturpalette und braune Glas-Buttons mit
+sanftem Wackeln, 3D-Druck und Lichtreflex bei Mausberührung sind vorgemerkt; gesondert nach den Bildern umsetzen.
+Komprimierung (Klaus, 2026-10-21): WebP Qualität 80, Methode 6, 1200 × 800, Lanczos, RGB ohne Metadaten;
+immer vom Original importieren. Profil im Werkzeug festgelegt, Messung in `docs/BILDER-KOMPRIMIERUNG.md`.
+Erste Serie: 353.594 Bytes statt 15.254.079 Bytes PNG (97,68 % kleiner).
+Bildserie 1 (2026-10-21): x-willkommen, x-warum, x-pause, x-gewohnheiten, x-kalender, x-flecken, x-regeln,
+x-verlauf eingebaut (8 von 148), fünf fehlende Verbindungen zum Seitenkopf ergänzt. ⚠ Darstellung am echten
+Handy, reale Stimmen und Kaltstart der installierten PWA nicht gemessen; Gegenprüfung durch Klaus steht aus.
+Prüfung dieser Serie: vollständiges `npm test` auf GitHub grün (Lauf 39636985993); Ausgangsstand ebenfalls grün.
+Gegenprobe mit absichtlich fehlenden Bildköpfen liefert eigene rote Prüfzeilen.
+
 Stufe 1 (Gerüst) gebaut 2026-10-21: Stationen, Schritte, Abhaken mit Zähler und 習 ab 21×, Sitzung
 Schritt für Schritt mit Vorlesen (Gruß auf Japanisch), Jahreskalender mit Haken, Fleckenkarten mit Suche,
 Regeln, Verlauf, Rückgängig, hell/dunkel. ⚠ Am Handy nicht gemessen; Stimmen sind in der Probe gestellt.

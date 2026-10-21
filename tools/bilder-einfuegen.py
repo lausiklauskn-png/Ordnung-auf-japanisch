@@ -6,7 +6,7 @@ Jede Datei muss mit ihrer KENNUNG beginnen (der Schlüssel aus docs/CHATGPT-BRIE
     s2.1.png · s2.1 Spüle am Abend.png · st3.webp · g7-spuele.jpg · m1.png · k10.png · x-pause.png
 Das Werkzeug
   - prüft die Kennung gegen docs/BILD-MOTIVE.md (unbekannte Kennungen werden abgewiesen und genannt),
-  - schneidet auf 3:2 zu, verkleinert auf 1200 × 800 und speichert bilder/<Kennung>.webp (Qualität 82),
+  - schneidet auf 3:2 zu, verkleinert auf 1200 × 800 und speichert bilder/<Kennung>.webp (Qualität 80, Methode 6),
   - baut assets/inhalt.js neu (die App zeigt nur Bilder, die dort unter „bilder“ stehen),
   - schreibt docs/BILDER-STAND.md: welche Kennungen ein Bild haben und welche noch fehlen.
 Danach: CACHE_VERSION in sw.js erhöhen, npm test, PR. Ein vorhandenes Bild derselben Kennung wird ersetzt.
@@ -21,6 +21,8 @@ from PIL import Image
 W = Path(__file__).resolve().parent.parent
 ZIEL = W / 'bilder'
 BREITE, HOEHE = 1200, 800
+# Festes Profil für jede Serie; Messwerte und Begründung: docs/BILDER-KOMPRIMIERUNG.md.
+WEBP_QUALITAET, WEBP_METHODE = 80, 6
 
 def kennungen():
     md = (W / 'docs' / 'BILD-MOTIVE.md').read_text(encoding='utf-8')
@@ -41,7 +43,9 @@ def einpassen(bild):
         nb = int(h * BREITE / HOEHE); x = (b - nb) // 2; bild = bild.crop((x, 0, x + nb, h))
     else:                                            # zu hoch: oben/unten kappen (oben bleibt mehr)
         nh = int(b * HOEHE / BREITE); y = (h - nh) // 3; bild = bild.crop((0, y, b, y + nh))
-    return bild.resize((BREITE, HOEHE), Image.LANCZOS)
+    bild = bild.resize((BREITE, HOEHE), Image.LANCZOS)
+    bild.info.clear()                                # keine EXIF-, ICC- oder Text-Metadaten weitergeben
+    return bild
 
 def stand(bekannt):
     da = {p.stem for p in ZIEL.glob('*.webp')}
@@ -65,7 +69,7 @@ def main(argv):
         k = kennung_aus(d.name, bekannt)
         if not k:
             abgewiesen.append(d.name); continue
-        einpassen(Image.open(d)).save(ZIEL / f'{k}.webp', 'WEBP', quality=82, method=6)
+        einpassen(Image.open(d)).save(ZIEL / f'{k}.webp', 'WEBP', quality=WEBP_QUALITAET, method=WEBP_METHODE)
         ok.append(k)
     subprocess.run(['node', str(W / 'tools' / 'inhalt-bauen.mjs')], check=True, cwd=W)
     fertig, fehlt = stand(bekannt)
