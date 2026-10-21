@@ -59,7 +59,13 @@ Materialstruktur, transparente Uhrfläche und ausgeschaltete Mausneigung reagier
 
 Sprachenwunsch (Klaus, 2026-10-21): Deutsch, Englisch, Russisch, Japanisch, Spanisch und Polnisch;
 fest eingebaute Übersetzungen auch ohne Internet, einschließlich Oberfläche, Anleitungen und Vorlesen.
-Umsetzung als nächster eigener Schritt nach der Gestaltung.
+Offline-Sprachwahl über 文 eingebaut; eigenes `oj_sprache`, Sprachwechsel lädt dieselbe Ansicht neu.
+Verlauf, Profil, Themenwahl und laufende Uhren bleiben. Sprachdaten aus dem eigenen Cache, kein Dienstabruf
+in der App. Google Übersetzer als maschinelle Erstfassung; Fachbegriffe und neun Mischwarnungen je Sprache
+in `docs/uebersetzungen/korrekturen.json` gesondert formuliert. Vollständigkeit, Platzhalter und Zahlen geprüft.
+`assets/sprachen.js` wird mit `npm run sprachen` gebaut; deutsche Quelle und alle Kennungen unverändert.
+Vorlesen folgt der gewählten Sprache, japanische Begriffe bleiben japanisch. Passende Offline-Stimmen müssen
+auf dem Gerät verfügbar sein. Sprachliche Gegenprüfung durch Muttersprachler und echte Geräte nicht gemessen.
 
 Bildübergänge (Klaus, 2026-10-21, Korrektur nach Gestaltungsschritt): keine harte Trennung zwischen Bild
 und Text. Das Bild läuft unten mit einem transparenten Verlauf in das Papier des gewählten Themas aus;

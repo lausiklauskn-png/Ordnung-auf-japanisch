@@ -22,10 +22,10 @@
     'machen mache tun erledigen anfangen beginnen starten reinigen reinige sauber saubermachen putzen putze aufraeumen aufraeume ordnung schaffen ' +
     'wie was wo wann hilf hilfe helfen kannst mir zeige zeig tipps tipp regeln ganz ganze ganzen etwas bisschen richtig endlich mal wieder').split(' '));
 
-  const falten = t => String(t || '').toLowerCase().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss').replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim();
+  const falten = t => String(t || '').toLowerCase().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss').normalize('NFD').replace(/\p{M}/gu, '').replace(/[^\p{L}\p{N} ]+/gu, ' ').replace(/\s+/g, ' ').trim();
   const woerter = t => falten(t).split(' ').filter(w => w.length > 1 && !FUELL.has(w));
   // ein Wort trifft ein Stichwort, wenn es gleich ist, es enthält (Rotweinfleck ⊃ fleck) oder als Mehrzahl/Beugung anfängt
-  const trifft = (w, s) => w === s || (s.length >= 4 && w.includes(s)) || (w.length >= 4 && s.startsWith(w));
+  const trifft = (w, s) => w === s || ((s.length >= 4 || (s.length >= 2 && /[\u3040-\u30ff\u3400-\u9fff]/u.test(s))) && w.includes(s)) || (w.length >= 4 && s.startsWith(w));
   // strenger für Titel-Wörter (sonst findet „Reinigungsmittel“ das „rein“ aus „Eins rein, eins raus“)
   const trifftTitel = (w, t) => w === t || (t.length >= 5 && (w.startsWith(t) || w.endsWith(t))) || (w.length >= 5 && t.startsWith(w));
 
@@ -52,7 +52,7 @@
     erg.flecken = I.flecken.map((f, i) => ({ i, n: woerter(f.name) })).filter(f => ws.some(w => f.n.some(t => t.length > 2 && trifft(w, t)))).map(f => f.i);
     // Gewohnheiten, deren Titel ein Wort trifft
     erg.gewohnheiten = I.gewohnheiten.filter(g => ws.some(w => woerter(g.titel).some(t => trifftTitel(w, t)))).map(g => g.id);
-    const m = MONATE.findIndex(x => ws.includes(x));
+    const m = I.kalender.findIndex(k => woerter(k.name).some(x => ws.includes(x)));
     erg.monat = m >= 0 ? m + 1 : null;
     erg.verstanden = !!(erg.stationen.length || erg.mittel.length || erg.flecken.length || erg.monat || erg.gewohnheiten.length);
     return erg;

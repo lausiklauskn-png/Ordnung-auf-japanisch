@@ -310,7 +310,7 @@ details.monat.jetzt { border-color: var(--akzent); }
 /* ---------- Leiste unten ---------- */
 .leiste {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
-  display: grid; grid-template-columns: repeat(6, 1fr);
+  display: grid; grid-template-columns: repeat(6, minmax(0, 1fr));
   background: color-mix(in srgb, var(--papier) 92%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   border-top: 1px solid var(--linie); padding-bottom: env(safe-area-inset-bottom);
 }
@@ -618,6 +618,7 @@ details.warnkarte summary { cursor: pointer; color: var(--akzent); }
   width: min(340px, calc(100vw - 24px)); max-height: calc(100dvh - 92px - env(safe-area-inset-top)); overflow-y: auto; padding: 16px; border: 1px solid var(--linie); border-radius: var(--rund);
   background: var(--karte); color: var(--tusche); box-shadow: var(--schatten); }
 .thema-auswahl[hidden] { display: none; }
+#spracheAuswahl[hidden] { display: none; }
 .thema-auswahl h2 { font-size: 1.05rem; margin-bottom: 14px; }
 .thema-auswahl .knopfreihe { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .thema-auswahl .knopf { flex: 1; padding: 8px 12px; }
@@ -631,3 +632,8 @@ details.warnkarte summary { cursor: pointer; color: var(--akzent); }
 
 /* Die Stoffnamen sind das Erste, was beim Überfliegen der Warnung auffällt. */
 .warnkarte strong { font-weight: 800; color: var(--tusche); }
+
+/* Sprachwahl: native Namen bleiben erkennbar, auch auf schmalen Geräten. */
+#spracheAuswahl .knopf { min-width: 0; }
+.leiste a { min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 480px) { .kopf .marke { gap: 5px; } .kopf { gap: 5px; padding-left: 10px; padding-right: 10px; } }

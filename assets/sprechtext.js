@@ -53,6 +53,7 @@
     [/:\s*:/g, ':'],
   ];
   function sprechtext(t) {
+    if (wurzel.OJ?.Sprache?.code && wurzel.OJ.Sprache.code !== 'de') return wurzel.OJ.Sprache.vorlesetext(t);
     let s = String(t || '');
     for (const [re, neu] of ERSETZEN) s = s.replace(re, neu);
     return s.trim();
