@@ -7,7 +7,7 @@
   "scripts": {
     "test": "node tests/syntax.mjs && node tests/inhalt.mjs && node tests/manifest-id.mjs && node tests/app.mjs && node tests/uhr.mjs && node tests/gewohnheiten.mjs",
     "inhalt": "node tools/inhalt-bauen.mjs",
-    "icons": "node tools/icon-bauen.mjs",
+    "icons": "python3 tools/icon-bauen.py",
     "serve": "python3 -m http.server 8000"
   },
   "devDependencies": {
