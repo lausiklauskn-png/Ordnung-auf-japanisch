@@ -127,6 +127,22 @@ try {
   await page.click(`.kal-tag[data-tag="${heute}"]`); await page.waitForSelector('.kal-tag.gewaehlt');
   ok('Tag angetippt: nur dieser Tag, mit Uhrzeit', (await page.locator('section.tag').count()) === 1 && (await text('section.tag')).includes('Uhr'));
   await ohneUeberlagerung('Verlauf 380 px');
+  // Zahlen sind Knöpfe (Klaus: „direkt dahin klicken“)
+  await page.click('[data-aktion="v-detail"][data-d="schritte"]'); await page.waitForSelector('[data-detail="schritte"]');
+  ok('„Schritte schon gemacht“ öffnet die Liste: Spüle am Abend und Grenze bauen', (await text('[data-detail]')).includes('Spüle am Abend') && (await text('[data-detail]')).includes('Grenze bauen'));
+  await page.click('[data-aktion="v-detail"][data-d="raeume"]'); await page.waitForSelector('[data-detail="raeume"]');
+  ok('„Räume ganz durch“ zeigt jeden Raum mit Stand (Küche 1/13)', /Küche\s*1\/13/.test(await text('[data-detail]')), await text('[data-detail]'));
+  await page.click('[data-detail] a[href="#/station/2"]'); await page.waitForSelector('.station-kopf');
+  ok('… ein Tipp auf „Küche“ öffnet den Raum', (await page.evaluate(() => location.hash)) === '#/station/2');
+  await page.click('#btnZurueck'); await page.waitForSelector('[data-fortschritt]');
+  await page.click('[data-aktion="v-detail"][data-d="tage"]'); await page.waitForSelector('[data-detail="tage"] [data-aktion="v-tag"]');
+  await page.click('[data-detail="tage"] [data-aktion="v-tag"]'); await page.waitForSelector('.kal-tag.gewaehlt');
+  ok('„Tage aktiv“: ein Tag angetippt → nur dieser Tag im Verlauf', (await page.locator('section.tag').count()) === 1);
+  await page.click('[data-aktion="v-detail"][data-d="gewohnheiten"]'); await page.waitForSelector('[data-detail="gewohnheiten"]');
+  ok('„Gewohnheiten“ zeigt den Weg zu 習 (1/21)', (await text('[data-detail]')).includes('1/21'));
+  await page.click('[data-aktion="v-detail"][data-d="gewohnheiten"]');
+  ok('zweiter Tipp klappt die Liste wieder zu', (await page.locator('[data-detail]').count()) === 0);
+  await ohneUeberlagerung('Verlauf mit Liste');
 
   /* 6 Aktualisieren: lädt neu, Verlauf und Stelle bleiben */
   await geh('#/sitzung/3/s3.4', '[data-sitzung][data-ref="s3.4"]');
@@ -135,7 +151,26 @@ try {
   await bereit();
   ok('Aktualisieren lädt die App neu (frische Seite)', (await page.evaluate(() => window.__vorher)) === undefined);
   ok('… und steht wieder bei Bad 3.4', (await page.getAttribute('[data-sitzung]', 'data-ref')) === 's3.4');
+  ok('… Adresse ohne Hilfsmarke ?neu', !(await page.evaluate(() => location.search)).includes('neu'));
   ok('… Meldung: Aktualisiert, Verlauf ist da (2 Haken)', /Aktualisiert.*2 Haken/.test(await text('#meldung')), await text('#meldung'));
+
+  /* 6b 📲 Installieren: im Browser sichtbar, ohne Angebot → Anleitung, mit Angebot → Dialog, danach weg */
+  ok('📲 Installieren steht im Browser in der Kopfzeile', await page.isVisible('#btnInstall'));
+  ok('… und schon im HTML (springt nicht nach dem Laden)', !(await (await fetch(URL0 + 'index.html')).text()).match(/id="btnInstall"[^>]*hidden/));
+  await page.click('#btnInstall'); await page.waitForSelector('[data-install-anleitung]');
+  ok('ohne Angebot des Browsers: Anleitung (Chrome, Samsung, iPhone, Computer)', /Chrome[\s\S]*Samsung[\s\S]*iPhone[\s\S]*Computer/.test(await text('[data-install-anleitung]')));
+  await page.evaluate(() => { window.__prompt = 0; const e = new Event('beforeinstallprompt'); e.prompt = () => { window.__prompt++; }; e.userChoice = Promise.resolve({ outcome: 'accepted' }); window.dispatchEvent(e); });
+  await page.click('#btnInstall');
+  ok('mit Angebot: der Installationsdialog des Browsers wird geöffnet', (await page.evaluate(() => window.__prompt)) === 1);
+  await page.evaluate(() => window.dispatchEvent(new Event('appinstalled')));
+  ok('nach der Installation verschwindet 📲', await page.isHidden('#btnInstall'));
+  await geh('#/info', '[data-speicher]');
+  ok('Einstellungen: großer Knopf „Als App installieren“', await page.isVisible('[data-install-gross]'));
+  const p2 = await ctx.newPage();
+  await p2.addInitScript(() => { const mm = window.matchMedia; window.matchMedia = q => q.includes('display-mode: standalone') ? { matches: true, addEventListener() {}, removeEventListener() {} } : mm.call(window, q); });
+  await p2.goto(URL0 + '#/info'); await p2.waitForFunction(() => window.OJ_BEREIT === true);
+  ok('als installierte App: kein 📲, nur ⟳', await p2.isHidden('#btnInstall') && await p2.isVisible('#btnNeu') && (await p2.locator('[data-install-gross]').count()) === 0);
+  await p2.close();
 
   /* 7 Wörter: bei 320 px keine Überlagerung */
   await page.setViewportSize({ width: 320, height: 640 });

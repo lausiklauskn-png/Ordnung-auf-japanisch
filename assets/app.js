@@ -33,7 +33,7 @@
   const kalAufgabe = id => { for (const m of I.kalender) { const a = m.aufgaben.find(x => x.id === id); if (a) return { monat: m, a }; } return null; };
   const MISCH_STATIONEN = [0, 2, 3, 4];                                    // vor diesen Stationen kommt die Warnkarte
   const GEWOHNHEIT_AB = 21;
-  const VERSION = '1.1';
+  const VERSION = '1.2';
   /* Bilder hinter den Texten: bilder/<Kennung>.webp, nur wenn sie in inhalt.js unter „bilder“ stehen */
   const BILDER = new Set(I.bilder || []);
   const hatBild = id => BILDER.has(id);
@@ -363,6 +363,25 @@
       return kopf + teile.join('');
     },
 
+    installieren() {
+      if (installiert()) return `<h1 style="font-size:1.45rem;margin:4px 0 8px">📲 Installiert</h1><section class="karte" data-install-anleitung><p>Die App läuft schon installiert. Neue Fassungen holst du oben mit <b>⟳ Aktualisieren</b>.</p></section>`;
+      return `<h1 style="font-size:1.45rem;margin:4px 0 8px">📲 Als App installieren</h1>
+      <section class="karte" data-install-anleitung>
+        <p>Der Browser bietet die Installation gerade nicht von selbst an. So geht es von Hand — wähle deinen Weg:</p>
+        <h2>Android · Chrome</h2>
+        <ol><li>Chrome-Menü <b>⋮</b> oben rechts</li><li><b>„App installieren“</b> oder <b>„Zum Startbildschirm hinzufügen“</b></li><li>Bestätigen</li></ol>
+        <p class="leise klein">Steht dort „整理 Ordnung öffnen“, ist die App schon installiert.</p>
+        <h2>Android · Samsung Internet</h2>
+        <ol><li>Menü <b>≡</b> unten rechts</li><li><b>„Seite hinzufügen zu“ → „Startbildschirm“</b></li></ol>
+        <h2>iPhone / iPad · Safari</h2>
+        <ol><li><b>Teilen</b> (Quadrat mit Pfeil nach oben)</li><li><b>„Zum Home-Bildschirm“</b></li><li><b>„Hinzufügen“</b></li></ol>
+        <h2>Computer · Chrome oder Edge</h2>
+        <ol><li>In der Adressleiste rechts das Symbol <b>„Installieren“</b> (Bildschirm mit Pfeil)</li><li>oder Menü ⋮ → „Streamen, speichern und teilen“ → <b>„Seite als App installieren“</b></li></ol>
+        <p><b>Wo die App danach liegt:</b> in der App-Liste (vom Startbildschirm nach oben wischen, „整理 Ordnung“ suchen). Aufs Startbild kommt sie, wenn der Startbildschirm das zulässt — auf Samsung: Einstellungen → Startbildschirm → „Neue Apps zum Startbildschirm hinzufügen“; sonst in der App-Liste lange drücken und aufs Startbild ziehen.</p>
+        <p class="leise klein">Deine Haken und Einstellungen liegen im Browser. Eine installierte App vom selben Browser sieht dieselben Daten.</p>
+      </section>`;
+    },
+
     mittel() {
       return `<h1 style="font-size:1.45rem;margin:4px 0 4px">Die 5 Reinigungsmittel</h1>
       <p class="leise">Fünf Mittel reichen für das ganze Haus. <b>Säuren:</b> Essig, Zitronensäure. <b>Basisch (Lauge):</b> Natron, Sauerstoffbleiche, Schmierseife. Im Schrank links die Säuren, rechts die Laugen.</p>
@@ -428,13 +447,11 @@
           <h2>Deine Entwicklung</h2>
           <p class="leise klein">Seit ${new Date(erster).toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' })}${DB.dauerhaft() ? '' : ' · ⚠ nur bis zum Schließen gespeichert (privates Fenster?)'}</p>
           <div class="zahlen">
-            <div><b>${tage.size}</b><span>Tage aktiv</span></div>
-            <div><b>${Z.log.length}</b><span>Haken</span></div>
-            <div><b>${schrittJe}/${alleSchritte.length}</b><span>Schritte schon gemacht</span></div>
-            <div><b>${raeume}</b><span>Räume ganz durch</span></div>
-            <div><b>${sitzen}</b><span>Gewohnheiten sitzen <span lang="ja">習</span></span></div>
-            <div><b>${kal}/${kalAlle}</b><span>Jahreskalender ${jahr}</span></div>
+            ${[['tage', tage.size, 'Tage aktiv'], ['haken', Z.log.length, 'Haken'], ['schritte', `${schrittJe}/${alleSchritte.length}`, 'Schritte schon gemacht'],
+               ['raeume', raeume, 'Räume ganz durch'], ['gewohnheiten', sitzen, 'Gewohnheiten sitzen <span lang="ja">習</span>'], ['kalender', `${kal}/${kalAlle}`, `Jahreskalender ${jahr}`]]
+              .map(([d, z, t]) => `<button class="zahl${Z.vDetail === d ? ' offen' : ''}" data-aktion="v-detail" data-d="${d}" aria-expanded="${Z.vDetail === d}"><b>${z}</b><span>${t}</span></button>`).join('')}
           </div>
+          ${Z.vDetail ? `<div class="detail" data-detail="${Z.vDetail}">${verlaufDetail(Z.vDetail, tage, jahr)}</div>` : '<p class="leise klein" style="margin:8px 0 0">Tippe eine Zahl an, um zu sehen, was dahintersteckt.</p>'}
         </section>
         <section class="karte kal-karte" data-verlauf-kalender>
           <div class="kal-kopf">
@@ -445,6 +462,7 @@
           <div class="kal-raster">${['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map(w => `<span class="kal-wt">${w}</span>`).join('')}${zellen.join('')}</div>
           ${Z.vTag ? `<p class="leise klein">Nur ${new Date(Z.vTag + 'T12:00').toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' })} · <button class="knopf klein" data-aktion="v-tag" data-tag="${Z.vTag}">Alle Tage zeigen</button></p>` : '<p class="leise klein">Tippe einen Tag an, um nur ihn zu sehen.</p>'}
         </section>
+        <span id="verlauf-liste"></span>
         ${liste.length ? liste.map(([k, es]) => `<section class="tag"><h2>${new Date(k + 'T12:00').toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} · ${es.length}</h2>
           ${es.map(e => `<div class="karte eintrag" data-eintrag="${e.id}"><span>${esc(titel(e))}<br><span class="wann">${new Date(e.zeit).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} Uhr</span></span><button data-aktion="loeschen" data-id="${e.id}" aria-label="Eintrag löschen">✕</button></div>`).join('')}
         </section>`).join('') : '<p class="leer">An diesem Tag ist nichts eingetragen.</p>'}
@@ -459,6 +477,7 @@
         <p class="leise klein">Gespeichert auf diesem Gerät (${DB.dauerhaft() ? 'dauerhaft' : 'nur bis zum Schließen'}). Der Verlauf zeigt, was du wann erledigt hast.</p>
         <div class="knopfreihe">
           <button class="knopf" data-aktion="aktualisieren" data-aktualisieren-gross>⟳ Aktualisieren</button>
+          ${installiert() ? '' : '<button class="knopf haupt" data-aktion="installieren" data-install-gross>📲 Als App installieren</button>'}
           <a class="knopf" href="#/einrichten/1">Räume und Reihenfolge ändern</a>
         </div>
         <p class="leise klein">Aktualisieren holt die neueste Fassung der App, wie „Neu laden“ im Browser. Dein Verlauf, deine Räume und Gewohnheiten bleiben.</p>
@@ -479,6 +498,22 @@
         <p class="klein leise">Die Hinweise ersetzen keine fachliche, ärztliche oder rechtliche Beratung. Im Notfall 112.</p></section>`;
     },
   };
+
+  // Was hinter einer Zahl in „Deine Entwicklung“ steckt (Klaus 2026-10-21: „dass ich direkt dahin klicken kann“)
+  function verlaufDetail(d, tage, jahr) {
+    const datum = t => new Date(t).toLocaleDateString('de-DE', { weekday: 'short', day: 'numeric', month: 'short' });
+    if (d === 'tage') return `<h3>Tage, an denen du etwas gemacht hast</h3><ul class="detail-liste">${[...tage].map(([k, es]) =>
+      `<li><button class="detail-knopf" data-aktion="v-tag" data-tag="${k}" data-monat-von="${k.slice(0, 7)}">${datum(k + 'T12:00')}<b>${es.length}</b></button></li>`).join('')}</ul>`;
+    if (d === 'haken') return `<h3>Alle Haken</h3><p class="leise klein">Die vollständige Liste steht unten, Tag für Tag mit Uhrzeit.</p><button class="knopf klein" data-aktion="v-zur-liste" data-zur-liste>Zur Liste ↓</button>`;
+    if (d === 'schritte') return `<h3>Schritte, die du schon gemacht hast</h3>${I.stationen.map(s => { const fertig = s.schritte.filter(x => st(x.id).n); return fertig.length ? `<h4><a href="#/station/${s.nr}"><span lang="ja">${esc(s.kanji)}</span> ${esc(s.titel)}</a> · ${fertig.length}/${s.schritte.length}</h4><ul class="detail-liste">${fertig.map(x => `<li><a class="detail-knopf" href="#/sitzung/${s.nr}/${x.id}">${esc(x.titel)}<b>${st(x.id).n}× · ${vorWann(st(x.id).zuletzt)}</b></a></li>`).join('')}</ul>` : ''; }).join('')}`;
+    if (d === 'raeume') return `<h3>Räume</h3><ul class="detail-liste">${reihenfolge().map(nr => { const s = I.stationen[nr], x = stationStand(s); return `<li><a class="detail-knopf${x.je === x.n ? ' ganz' : ''}" href="#/station/${nr}"><span><span lang="ja">${esc(s.kanji)}</span> ${esc(s.titel)}</span><b>${x.je === x.n ? '済 ganz durch' : x.je + '/' + x.n}</b></a></li>`; }).join('')}</ul>`;
+    if (d === 'gewohnheiten') {
+      const alle = I.gewohnheiten.map(g => ({ titel: g.titel, n: st(g.id).n, href: '#/gewohnheiten' })).concat(alleSchritte.map(x => ({ titel: `${I.stationen[x.station].titel} · ${x.titel}`, n: st(x.id).n, href: `#/station/${x.station}` }))).filter(x => x.n).sort((a, b) => b.n - a.n);
+      return `<h3>Auf dem Weg zur Gewohnheit (習 ab ${GEWOHNHEIT_AB}×)</h3>${alle.length ? `<ul class="detail-liste">${alle.slice(0, 30).map(x => `<li><a class="detail-knopf${x.n >= GEWOHNHEIT_AB ? ' ganz' : ''}" href="${x.href}"><span>${esc(x.titel)}</span><b>${x.n >= GEWOHNHEIT_AB ? '習 sitzt' : x.n + '/' + GEWOHNHEIT_AB}</b></a></li>`).join('')}</ul>` : '<p class="leise">Noch nichts abgehakt.</p>'}`;
+    }
+    if (d === 'kalender') return `<h3>Jahreskalender ${jahr}</h3><ul class="detail-liste">${I.kalender.map(m => { const f = m.aufgaben.filter(a => st(a.id).jahr.has(jahr)).length; return `<li><a class="detail-knopf${f === m.aufgaben.length ? ' ganz' : ''}" href="#/kalender"><span>${esc(m.name)}</span><b>${f}/${m.aufgaben.length}</b></a></li>`; }).join('')}</ul>`;
+    return '';
+  }
 
   function fleckenListe(q) {
     const n = (q || '').trim().toLowerCase();
@@ -775,17 +810,27 @@
      Aktualisieren = wie „Neu laden“ im Browser, für das Handy: holt die neueste Fassung der App und lädt sie.
      Verlauf, Räume, Gewohnheiten und Uhren liegen in IndexedDB/localStorage und bleiben; die Adresse (auch der
      Schritt in der Sitzung) bleibt, also geht es an derselben Stelle weiter. */
+  // wie in Workflow PDF: Vorrat des Service-Workers leeren, Worker abmelden, mit geänderter Adresse neu laden —
+  // nur so kommt sicher die neueste Fassung (auch am HTTP-Cache vorbei). IndexedDB und localStorage bleiben.
   async function aktualisieren() {
     melden('⟳ Neueste Fassung wird geholt …');
     try { sessionStorage.setItem('oj_aktualisiert', String(Z.log.length)); } catch (_) {}
-    try {
-      const reg = 'serviceWorker' in navigator && await navigator.serviceWorker.getRegistration();
-      if (reg) {
-        await reg.update();
-        if (reg.installing || reg.waiting) await new Promise(r => { navigator.serviceWorker.addEventListener('controllerchange', r, { once: true }); setTimeout(r, 4000); });
-      }
-    } catch (_) {}
-    (window.__ojNeuLaden || (() => location.reload()))();
+    try { if (window.caches) for (const k of await caches.keys()) await caches.delete(k); } catch (_) {}
+    try { if (navigator.serviceWorker) for (const r of await navigator.serviceWorker.getRegistrations()) await r.unregister(); } catch (_) {}
+    const u = new URL(location.href); u.searchParams.set('neu', Date.now().toString(36)); location.replace(u.href);
+  }
+
+  /* ---------- 📲 Installieren (Regel für alle Apps, Klaus 2026-10-21) ----------
+     Chrome bietet die Installation nicht verlässlich von selbst an. Darum ein eigener Knopf: steht schon im HTML
+     (die Kopfzeile springt nicht), verschwindet in der installierten App (display-mode: standalone, iOS
+     navigator.standalone) und nach „appinstalled“. Mit Angebot des Browsers → dessen Dialog; ohne → Anleitung. */
+  const installiert = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  let installAngebot = null;
+  window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); installAngebot = e; if (!installiert()) $('#btnInstall').hidden = false; });
+  window.addEventListener('appinstalled', () => { installAngebot = null; $('#btnInstall').hidden = true; melden('📲 Installiert — die App liegt jetzt auf deinem Gerät.'); });
+  async function installieren() {
+    if (installAngebot) { installAngebot.prompt(); try { await installAngebot.userChoice; } catch (_) {} installAngebot = null; return; }
+    location.hash = '#/installieren';
   }
   async function neuAnfangen() {
     await DB.allesLoeschen();
@@ -872,11 +917,17 @@
     else if (a === 'hoeren') hoeren(k);
     else if (a === 'zurueck') zurueck();
     else if (a === 'aktualisieren') aktualisieren();
+    else if (a === 'installieren') installieren();
     else if (a === 'neu-frage') { Z.neuFrage = true; zeichnen(false); }
     else if (a === 'neu-nein') { Z.neuFrage = false; zeichnen(false); }
     else if (a === 'neu-ja') await neuAnfangen();
     else if (a === 'v-monat') { Z.vMonat = k.dataset.m; Z.vTag = null; zeichnen(false); }
-    else if (a === 'v-tag') { Z.vTag = Z.vTag === k.dataset.tag ? null : k.dataset.tag; zeichnen(false); }
+    else if (a === 'v-detail') { Z.vDetail = Z.vDetail === k.dataset.d ? null : k.dataset.d; zeichnen(false); }
+    else if (a === 'v-tag') {
+      if (k.dataset.monatVon) { Z.vMonat = k.dataset.monatVon; Z.vTag = k.dataset.tag; zeichnen(false); const l = $('#verlauf-liste'); if (l) l.scrollIntoView({ behavior: 'smooth' }); }
+      else { Z.vTag = Z.vTag === k.dataset.tag ? null : k.dataset.tag; zeichnen(false); }
+    }
+    else if (a === 'v-zur-liste') { Z.vTag = null; zeichnen(false); const l = $('#verlauf-liste'); if (l) l.scrollIntoView({ behavior: 'smooth' }); }
     else if (a === 'mittel-vorlesen') { const m = I.mittel[+k.dataset.i]; Stimme.sprechen(ST.sprechtext(`${m.name}. ${m.was} Löst: ${m.loest}. Hilft nicht gegen: ${m.nicht}. Nie auf: ${m.nie}. Menge: ${m.menge}`)); }
     else if (a === 'stumm') { Z.stumm = !Z.stumm; k.setAttribute('aria-pressed', Z.stumm); k.textContent = Z.stumm ? '🔇' : '🔊'; if (Z.stumm) Stimme.stopp(); DB.einst('stumm', Z.stumm); }
     else if (Z.sitzung) {
@@ -908,7 +959,7 @@
     const y = animiert ? 0 : scrollY;
     ansicht.innerHTML = f(...teile.slice(1));
     document.querySelectorAll('[data-nav]').forEach(n => n.toggleAttribute('aria-current', false));
-    const nav = document.querySelector(`[data-nav="${({ station: 'start', sitzung: 'start', info: 'start', einrichten: 'start', woerter: 'regeln', mittel: 'regeln', fragen: 'start' })[name] || name}"]`);
+    const nav = document.querySelector(`[data-nav="${({ station: 'start', sitzung: 'start', info: 'start', einrichten: 'start', woerter: 'regeln', mittel: 'regeln', fragen: 'start', installieren: 'start' })[name] || name}"]`);
     if (nav) nav.setAttribute('aria-current', 'page');
     if (animiert) { ansicht.classList.remove('tinte'); void ansicht.offsetWidth; ansicht.classList.add('tinte'); scrollTo(0, 0); }
     else scrollTo(0, y);
@@ -945,6 +996,8 @@
     Z.stumm = !!(await DB.einst('stumm'));
     Z.profil = (await DB.einst('profil')) || null;
     Z.meine = (await DB.einst('gewohnheiten')) || null;
+    $('#btnInstall').hidden = installiert();
+    if (new URLSearchParams(location.search).has('neu')) { const u = new URL(location.href); u.searchParams.delete('neu'); history.replaceState(null, '', u.pathname + u.search + u.hash); }
     const b = $('#btnStumm'); b.setAttribute('aria-pressed', Z.stumm); b.textContent = Z.stumm ? '🔇' : '🔊';
     zeichnen(true);
     pauseZeigen();
