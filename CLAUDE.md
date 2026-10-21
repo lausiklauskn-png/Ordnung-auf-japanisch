@@ -47,6 +47,9 @@ Naturflächen und Orientierung (Klaus, 2026-10-21): aktive Navigation unten mit 
 hinterlegter Fläche und oberer Markierung. Washi mit unregelmäßigen Papierfasern, Sand mit feinem Korn,
 Leinen mit Webstruktur, Morgenlicht mit weichem Fensterlicht; Kirschblüte bleibt ohne Zusatzmotiv.
 Alle Strukturen als kleine eingebettete SVGs, ohne Netzabruf oder neue Motivbilder.
+Glas-Cabochon-Buttons nach `family-project` (`assets/style.css`, `wireHoloButtons`): geschliffene Kante,
+gewölbte Fläche, Schimmer und Neigung folgen dem Mauszeiger. Größen bleiben passend zu dieser App,
+Farben folgen dem Naturthema. Touch-Scrollen und reduzierte Bewegung ohne Neigung.
 Dämmerung und Moos ergänzen die sechs hellen Themen; Start bleibt Washi, nur die eigene Wahl wird gespeichert.
 Bildverläufe und Schrift passen sich auch den dunkleren Flächen an. Die breite transparente Uhrleiste entfällt;
 nur deckende Zeit-Chips schweben beim Scrollen unter dem Kopf. Arbeits-/Pausenlogik unverändert.

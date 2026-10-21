@@ -134,7 +134,8 @@ h1, h2, h3 { line-height: 1.2; margin: 0; }
 .karte .klein { font-size: .9rem; }
 .weiter { display: grid; gap: 10px; }
 .weiter .wo { font-size: .85rem; color: var(--leise); letter-spacing: .06em; text-transform: uppercase; }
-/* Mattglas: heller Glanz, durchscheinende warme Fläche und eine kleine Standkante. */
+/* Glas-Cabochons nach family-project: Schliffkante, gewölbte Fläche und
+   mausfolgender Schimmer. Größen und Naturfarben bleiben die dieser App. */
 .knopf, .kopf-knopf {
   position: relative; isolation: isolate; overflow: hidden;
   --glas-oben: color-mix(in srgb, var(--karte) 88%, transparent);
@@ -142,25 +143,37 @@ h1, h2, h3 { line-height: 1.2; margin: 0; }
   --glas-kante: color-mix(in srgb, var(--akzent) 32%, var(--papier-2));
   background: linear-gradient(180deg, var(--glas-oben), var(--glas-unten));
   border: 1px solid color-mix(in srgb, var(--akzent) 40%, transparent);
-  border-top-color: rgba(255, 255, 255, .95);
-  color: var(--tusche);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.9), inset 0 -1px 0 rgba(255,255,255,.35),
-    0 4px 0 var(--glas-kante), 0 8px 16px -8px rgba(112,83,56,.24);
+  border-top-color: rgba(255, 255, 255, .9); color: var(--tusche);
+  box-shadow: inset 0 2px 1px rgba(255,255,255,.7),
+    inset 0 -5px 9px color-mix(in srgb, var(--akzent-tief) 30%, transparent),
+    inset 11px 0 17px rgba(255,255,255,.07), inset -11px 0 19px rgba(0,0,0,.12),
+    inset 0 0 0 1px rgba(255,255,255,.12),
+    0 4px 0 var(--glas-kante), 0 10px 22px -8px rgba(65,45,28,.3);
   backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-  transform-origin: center 65%;
-  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
+  transform: perspective(640px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transform-style: preserve-3d;
+  transition: transform .14s ease, box-shadow .2s ease, border-color .18s ease;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
 }
 .knopf::before, .kopf-knopf::before {
-  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background: linear-gradient(110deg, transparent 18%, rgba(255,255,255,.35) 34%, rgba(255,255,255,.95) 48%, rgba(255,255,255,.35) 62%, transparent 80%);
-  transform: translateX(-140%);
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
+  background:
+    radial-gradient(108px 76px at var(--mx, 50%) var(--my, 24%), rgba(255,255,255,.72), transparent 56%),
+    linear-gradient(180deg, rgba(255,255,255,.36), transparent 46%),
+    linear-gradient(115deg, transparent 26%, color-mix(in srgb, var(--gold) 50%, transparent) 43%,
+      color-mix(in srgb, var(--akzent) 58%, transparent) 51%, color-mix(in srgb, var(--matcha) 45%, transparent) 60%, transparent 76%);
+  background-size: auto, auto, 240% 100%; background-position: 0 0, 0 0, var(--mx, 50%) 0;
+  mix-blend-mode: soft-light; opacity: .45; transition: opacity .22s;
+}
+.knopf::after, .kopf-knopf::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
+  background: radial-gradient(60% 140% at var(--mx, 50%) -10%, rgba(255,255,255,.65), transparent 40%);
+  mix-blend-mode: screen; opacity: 0; transition: opacity .22s;
 }
 .knopf {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  min-height: 48px; padding: 10px 18px; border-radius: 999px; cursor: pointer;
-  text-decoration: none; font-weight: 600;
+  min-height: 48px; padding: 10px 18px; border-radius: 14px; cursor: pointer;
+  text-decoration: none; font-weight: 700;
 }
 .knopf.haupt, .knopf.tusche, .install-knopf {
   --glas-oben: color-mix(in srgb, var(--karte) 85%, var(--akzent));
@@ -174,29 +187,15 @@ h1, h2, h3 { line-height: 1.2; margin: 0; }
 @media (any-hover: hover) and (any-pointer: fine) {
   .knopf:not(:disabled):hover, .kopf-knopf:not(:disabled):hover {
     border-color: color-mix(in srgb, var(--akzent) 65%, transparent); border-top-color: #fff;
-    box-shadow: inset 0 2px 0 #fff, inset 0 -1px 0 rgba(255,255,255,.6),
-      0 4px 0 var(--glas-kante), 0 0 20px 2px rgba(255,255,255,.85), 0 9px 20px -8px color-mix(in srgb, var(--akzent) 40%, transparent);
+    box-shadow: inset 0 2px 1px rgba(255,255,255,.75), inset 0 -5px 9px rgba(0,0,0,.22),
+      inset 0 0 0 1px rgba(255,255,255,.16), 0 4px 0 var(--glas-kante),
+      0 0 20px 2px color-mix(in srgb, var(--karte) 75%, transparent), 0 16px 32px -8px rgba(0,0,0,.28);
   }
+  .knopf:not(:disabled):hover::before, .kopf-knopf:not(:disabled):hover::before { opacity: 1; }
+  .knopf:not(:disabled):hover::after, .kopf-knopf:not(:disabled):hover::after { opacity: .85; }
 }
-@media (any-hover: hover) and (any-pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .knopf:not(:disabled):hover, .kopf-knopf:not(:disabled):hover {
-    transform: translateY(-2px);
-    animation: glas-wackeln .55s ease-in-out;
-  }
-  .knopf:not(:disabled):hover::before, .kopf-knopf:not(:disabled):hover::before {
-    animation: glas-licht 1s ease-out;
-  }
-}
-@keyframes glas-licht {
-  from { transform: translateX(-140%); }
-  to { transform: translateX(140%); }
-}
-@keyframes glas-wackeln {
-  0%, 100% { transform: translateY(-2px) rotate(0); }
-  25% { transform: translateY(-3px) rotate(-1.5deg); }
-  60% { transform: translateY(-2px) rotate(1deg); }
-  80% { transform: translateY(-2px) rotate(-.5deg); }
-}
+.knopf:focus-visible::before, .kopf-knopf:focus-visible::before { opacity: 1; }
+.knopf:focus-visible::after, .kopf-knopf:focus-visible::after { opacity: .85; }
 .knopf:not(:disabled):active, .kopf-knopf:not(:disabled):active {
   animation: none; transform: translateY(3px) scale(.985);
   box-shadow: inset 0 1px 3px rgba(112,83,56,.14), 0 1px 0 var(--glas-kante);
@@ -625,7 +624,8 @@ details.warnkarte summary { cursor: pointer; color: var(--akzent); }
 .thema-auswahl .knopf[aria-pressed="true"] { outline: 2px solid var(--akzent); outline-offset: 2px; }
 .thema-auswahl p { margin: 14px 0 0; font-size: .85rem; color: var(--leise); }
 @media (prefers-reduced-motion: reduce) {
-  .knopf::before, .kopf-knopf::before { display: none; }
+  .knopf::before, .kopf-knopf::before, .knopf::after, .kopf-knopf::after { display: none; }
+  .knopf, .kopf-knopf { transform: none; }
   .knopf:not(:disabled):active, .kopf-knopf:not(:disabled):active { transform: none; }
 }
 

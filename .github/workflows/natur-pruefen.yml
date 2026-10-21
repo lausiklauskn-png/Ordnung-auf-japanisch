@@ -39,3 +39,11 @@ jobs:
           cp /tmp/oj-natur.css assets/style.css
           cat /tmp/oj-uhr.log
           grep -q 'ROT: Uhr beim Scrollen:' /tmp/oj-uhr.log
+      - name: Gegenprobe Family-Glas
+        run: |
+          cp assets/knopf.js /tmp/oj-knopf.js
+          echo '/* Absichtlich ohne Mausverhalten. */' > assets/knopf.js
+          if node tests/gestaltung.mjs > /tmp/oj-knopf.log 2>&1; then exit 1; fi
+          cp /tmp/oj-knopf.js assets/knopf.js
+          cat /tmp/oj-knopf.log
+          grep -q 'ROT: Family-Glas: Schimmer und 3D-Neigung folgen der Maus' /tmp/oj-knopf.log

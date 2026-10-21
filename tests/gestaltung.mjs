@@ -109,9 +109,17 @@ try {
   const knopf = page.locator('[data-willkommen] .haupt');
   await page.mouse.move(0, 0); const ruhigerSchatten = await knopf.evaluate(b => getComputedStyle(b).boxShadow); await knopf.hover();
   await page.waitForFunction(schatten => getComputedStyle(document.querySelector('[data-willkommen] .haupt')).boxShadow !== schatten, ruhigerSchatten);
-  const hover = await knopf.evaluate(b => ({ wackeln: getComputedStyle(b).animationName, licht: getComputedStyle(b, '::before').animationName, schatten: getComputedStyle(b).boxShadow, streifen: getComputedStyle(b, '::before').backgroundImage }));
-  ok('Glas-Button: kurzes Wackeln und Lichtreflex bei Mausberührung', hover.wackeln === 'glas-wackeln' && hover.licht === 'glas-licht', hover);
-  ok('Glas-Button: stärkerer Lichtstreifen und sichtbarer Leuchtrand', hover.schatten !== ruhigerSchatten && hover.streifen.includes('0.95'), hover);
+  const r = await knopf.boundingBox();
+  await page.mouse.move(r.x + r.width * .2, r.y + r.height * .3);
+  await page.waitForFunction(() => parseFloat(getComputedStyle(document.querySelector('[data-willkommen] .haupt'), '::before').opacity) >= .8);
+  const links = await knopf.evaluate(b => ({ x: b.style.getPropertyValue('--mx'), y: b.style.getPropertyValue('--my'), rx: b.style.getPropertyValue('--rx'), ry: b.style.getPropertyValue('--ry'), matrix: getComputedStyle(b).transform, licht: getComputedStyle(b, '::before').backgroundImage, kante: getComputedStyle(b, '::after').backgroundImage, schatten: getComputedStyle(b).boxShadow }));
+  await page.mouse.move(r.x + r.width * .8, r.y + r.height * .7);
+  const rechts = await knopf.evaluate(b => ({ x: b.style.getPropertyValue('--mx'), ry: b.style.getPropertyValue('--ry') }));
+  ok('Family-Glas: Schimmer und 3D-Neigung folgen der Maus', parseFloat(links.x) < 40 && parseFloat(rechts.x) > 60 && parseFloat(links.ry) < 0 && parseFloat(rechts.ry) > 0 && links.matrix !== 'matrix(1, 0, 0, 1, 0, 0)', { links, rechts });
+  ok('Family-Glas: gewölbter Reflex, Schliffkante und stärkerer Leuchtrand', links.licht.includes('radial-gradient') && links.kante.includes('radial-gradient') && links.schatten !== ruhigerSchatten, links);
+  await page.mouse.move(0, 0);
+  ok('Family-Glas: beim Verlassen kehren Schimmer und Neigung zurück', await knopf.evaluate(b => !b.style.getPropertyValue('--rx') && !b.style.getPropertyValue('--mx')));
+  await knopf.hover();
   await page.mouse.down();
   await page.waitForFunction(() => { const b = document.querySelector('[data-willkommen] .haupt'); return new DOMMatrixReadOnly(getComputedStyle(b).transform).m42 > 2; });
   ok('Glas-Button: beim Drücken sichtbar eingedrückt', true);
@@ -120,7 +128,7 @@ try {
   const deaktiviert = page.locator('[data-aktion="e-minus"][data-nr="8"]'); await deaktiviert.hover();
   ok('Deaktivierte Buttons bleiben ruhig und ohne 3D-Kante', await deaktiviert.evaluate(b => b.disabled && getComputedStyle(b).animationName === 'none' && getComputedStyle(b).boxShadow === 'none'));
   await geh('#/'); await page.emulateMedia({ reducedMotion: 'reduce' }); await page.locator('[data-willkommen] .haupt').hover();
-  ok('Reduzierte Bewegung: kein Wackeln und kein Lichtlauf', await page.locator('[data-willkommen] .haupt').evaluate(b => getComputedStyle(b).animationName === 'none' && getComputedStyle(b, '::before').display === 'none'));
+  ok('Reduzierte Bewegung: kein Wackeln und kein Lichtlauf', await page.locator('[data-willkommen] .haupt').evaluate(b => getComputedStyle(b).animationName === 'none' && getComputedStyle(b, '::before').display === 'none' && getComputedStyle(b).transform === 'none' && !b.style.getPropertyValue('--rx')));
   for (const breite of [320, 380]) {
     await page.setViewportSize({ width: breite, height: 800 });
     for (const name of THEMEN) {
