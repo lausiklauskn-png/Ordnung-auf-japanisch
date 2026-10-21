@@ -75,4 +75,6 @@ Bilder kommen von ChatGPT über `docs/CHATGPT-BRIEF.md` (gebaut aus `docs/BILD-M
 Proben: `tests/speicher.mjs`, `tests/absicht.mjs`. ⚠ Spracheingabe nur gestellt gemessen; am Handy ungemessen.
 1.2 (2026-10-21 abends): 📲 Installieren-Knopf (Regel oben), gründliches ⟳, Zahlen in „Deine Entwicklung“ sind Knöpfe mit
 Liste darunter (Tage, Haken, Schritte nach Raum, Räume, Weg zu 習, Kalender je Monat), Bilder-Werkzeug für Codex.
+⚠ Nach dem Merge von 1.2 (#7) startete GitHub **keinen** Lauf „pages build and deployment“ — die Seite blieb auf 1.1.
+Wie bei Workflow PDF: nach jedem Merge den Lauf in Actions ansehen; fehlt er, stößt ein weiterer Commit auf `main` ihn an.
 Noch nicht: Sprachbefehle während der Sitzung, Medientasten der Ohrhörer, eigene Musik, native Android-Hülle.
