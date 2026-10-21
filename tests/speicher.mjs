@@ -106,7 +106,7 @@ try {
   await geh('#/station/2', '.station-kopf');
   ok('Raum Küche: Kopfbild st2', (await page.locator('.station-kopf.mit-bild .kbild').count()) === 1);
 
-  // Die fünf Sonderseiten verwenden ihr zugeordnetes Bild auch im Kopf.
+  // Seiten mit eigenem Kopfbild verwenden die richtige Bildkennung.
   for (const name of ['gewohnheiten', 'kalender', 'flecken', 'verlauf']) {
     await geh('#/' + name, 'h1');
     const bild = await page.evaluate(id => {

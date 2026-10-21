@@ -48,6 +48,10 @@ und Text. Das Bild läuft unten mit einem transparenten Verlauf in das Papier de
 nahezu schwarze Schrift beginnt 48–88 px innerhalb des Bildbereichs. Motiv oben länger sichtbar, 3:2 und
 Komprimierungsprofil unverändert. Auch das Pausenbild läuft weich aus, ohne getrennte Textkarte.
 Die vorherige Darstellung mit Text ausschließlich unter dem Bild wurde auf Klaus' Wunsch ersetzt.
+Alle Inhaltsbilder verwenden diesen Verlauf; keine hart abgegrenzten Bild/Text-Flächen.
+Weitere helle Themen: Leinen, Morgenlicht und Kirschblüte (zusammen mit Washi, Sand, Salbei jetzt sechs).
+Button-Lichtreflex breiter und heller (eine Sekunde), mit stärkerem Leuchtrand beim Darüberfahren;
+auch externe Maus an Touch-Geräten wird über `any-hover`/`any-pointer` berücksichtigt.
 Regeln-Seite: kein zusätzliches Flaschenbild und keine getrennte Überschrift im Kopf; „Regeln“ steht als
 Hauptüberschrift im Pinselbild, darunter „Warum in kleinen Schritten?“ im selben Bereich.
 `x-regeln.webp` bleibt als vorhandene Bilddatei erhalten, wird dort aber bewusst nicht angezeigt.

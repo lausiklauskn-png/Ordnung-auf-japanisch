@@ -20,6 +20,7 @@ const exe = ['/opt/pw-browsers/chromium-1194/chrome-linux/chrome'].find(fs.exist
 const browser = await chromium.launch(exe ? { executablePath: exe } : {});
 const ctx = await browser.newContext({ viewport: { width: 1100, height: 900 }, colorScheme: 'dark' });
 const fehler = [];
+const THEMEN = ['washi', 'sand', 'salbei', 'leinen', 'morgenlicht', 'kirschbluete'];
 await ctx.addInitScript(() => {
   class U { constructor(text) { this.text = text; } }
   window.SpeechSynthesisUtterance = U;
@@ -36,6 +37,7 @@ const foto = async name => {
 };
 try {
   await geh('#/');
+  ok('Themenwahl: sechs helle Naturthemen verfügbar', (await page.locator('[data-thema-wahl]').count()) === THEMEN.length);
   ok('Thema: auch bei dunklem System helles Washi als Start', await page.evaluate(() => document.documentElement.dataset.thema === 'washi' && getComputedStyle(document.documentElement).colorScheme === 'light'));
   const bild = await page.evaluate(() => {
     const k = document.querySelector('[data-warum] .kbild'), h = document.querySelector('[data-warum] h2');
@@ -48,7 +50,7 @@ try {
   }))));
   ok('Alle acht echten Bilddateien lassen sich im Browser dekodieren', dateien.length === 8 && dateien.every(Boolean), dateien);
   const farben = [];
-  for (const name of ['washi', 'sand', 'salbei']) {
+  for (const name of THEMEN) {
     await thema(name);
     const stand = await page.evaluate(() => {
       const b = document.querySelector('[data-willkommen] .haupt'), s = getComputedStyle(b);
@@ -68,7 +70,7 @@ try {
     await page.reload(); await bereit();
     ok('Thema ' + name + ': nach Neuladen und in der Auswahl erhalten', await page.evaluate(n => document.documentElement.dataset.thema === n && document.querySelector(`[data-thema-wahl="${n}"]`).getAttribute('aria-pressed') === 'true', name));
   }
-  ok('Buttons: Glasfläche, Text und 3D-Kante passen sich jedem Thema an', new Set(farben.map(f => f.glas)).size === 3 && new Set(farben.map(f => f.kante)).size === 3 && new Set(farben.map(f => f.text)).size === 3, farben);
+  ok('Buttons: Glasfläche, Text und 3D-Kante passen sich jedem Thema an', new Set(farben.map(f => f.glas)).size === THEMEN.length && new Set(farben.map(f => f.kante)).size === THEMEN.length && new Set(farben.map(f => f.text)).size === THEMEN.length, farben);
   await page.locator('#btnThema').focus(); await page.keyboard.press('Enter'); await page.waitForSelector('#themaAuswahl:not([hidden])');
   await page.keyboard.press('Escape');
   ok('Themenwahl: Tastatur, Escape und Fokus zurück zum Knopf', await page.evaluate(() => document.getElementById('themaAuswahl').hidden && document.activeElement.id === 'btnThema' && document.getElementById('btnThema').getAttribute('aria-expanded') === 'false'));
@@ -77,9 +79,12 @@ try {
   await page.evaluate(() => localStorage.setItem('oj_thema', 'ungueltig')); await page.reload(); await bereit();
   ok('Thema: ungültiger Speicherwert fällt sicher auf Washi zurück', await page.evaluate(() => document.documentElement.dataset.thema === 'washi'));
   await page.emulateMedia({ reducedMotion: 'no-preference' });
-  const knopf = page.locator('[data-willkommen] .haupt'); await knopf.hover();
-  const hover = await knopf.evaluate(b => ({ wackeln: getComputedStyle(b).animationName, licht: getComputedStyle(b, '::before').animationName }));
+  const knopf = page.locator('[data-willkommen] .haupt');
+  await page.mouse.move(0, 0); const ruhigerSchatten = await knopf.evaluate(b => getComputedStyle(b).boxShadow); await knopf.hover();
+  await page.waitForFunction(schatten => getComputedStyle(document.querySelector('[data-willkommen] .haupt')).boxShadow !== schatten, ruhigerSchatten);
+  const hover = await knopf.evaluate(b => ({ wackeln: getComputedStyle(b).animationName, licht: getComputedStyle(b, '::before').animationName, schatten: getComputedStyle(b).boxShadow, streifen: getComputedStyle(b, '::before').backgroundImage }));
   ok('Glas-Button: kurzes Wackeln und Lichtreflex bei Mausberührung', hover.wackeln === 'glas-wackeln' && hover.licht === 'glas-licht', hover);
+  ok('Glas-Button: stärkerer Lichtstreifen und sichtbarer Leuchtrand', hover.schatten !== ruhigerSchatten && hover.streifen.includes('0.95'), hover);
   await page.mouse.down();
   await page.waitForFunction(() => { const b = document.querySelector('[data-willkommen] .haupt'); return new DOMMatrixReadOnly(getComputedStyle(b).transform).m42 > 2; });
   ok('Glas-Button: beim Drücken sichtbar eingedrückt', true);
@@ -91,7 +96,7 @@ try {
   ok('Reduzierte Bewegung: kein Wackeln und kein Lichtlauf', await page.locator('[data-willkommen] .haupt').evaluate(b => getComputedStyle(b).animationName === 'none' && getComputedStyle(b, '::before').display === 'none'));
   for (const breite of [320, 380]) {
     await page.setViewportSize({ width: breite, height: 800 });
-    for (const name of ['washi', 'sand', 'salbei']) {
+    for (const name of THEMEN) {
       await thema(name); await geh('#/');
       ok(breite + ' px ' + name + ': Kopf und vollständige Bilder passen', await page.evaluate(() => {
         const k = document.querySelector('[data-warum] .kbild'), r = k.getBoundingClientRect(), kopf = document.querySelector('.kopf'), text = document.querySelector('[data-warum] h2').getBoundingClientRect();
