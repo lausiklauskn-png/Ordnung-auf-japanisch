@@ -28,6 +28,15 @@ npm install && npm test     # Syntax · Inhalt · Manifest/Schale · App im echt
   wie geliefert (`apple-touch-icon.png`, `icons/ios/AppIcon-1024.png` — iOS erlaubt kein Alpha und rundet selbst
   zu einem Squircle, rund geht dort nicht). In der App der freigestellte Teller (`seiri-480.webp`).
   `tests/manifest-id.mjs` prüft Alpha in Ecke und Mitte jeder Datei. Nach einem neuen Bild `?v=` der Icons erhöhen.
+- **📲 Installieren-Knopf ist PFLICHT — Regel für jede App von Klaus** (Klaus 2026-10-21: „Dasselbe
+  Chrome-Browser-Installationsproblem wie immer … in jede App mit einbauen, die dann verschwindet“). Chrome bietet die
+  Installation nicht verlässlich von selbst an. Darum: `#btnInstall` steht **ohne `hidden` im HTML** (die Kopfzeile
+  springt nicht), `beforeinstallprompt` wird abgefangen und auf Tipp gezeigt; ohne Angebot öffnet der Knopf eine
+  Anleitung (Chrome ⋮, Samsung Internet, iPhone Safari, Computer). In der installierten App ist er weg
+  (`@media (display-mode: standalone)` + `navigator.standalone`, `appinstalled`) — dann bleibt nur **⟳ Aktualisieren**.
+  Zusätzlich ein großer Knopf in den Einstellungen. Nach jedem Merge prüfen, dass er da ist (`tests/speicher.mjs` 6b).
+- **⟳ Aktualisieren** wie in Workflow PDF: Caches leeren, Service-Worker abmelden, mit `?neu=…` neu laden, die Marke
+  danach aus der Adresse nehmen. IndexedDB und localStorage (Verlauf, Räume, Gewohnheiten) bleiben.
 - **`.meldung[hidden]`** braucht eigenes `display:none` — sonst steht ein leerer schwarzer Balken da.
 - Die Warnkarte „Nie mischen“ kommt vor Putzschrank, Küche, Bad, Wäsche — einmal je Station und Tag
   (sessionStorage).
@@ -64,4 +73,6 @@ Kennungen aus `inhalt.js` → `bilder`), Text auf heller Verlaufsfläche · Wör
 Bilder kommen von ChatGPT über `docs/CHATGPT-BRIEF.md` (gebaut aus `docs/BILD-MOTIVE.md`; Grundsatz 間 ma).
 Übergabe an andere Sitzungen: `AGENTS.md` (Codex/ChatGPT), Veröffentlichen und Schlüssel: `docs/VEROEFFENTLICHEN.md`.
 Proben: `tests/speicher.mjs`, `tests/absicht.mjs`. ⚠ Spracheingabe nur gestellt gemessen; am Handy ungemessen.
+1.2 (2026-10-21 abends): 📲 Installieren-Knopf (Regel oben), gründliches ⟳, Zahlen in „Deine Entwicklung“ sind Knöpfe mit
+Liste darunter (Tage, Haken, Schritte nach Raum, Räume, Weg zu 習, Kalender je Monat), Bilder-Werkzeug für Codex.
 Noch nicht: Sprachbefehle während der Sitzung, Medientasten der Ohrhörer, eigene Musik, native Android-Hülle.

@@ -20,6 +20,8 @@ npm install && npm test                                         # alles muss gr�
   Grundsatz 間 ma: wenig Dinge, viel Leere, nie überladen.
 - Ändert sich eine Datei der App-Schale: `CACHE_VERSION` in `sw.js` und das `?v=` in `index.html` und `sw.js` erhöhen.
 - Nie umbenennen: IndexedDB `OrdnungJP1`, Manifest-`id` `/Ordnung-auf-japanisch/`.
+- **📲 Installieren-Knopf bleibt immer drin** (Regel für alle Apps von Klaus): im Browser sichtbar, in der installierten
+  App weg, dann nur ⟳ Aktualisieren. Einzelheiten in CLAUDE.md. Nie entfernen.
 - Jede neue Funktion bekommt eine Probe in `tests/` (Browser über `playwright-core`, Chromium unter
   `/opt/pw-browsers/…` oder das System-Chromium). Gegenprobe: die Funktion absichtlich kaputt machen, die Probe
   muss mit einer eigenen roten Zeile reagieren.
