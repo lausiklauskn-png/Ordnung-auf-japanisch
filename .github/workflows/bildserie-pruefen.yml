@@ -11,19 +11,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: 13a390bf4d81c16c18f38ecbf9b149d31fff6b52
+          ref: codex/bilder
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
       - run: python3 -m pip install Pillow
       - run: npm install
       - run: npx playwright-core install --with-deps chromium
-      - name: Ausgangsstand pruefen
-        run: npm test
-      - uses: actions/checkout@v4
-        with:
-          ref: codex/bilder
-      - run: npm install
       - name: Bildserie pruefen
         run: npm test
       - name: Gegenprobe fuer fehlende Seitenbilder

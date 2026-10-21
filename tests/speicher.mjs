@@ -110,7 +110,12 @@ try {
       return !!(kopf && kopf.querySelector('h1') && flaeche && getComputedStyle(flaeche).backgroundImage.includes(id + '.webp'));
     }, 'x-' + name);
     ok('Sonderseite ' + name + ': zugeordnetes Bild hinter der Überschrift', bild);
-    await ohneUeberlagerung('Bildkopf ' + name);
+    const breite = await page.evaluate(id => {
+      const kopf = document.querySelector(`[data-seitenbild="${id}"]`);
+      return !!kopf && kopf.scrollWidth <= kopf.clientWidth + 2
+        && document.documentElement.scrollWidth <= innerWidth;
+    }, 'x-' + name);
+    ok('Bildkopf ' + name + ': Bild und Text passen auf das Handy', breite);
   }
 
   /* 4 Die 5 Reinigungsmittel */

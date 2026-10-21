@@ -47,6 +47,9 @@ Bilder immer in kleinen Serien (Klaus, 2026-10-21): nur die vorhandene, freigege
 veröffentlichen und Klaus die App zum Aktualisieren geben. Erst nach seiner Gegenprüfung und Freigabe die nächste
 Serie bearbeiten. Keine Bilder auf Vorrat erzeugen. Gewünschte helle Naturpalette und braune Glas-Buttons mit
 sanftem Wackeln, 3D-Druck und Lichtreflex bei Mausberührung sind vorgemerkt; gesondert nach den Bildern umsetzen.
+Komprimierung (Klaus, 2026-10-21): WebP Qualität 80, Methode 6, 1200 × 800, Lanczos, RGB ohne Metadaten;
+immer vom Original importieren. Profil im Werkzeug festgelegt, Messung in `docs/BILDER-KOMPRIMIERUNG.md`.
+Erste Serie: 353.594 Bytes statt 15.254.079 Bytes PNG (97,68 % kleiner).
 Bildserie 1 (2026-10-21): x-willkommen, x-warum, x-pause, x-gewohnheiten, x-kalender, x-flecken, x-regeln,
 x-verlauf eingebaut (8 von 148), fünf fehlende Verbindungen zum Seitenkopf ergänzt. ⚠ Darstellung am echten
 Handy, reale Stimmen und Kaltstart der installierten PWA nicht gemessen; Gegenprüfung durch Klaus steht aus.
