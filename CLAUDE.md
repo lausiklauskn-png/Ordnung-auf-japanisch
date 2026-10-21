@@ -49,6 +49,9 @@ Glas-Buttons übernehmen Flächen, Text und 3D-Kante aus dem gewählten Thema; k
 bei Mausberührung, Einfedern beim Drücken; reduzierte Bewegung respektiert. Bilder vollständig in 3:2 ohne Zoom
 oder weißen Schleier; dunkler Text darunter auf deckendem Papier. Das gilt auch für das Pinselmotiv und die Pause.
 „Nie mischen“: Stoffnamen in allen Warnkarten mit `strong` hervorgehoben, Katalog und Vorlesetext unverändert.
+Prüfung: vollständiges `npm test` grün (GitHub-Lauf 39640385636), einschließlich 29 Gestaltungsproben,
+Kontrast mindestens 4,5:1, 320/380 px, gespeicherter Themenwahl, Button-Aktionen und Warnkarten.
+Gegenprobe für Themenwahl, Bildformat und fette Stoffnamen liefert eigene rote Prüfzeilen.
 ⚠ Am echten Handy und mit echten Stimmen nicht gemessen; Gegenprüfung der Darstellung durch Klaus steht aus.
 
 Bilder immer in kleinen Serien (Klaus, 2026-10-21): nur die vorhandene, freigegebene Serie einbauen,
