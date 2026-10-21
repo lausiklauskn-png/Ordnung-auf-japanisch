@@ -49,6 +49,8 @@ nahezu schwarze Schrift beginnt 48–88 px innerhalb des Bildbereichs. Motiv obe
 Komprimierungsprofil unverändert. Auch das Pausenbild läuft weich aus, ohne getrennte Textkarte.
 Die vorherige Darstellung mit Text ausschließlich unter dem Bild wurde auf Klaus' Wunsch ersetzt.
 Alle Inhaltsbilder verwenden diesen Verlauf; keine hart abgegrenzten Bild/Text-Flächen.
+Auch Bildrahmen oben und seitlich gehen weich in die Hintergrundfarbe des gewählten Themas über.
+Die feine Kontur bleibt im Textbereich erhalten; Bildränder haben keinen separaten harten Rahmen.
 Weitere helle Themen: Leinen, Morgenlicht und Kirschblüte (zusammen mit Washi, Sand, Salbei jetzt sechs).
 Button-Lichtreflex breiter und heller (eine Sekunde), mit stärkerem Leuchtrand beim Darüberfahren;
 auch externe Maus an Touch-Geräten wird über `any-hover`/`any-pointer` berücksichtigt.

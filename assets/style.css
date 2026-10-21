@@ -456,11 +456,28 @@ button.station-kachel { font: inherit; color: inherit; cursor: pointer; width: 1
    Der Text beginnt bereits im Bild; eine helle Verlaufsfläche trägt die dunkle Schrift. */
 .mit-bild { --bild-rand: 16px; --bild-ueberlappung: clamp(48px, 8vw, 88px); position: relative; isolation: isolate; overflow: hidden; padding-top: var(--bild-rand); }
 .mit-bild > :not(.kbild) { position: relative; z-index: 1; }
+.mit-bild, .schritt.mit-bild.erledigt-heute, .buehne.mit-bild.spricht {
+  border-color: transparent; background-clip: padding-box; box-shadow: none;
+}
+.mit-bild::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  border: 1px solid var(--linie); border-radius: inherit;
+}
+.schritt.mit-bild.erledigt-heute::before { border-color: color-mix(in srgb, var(--matcha) 50%, var(--linie)); }
+.buehne.mit-bild.spricht::before { border-color: color-mix(in srgb, var(--akzent) 40%, var(--linie)); }
 .kbild {
   position: relative; width: calc(100% + 2 * var(--bild-rand)); aspect-ratio: 3 / 2;
   margin: calc(-1 * var(--bild-rand)) calc(-1 * var(--bild-rand)) calc(-1 * var(--bild-ueberlappung));
   background-size: contain; background-position: center; background-repeat: no-repeat;
   flex: 0 0 auto; grid-column: 1 / -1;
+}
+.kbild::before, .pause-bild::before {
+  content: ""; position: absolute; inset: -1px; z-index: 1; pointer-events: none;
+  background:
+    linear-gradient(90deg, var(--papier), transparent 24px, transparent calc(100% - 24px), var(--papier)),
+    linear-gradient(180deg, var(--papier), transparent 24px);
+  -webkit-mask-image: linear-gradient(180deg, #000, #000 calc(100% - var(--bild-ueberlappung) - 16px), transparent);
+  mask-image: linear-gradient(180deg, #000, #000 calc(100% - var(--bild-ueberlappung) - 16px), transparent);
 }
 .kbild::after, .pause-bild::after {
   content: ""; position: absolute; inset: 0; pointer-events: none;
@@ -476,7 +493,7 @@ button.station-kachel { font: inherit; color: inherit; cursor: pointer; width: 1
 .schritt.mit-bild, .gewohnheit-karte.mit-bild { --bild-rand: 14px; }
 .station-kopf.mit-bild {
   --bild-rand: 14px; display: grid; grid-template-columns: auto minmax(0, 1fr);
-  padding: var(--bild-rand); border-radius: var(--rund); box-shadow: var(--schatten); background: var(--karte);
+  padding: var(--bild-rand); border-radius: var(--rund); background: var(--karte); background-clip: padding-box;
 }
 .buehne.mit-bild { --bild-rand: 18px; padding-top: var(--bild-rand); align-content: start; }
 #pause { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 16px; overflow-y: auto; background: var(--papier); }

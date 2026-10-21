@@ -64,6 +64,14 @@ try {
         glas: s.backgroundImage, kante: s.boxShadow, text: s.color, meta: document.querySelector('meta[name="theme-color"]').content,
         kontrast: Math.min(kontrast(text, oben), kontrast(text, unten), kontrast(rgb(getComputedStyle(document.body).color), rgb(karte))) };
     });
+    const rand = await page.evaluate(() => {
+      const karte = document.querySelector('[data-warum]'), bild = karte.querySelector('.kbild');
+      const k = getComputedStyle(karte), r = getComputedStyle(bild, '::before');
+      return { frei: k.borderTopColor === 'rgba(0, 0, 0, 0)' && k.boxShadow === 'none' && k.backgroundClip === 'padding-box',
+        weich: r.backgroundImage.includes('linear-gradient') && r.backgroundImage.includes(getComputedStyle(document.body).backgroundColor)
+          && r.maskImage.includes('linear-gradient') };
+    });
+    ok('Bildrahmen ' + name + ': oben und seitlich weich ins Hintergrundthema', rand.frei && rand.weich, rand);
     farben.push(stand);
     ok('Thema ' + name + ': dunkle Schrift mit mindestens 4,5:1 Kontrast', stand.thema === name && stand.kontrast >= 4.5, stand);
     await foto(name + '-desktop');
