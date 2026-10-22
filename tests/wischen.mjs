@@ -28,6 +28,8 @@ const cdp = await ctx.newCDPSession(page);
 const zweiBilder = () => page.evaluate(() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r))));
 const arena = () => page.evaluate(() => {
   document.getElementById('wischprobe')?.remove();
+  // Eine transformierte Seitenanimation verschiebt sonst auch das feste Testfeld.
+  for (const a of document.getElementById('ansicht').getAnimations()) a.finish();
   const d = document.createElement('div'); d.id = 'wischprobe';
   d.style.cssText = 'position:fixed;left:0;top:200px;width:100%;height:180px;z-index:100';
   document.getElementById('ansicht').append(d);
@@ -120,7 +122,7 @@ try {
   ok('Ganze Seite: Button-Fläche wischt, ohne den Button versehentlich anzutippen', await page.evaluate(() => location.hash === '#/gewohnheiten' && window.wischKlicks === 0));
   await geh('#/');
   await page.locator('#wischprobe').evaluate(e => { const b=document.createElement('button'); b.style.cssText='width:100%;height:100%'; b.onclick=() => window.wischKlicks++; e.append(b); });
-  await page.touchscreen.tap(200,260);
+  await page.locator('#wischprobe button').tap();
   // Die kompatiblen Klick-Ereignisse können nach touchEnd erst im nächsten Takt kommen.
   await page.waitForTimeout(400);
   const tipp = await page.evaluate(() => ({ hash: location.hash, klicks: window.wischKlicks }));
