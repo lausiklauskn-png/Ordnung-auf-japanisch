@@ -1,41 +1,57 @@
-/* Seitwischen folgt den sichtbaren Hauptmenü-Links. Keine Änderung an Schritt- oder Uhrdaten. */
+/* Seitwischen wie in Mein-Mixarium: Touch-Anfang/-Ende auf der ganzen Seite.
+   Links und Karten bleiben antippbar; nur eine erkannte Seitengeste unterdrückt den Klick. */
 (function () {
   'use strict';
-  const flaeche = document.getElementById('ansicht');
   const links = [...document.querySelectorAll('.leiste [data-nav]')];
   const hash = () => location.hash || '#/';
   const index = () => links.findIndex(a => a.hash === hash());
   const gesperrt = () => !window.OJ_BEREIT || index() < 0 ||
-    ['pause', 'themaAuswahl', 'spracheAuswahl'].some(id => !document.getElementById(id).hidden);
+    ['pause', 'themaAuswahl', 'spracheAuswahl'].some(id => {
+      const e = document.getElementById(id);
+      return e && !e.hidden;
+    });
+  const eingabe = 'input,textarea,select,[contenteditable]:not([contenteditable="false"]),[role="slider"],[data-wisch-aus]';
   let spur = null;
   const aus = () => { spur = null; };
-  document.addEventListener('pointerdown', e => {
-    if (e.pointerType !== 'touch') return;
-    if (!e.isPrimary || spur) return aus();
-    if (gesperrt() || !flaeche.contains(e.target) || e.clientX < 24 || e.clientX > innerWidth - 24 ||
-        e.target.closest('a,button,input,textarea,select,label,summary,[contenteditable]:not([contenteditable="false"]),[role="slider"],[data-wisch-aus]') ||
-        document.activeElement?.matches('input,textarea,select,[contenteditable="true"]') ||
-        getSelection()?.toString()) return;
-    for (let k = e.target; k && k !== flaeche; k = k.parentElement) {
+  document.addEventListener('touchstart', e => {
+    if (e.touches.length !== 1 || spur) return aus();
+    const t = e.touches[0], ziel = e.target;
+    if (gesperrt() || t.clientX < 24 || t.clientX > innerWidth - 24 ||
+        ziel.closest('.kopf,.leiste,#uhren,' + eingabe) ||
+        document.activeElement?.matches(eingabe) || getSelection()?.toString()) return;
+    // Eigene horizontale Listen behalten ihre Geste.
+    for (let k = ziel; k && k !== document.documentElement; k = k.parentElement) {
       if (k.scrollWidth > k.clientWidth + 2 && /auto|scroll/.test(getComputedStyle(k).overflowX)) return;
     }
-    spur = { id: e.pointerId, x: e.clientX, y: e.clientY, zeit: performance.now(), hash: hash() };
+    spur = { id: t.identifier, x: t.clientX, y: t.clientY, hash: hash() };
   }, { passive: true });
-  document.addEventListener('pointermove', e => {
-    if (!spur || e.pointerId !== spur.id) return;
-    const x = Math.abs(e.clientX - spur.x), y = Math.abs(e.clientY - spur.y);
-    if (y > 12 && y > x) aus();
-  }, { passive: true });
-  document.addEventListener('pointerup', e => {
-    if (!spur || e.pointerId !== spur.id) return;
+  document.addEventListener('touchmove', e => {
+    if (!spur) return;
+    if (e.touches.length !== 1) return aus();
+    const t = e.touches[0];
+    if (t.identifier !== spur.id) return aus();
+    const x = Math.abs(t.clientX - spur.x), y = Math.abs(t.clientY - spur.y);
+    // Mixariums Richtungsprüfung: senkrechtes Scrollen gewinnt.
+    if (y > 12 && y > x * 1.2) return aus();
+    if (x > 12 && x > y * 1.5) {
+      if (e.cancelable) e.preventDefault();
+    }
+  }, { passive: false });
+  document.addEventListener('touchend', e => {
+    if (!spur) return;
     const s = spur; aus();
-    const dx = e.clientX - s.x, dy = e.clientY - s.y;
-    if (gesperrt() || hash() !== s.hash || performance.now() - s.zeit > 850 ||
-        Math.abs(dx) < Math.max(64, Math.min(100, innerWidth * .18)) || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    if (e.touches.length || gesperrt() || hash() !== s.hash) return;
+    const t = [...e.changedTouches].find(t => t.identifier === s.id);
+    if (!t) return;
+    const dx = t.clientX - s.x, dy = t.clientY - s.y;
+    // Wie Mixarium: 55 px und deutlich waagerecht; kein kurzer Zeitablauf.
+    if (Math.abs(dx) < 55 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+    // Ein Wischen auf einer Raumkarte darf danach nicht deren Link öffnen.
+    if (e.cancelable) e.preventDefault();
     const ziel = links[index() + (dx < 0 ? 1 : -1)];
     if (ziel) location.hash = ziel.hash;
-  }, { passive: true });
-  document.addEventListener('pointercancel', aus, { passive: true });
+  }, { passive: false });
+  document.addEventListener('touchcancel', aus, { passive: true });
   document.addEventListener('visibilitychange', aus);
   window.addEventListener('blur', aus);
   window.addEventListener('hashchange', aus);
