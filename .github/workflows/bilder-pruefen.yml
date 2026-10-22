@@ -16,3 +16,19 @@ jobs:
       - run: npm install
       - run: npx playwright-core install chromium
       - run: npm test
+      - name: Gegenprobe ohne Bildliste
+        shell: bash
+        run: |
+          cp assets/inhalt.js /tmp/inhalt-original.js
+          trap 'cp /tmp/inhalt-original.js assets/inhalt.js' EXIT
+          printf '\nwindow.OJ_INHALT.bilder = [];\n' >> assets/inhalt.js
+          set +e
+          node tests/bildserie.mjs > /tmp/gegenprobe.log 2>&1
+          rc=$?
+          set -e
+          cat /tmp/gegenprobe.log
+          test "$rc" -ne 0
+          for id in s1.2 s1.3 s1.4 s1.5 s1.6 s1.7 s1.8 st2 s2.1 s2.2
+          do
+            grep -F "ROT: Bildserie: $id " /tmp/gegenprobe.log
+          done
