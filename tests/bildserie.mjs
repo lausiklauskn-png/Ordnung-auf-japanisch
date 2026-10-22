@@ -1,4 +1,4 @@
-// Zweite Bildserie: zehn richtige Zuordnungen, weiche Container und Schrittansicht.
+// Bildserien 2 und 3: richtige Zuordnungen, weiche Container und Schrittansicht.
 import fs from 'node:fs';
 import http from 'node:http';
 import path from 'node:path';
@@ -24,7 +24,7 @@ await ctx.addInitScript(() => {
 });
 const page = await ctx.newPage(), fehler = [];
 page.on('pageerror', e => fehler.push(String(e)));
-const schritte = ['s0.1','s0.2','s0.3','s0.4','s0.5','s0.6','s0.7','s1.1'];
+const schritte = ['s0.1','s0.2','s0.3','s0.4','s0.5','s0.6','s0.7','s1.1','s1.2','s1.3','s1.4','s1.5','s1.6','s1.7','s1.8','s2.1','s2.2'];
 const geh = async h => { await page.goto(basis + h); await page.waitForFunction(() => window.OJ_BEREIT === true); };
 async function karte(sel, id) {
   return page.locator(sel).evaluate((k, id) => {
@@ -42,9 +42,9 @@ try {
   await geh('#/station/0');
   const alle = await page.evaluate(async ids => Promise.all(ids.map(id => new Promise(resolve => {
     const i = new Image(); i.onload = () => resolve(i.naturalWidth === 1200 && i.naturalHeight === 800); i.onerror = () => resolve(false); i.src = 'bilder/' + id + '.webp';
-  }))), ['st0','st1',...schritte]);
-  ok('Bildserie: alle zehn WebP-Dateien mit 1200 × 800 dekodierbar', alle.length === 10 && alle.every(Boolean), alle);
-  for (const nr of [0,1]) {
+  }))), ['st0','st1','st2',...schritte]);
+  ok('Bildserie: alle zwanzig WebP-Dateien mit 1200 × 800 dekodierbar', alle.length === 20 && alle.every(Boolean), alle);
+  for (const nr of [0,1,2]) {
     await geh('#/station/' + nr);
     ok('Bildserie: st' + nr + ' im zugehörigen Raumkopf mit weichem Übergang und überlappender Schrift', await karte('.station-kopf', 'st' + nr));
     for (const id of schritte.filter(s => s.startsWith('s' + nr + '.'))) {

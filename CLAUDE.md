@@ -66,6 +66,20 @@ im freigegebenen Stil erzeugt werden. Zusätzliche Bestätigung für jede einzel
 
 ## Stand
 
+Bildserie 3 (2026-10-22): s1.2–s1.8, st2, s2.1 und s2.2 erzeugt und über das Werkzeug
+importiert, keine abgewiesene Kennung; **28 von 148**. Cache v21, Inhalt v7.
+Originale außerhalb des Repos unter `/workspace/bilder-eingang/serie3/`; Pantoffelkorb vor Import
+auf sechs Schuhe korrigiert. Profil unverändert: WebP 80/Methode 6, Lanczos, 1200 × 800, RGB.
+Zehn PNGs 20.263.394 Bytes → 516.982 Bytes WebP (97,45 % kleiner), PSNR 37,18–40,59 dB.
+Alle 28 Bilder 1.234.278 Bytes, Maximum s1.2 mit 83.250 Bytes, Hochrechnung 148: 6,52 MB.
+Größenmessung samt Dateibaum in docs/BILDER-KOMPRIMIERUNG.md. Kein Anlass zur Profiländerung.
+Vollständiges npm test grün in Lauf 39792885767; Bildprobe auf beide Serien erweitert,
+65 Bildproben: Raum-/Schrittansichten, Texte, weiche Übergänge, 320/380/1100 px.
+Gegenprobe ohne Bildliste liefert 37 eigene rote Zeilen, darunter alle zehn neuen Kennungen. Speicherprobe stellt den
+bildlosen Fall jetzt unabhängig vom wachsenden Bestand. PR #17; Merge und Pages noch prüfen.
+Echte Handydarstellung, reale Ladezeiten und persönliche Gegenprüfung durch Klaus noch offen.
+Nächste Sitzung: s2.3–s2.12, siehe erneuerten Sitzungsbrief. Keine weitere Serie dieser Sitzung.
+
 Fortlaufende Übergabe (Klaus, 2026-10-22): Zehnerserien und erneuerter Sitzungsbrief verbindlich festgehalten.
 `docs/SITZUNGSBRIEF-BILDER.md` führt mit s1.2–s1.8, st2, s2.1 und s2.2 fort (danach voraussichtlich 28/148).
 Größenkontrolle von main b4fb784: 18 WebP zusammen 717.296 Bytes; größte Datei 58.834 Bytes.
@@ -216,3 +230,4 @@ Liste darunter (Tage, Haken, Schritte nach Raum, Räume, Weg zu 習, Kalender je
 ⚠ Nach dem Merge von 1.2 (#7) startete GitHub **keinen** Lauf „pages build and deployment“ — die Seite blieb auf 1.1.
 Wie bei Workflow PDF: nach jedem Merge den Lauf in Actions ansehen; fehlt er, stößt ein weiterer Commit auf `main` ihn an.
 Noch nicht: Sprachbefehle während der Sitzung, Medientasten der Ohrhörer, eigene Musik, native Android-Hülle.
+
