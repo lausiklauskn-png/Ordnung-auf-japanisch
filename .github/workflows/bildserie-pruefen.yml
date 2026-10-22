@@ -15,7 +15,10 @@ jobs:
           node-version: '22'
       - run: python3 -m pip install Pillow
       - run: npm install
-      - run: npx playwright-core install --with-deps chromium
+      - run: npx playwright-core install chromium
+        timeout-minutes: 3
+        env:
+          PLAYWRIGHT_DOWNLOAD_CONNECTION_TIMEOUT: '60000'
       - name: Vollstaendige Proben
         run: npm test
       - name: Gegenprobe fehlende Bildverknuepfungen
