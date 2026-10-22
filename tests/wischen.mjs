@@ -1,4 +1,4 @@
-// Sonnenlicht: echte Hintergrundpixel, Maus-Nachführung und störungsfreie Bedienung.
+// Seitwischen nach Mixarium: echte Karten, Touch-Gesten auf Handy/Tablet und störungsfreie Bedienung.
 import fs from 'node:fs';
 import http from 'node:http';
 import path from 'node:path';
@@ -33,23 +33,59 @@ const arena = () => page.evaluate(() => {
   document.getElementById('ansicht').append(d);
 });
 const geh = async hash => { await page.evaluate(h => { location.hash = h; }, hash); await zweiBilder(); await arena(); };
-const echt = async (x1, y1, x2, y2) => {
+const echt = async (x1, y1, x2, y2, halte = 0) => {
   await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: x1, y: y1 }] });
-  for (let n = 1; n <= 8; n++) await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: x1 + (x2-x1)*n/8, y: y1 + (y2-y1)*n/8 }] });
+  for (let n = 1; n <= 8; n++) {
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: x1 + (x2-x1)*n/8, y: y1 + (y2-y1)*n/8 }] });
+    if (halte) await page.waitForTimeout(halte / 8);
+  }
   await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] }); await zweiBilder();
 };
 const gestellt = async (art = 'touch', extra = '') => {
   await page.evaluate(({art, extra}) => {
     const d = document.querySelector('#wischprobe button') || document.getElementById('wischprobe');
-    const p = (type, x, y, id = 1, primary = true) => d.dispatchEvent(new PointerEvent(type, { bubbles: true, pointerType: art, pointerId: id, isPrimary: primary, clientX: x, clientY: y }));
-    p('pointerdown', 300, 260);
-    if (extra === 'mehr') p('pointerdown', 280, 280, 2, false);
-    if (extra === 'abbruch') p('pointercancel', 200, 260);
-    p('pointermove', 150, 265); p('pointerup', 80, 270);
+    if (art === 'mouse') {
+      for (const [type, x] of [['pointerdown',300],['pointermove',150],['pointerup',80]]) {
+        d.dispatchEvent(new PointerEvent(type, { bubbles: true, pointerType: 'mouse', pointerId: 1, isPrimary: true, clientX: x, clientY: 260 }));
+      }
+      return;
+    }
+    const punkt = (id, x, y) => new Touch({identifier:id,target:d,clientX:x,clientY:y});
+    const senden = (type, touches, changed) => d.dispatchEvent(new TouchEvent(type, {bubbles:true,cancelable:true,touches,targetTouches:touches,changedTouches:changed}));
+    const a = punkt(1,300,260);
+    senden('touchstart',[a],[a]);
+    if (extra === 'mehr') {
+      const b = punkt(2,280,280); senden('touchstart',[a,b],[b]);
+    }
+    if (extra === 'abbruch') senden('touchcancel',[],[a]);
+    const b = punkt(1,150,265), c = punkt(1,80,270);
+    senden('touchmove',[b],[b]); senden('touchend',[],[c]);
   }, {art, extra}); await zweiBilder();
 };
+const echteKarte = async (halte = 0) => {
+  await page.locator('a.station-kachel').first().scrollIntoViewIfNeeded();
+  const b = await page.locator('a.station-kachel').first().boundingBox();
+  await echt(b.x + b.width * .82, b.y + b.height * .5, b.x + b.width * .18, b.y + b.height * .5, halte);
+};
+
 try {
-  await page.goto(basis); await page.waitForFunction(() => window.OJ_BEREIT === true); await arena();
+  await page.goto(basis); await page.waitForFunction(() => window.OJ_BEREIT === true);
+  await page.evaluate(() => window.OJ.DB.einst('profil', {raeume:{1:1,2:1,3:1},wahl:[],takt:{arbeit:20,pause:10}}));
+  await page.reload(); await page.waitForFunction(() => window.OJ_BEREIT === true);
+  await echteKarte();
+  ok('Ganze Seite: Raumkarte auf Handy wischt zu Gewohnheit statt den Raum zu öffnen', await page.evaluate(() => location.hash === '#/gewohnheiten'));
+  await geh('#/'); await page.locator('#wischprobe').evaluate(e => e.remove());
+  await echteKarte(1100);
+  ok('Ganze Seite: Finger auflegen und langsam wischen funktioniert', await page.evaluate(() => location.hash === '#/gewohnheiten'));
+  await page.setViewportSize({width:1024,height:900});
+  await geh('#/'); await page.locator('#wischprobe').evaluate(e => e.remove());
+  await echteKarte();
+  ok('Ganze Seite: reale Raumkarte auf Tablet wischt zur nächsten Hauptseite', await page.evaluate(() => location.hash === '#/gewohnheiten'));
+  await geh('#/'); await page.locator('#wischprobe').evaluate(e => e.remove());
+  await echt(110,440,30,440);
+  ok('Ganze Seite: auch der freie Seitenrand auf Tablet nimmt die Geste an', await page.evaluate(() => location.hash === '#/gewohnheiten'));
+  await page.setViewportSize({width:380,height:800});
+  await geh('#/');
   const uhr = await page.evaluate(() => localStorage.getItem('oj_takt'));
   const folge = ['gewohnheiten', 'kalender', 'flecken', 'regeln', 'verlauf'];
   for (const n of folge) {
@@ -78,7 +114,14 @@ try {
     await gestellt(art, extra); ok(name + ' wechselt keine Seite', await page.evaluate(() => location.hash === '#/'));
   }
   await page.evaluate(() => { const b = document.createElement('button'); document.getElementById('wischprobe').append(b); });
-  await gestellt(); ok('Buttons lösen keine Seitengeste aus', await page.evaluate(() => location.hash === '#/'));
+  await page.evaluate(() => { const b = document.querySelector('#wischprobe button'); b.style.cssText='width:100%;height:100%'; window.wischKlicks=0; b.onclick=() => window.wischKlicks++; });
+  await echt(300,260,80,268);
+  await page.waitForTimeout(100);
+  ok('Ganze Seite: Button-Fläche wischt, ohne den Button versehentlich anzutippen', await page.evaluate(() => location.hash === '#/gewohnheiten' && window.wischKlicks === 0));
+  await geh('#/');
+  await page.locator('#wischprobe').evaluate(e => { const b=document.createElement('button'); b.style.cssText='width:100%;height:100%'; b.onclick=() => window.wischKlicks++; e.append(b); });
+  await page.touchscreen.tap(200,260);
+  ok('Normaler kurzer Tipp bleibt ein Button-Klick', await page.evaluate(() => location.hash === '#/' && window.wischKlicks === 1));
   await arena();
   await page.click('#btnThema'); await gestellt();
   ok('Offene Themenauswahl blockiert Seitengeste', await page.evaluate(() => location.hash === '#/'));

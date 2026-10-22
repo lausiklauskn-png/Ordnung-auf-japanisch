@@ -16,3 +16,18 @@ jobs:
       - run: npm install
       - run: npx playwright-core install chromium
       - run: npm test
+      - name: Gegenprobe mit alter Wischsteuerung
+        shell: bash
+        run: |
+          cp assets/wischen.js /tmp/wischen-neu.js
+          trap 'cp /tmp/wischen-neu.js assets/wischen.js' EXIT
+          git fetch --depth=1 origin 599800ec40fdbac5a64d771f41bdb01b71e9bf68
+          git show 599800ec40fdbac5a64d771f41bdb01b71e9bf68:assets/wischen.js > assets/wischen.js
+          set +e
+          node tests/wischen.mjs > /tmp/wischen-gegenprobe.log 2>&1
+          rc=$?
+          set -e
+          cat /tmp/wischen-gegenprobe.log
+          test "$rc" -ne 0
+          grep -F 'ROT: Ganze Seite: Raumkarte auf Handy' /tmp/wischen-gegenprobe.log
+          grep -F 'ROT: Ganze Seite: reale Raumkarte auf Tablet' /tmp/wischen-gegenprobe.log
