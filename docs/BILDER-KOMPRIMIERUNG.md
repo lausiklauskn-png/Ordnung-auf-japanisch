@@ -157,3 +157,9 @@ Mittelwert 44.081,36 Bytes/Bild. Vergleichsrechnung mit dem Maximum für alle 14
 Mit unverändertem sonstigem Dateibaum: rund **13,12 MB** Gesamtprojekt bei 148 Bildern,
 mit dem Maximum je Bild rund **18,91 MB**. Künftige Änderungen und Historie nicht vorhergesagt.
 Kein Bild über 150 kB, Gesamtprognose unter 100 MB: kein Anlass zur Profiländerung.
+
+Nachmessung des veröffentlichten Merge-Baums `29d71808443abc29dbaf2c83fed47b54b6210098`:
+**7.829.566 Bytes**, 102 Dateien, API nicht abgeschnitten, temporärer Prüfworkflow entfernt.
+28 WebP unverändert 1.234.278 Bytes. Repoanzeige nach Merge weiterhin 6.379 KiB (zeitversetzt).
+Gesamtprojekt-Prognose bei 148 Bildern und unverändertem sonstigem Baum: 13.119.329 Bytes
+mit dem Bildmittel, 18.916.288 Bytes mit dem bisherigen Maximum.
