@@ -1,0 +1,40 @@
+name: Sonnenlicht pruefen
+on:
+  push:
+    branches: [codex/sonnenlicht]
+permissions:
+  contents: read
+jobs:
+  pruefen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python3 -m pip install Pillow
+      - run: npm install
+      - run: npx playwright-core install --with-deps chromium
+      - name: Vollstaendige Proben
+        run: npm test
+      - name: Gegenprobe harter Rand und ausgeschalteter Mausschein
+        run: |
+          cp assets/style.css /tmp/oj-sonne.css
+          cp assets/sonnenlicht.js /tmp/oj-sonne.js
+          cat >> assets/style.css <<'CSS'
+          :root[data-thema="morgenlicht"] { --papier-licht: linear-gradient(90deg, #fff8d0 80%, #e8c57a 80%) !important; }
+          :root[data-thema="morgenlicht"] body::before { background: none !important; }
+          CSS
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('assets/sonnenlicht.js')
+          p.write_text(p.read_text().replace('x = Math.max(0, Math.min(innerWidth, e.clientX));','x = 30;').replace('y = Math.max(0, Math.min(innerHeight, e.clientY));','y = 20;'))
+          PY
+          if node tests/sonnenlicht.mjs > /tmp/oj-sonne.log 2>&1; then exit 1; fi
+          cp /tmp/oj-sonne.css assets/style.css
+          cp /tmp/oj-sonne.js assets/sonnenlicht.js
+          cat /tmp/oj-sonne.log
+          grep -q 'ROT: Sonnenlicht 2048 px: keine harte rechte Kante' /tmp/oj-sonne.log
+          grep -q 'ROT: Mauslicht: unter dem Zeiger sichtbar heller' /tmp/oj-sonne.log
+          grep -q 'ROT: Mauslicht: folgt dem Zeiger nach links und oben' /tmp/oj-sonne.log

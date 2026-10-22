@@ -43,6 +43,13 @@ npm install && npm test     # Syntax · Inhalt · Manifest/Schale · App im echt
 
 ## Stand
 
+Sonnenlicht (Klaus, 2026-10-22): Morgenlicht/Sonnenschein mit durchgehendem Verlauf von links oben
+nach rechts unten über den ganzen Bildschirm. Das begrenzte Fensterlicht-SVG mit sichtbarer rechter Kante
+ist ersetzt. Breiter, weicher Lichtschein folgt dem Mauszeiger hinter den Karten; keine Überlagerung der
+Texte oder Eingaben. Bildschirmkoordinaten bleiben beim Scrollen passend. Auf Touch-Geräten und bei
+reduzierter Bewegung kein nachgeführter Lichtschein. Themenwechsel, Mausverlassen und Fensterwechsel
+blenden ihn aus. ⚠ Echte Geräte und subjektive Wirkung bei Klaus noch nicht gemessen.
+
 Naturflächen und Orientierung (Klaus, 2026-10-21): aktive Navigation unten mit Schriftgewicht 800,
 hinterlegter Fläche und oberer Markierung. Washi mit unregelmäßigen Papierfasern, Sand mit feinem Korn,
 Leinen mit Webstruktur, Morgenlicht mit weichem Fensterlicht; Kirschblüte bleibt ohne Zusatzmotiv.
