@@ -62,3 +62,58 @@ Qualitätsvergleich auf dem echten Handy steht aus. PSNR beweist keine unsichtba
 | st1 | 39.212 | 38,87 |
 | s1.1 | 58.834 | 38,39 |
 | **Summe** | **363.702** | |
+
+## Fortlaufende Größenkontrolle für alle 148 Bilder
+
+Auftrag von Klaus vom 2026-10-22: nach jeder Zehnerserie Größen erneut prüfen, protokollieren und
+in `docs/SITZUNGSBRIEF-BILDER.md` übernehmen. MB/kB hier dezimal (1 MB = 1.000.000 Bytes);
+MiB/KiB binär. Bilder sind einzelne WebP-Dateien, keine zusammengefasste große Bilddatei.
+
+### Messung am 2026-10-22
+
+Quelle: vollständiger GitHub-Git-Dateibaum von main `b4fb784c892530f5050d8c3dad33e4f0cb242439`,
+91 Dateien, keine abgeschnittene API-Antwort; Repository-Metadaten separat abgefragt.
+Der Dateibaum umfasst vorsichtshalber auch Doku, Tests und Quellbilder der Icons, nicht nur Laufzeitdateien.
+Er enthält keine .git-Datenbank, node_modules oder außerhalb des Repos aufbewahrten Motiv-PNGs.
+
+| Datum / Referenz | Bilder | WebP gesamt | Größtes Bild | Prognose 148, Mittelwert | Aktueller Dateibaum | GitHub Repoanzeige |
+|---|---:|---:|---:|---:|---:|---:|
+| 2026-10-22 / b4fb784 | 18/148 | 717.296 Bytes | 58.834 Bytes | 5.897.767 Bytes | 7.291.033 Bytes | 5.958 KiB |
+
+- Mittelwert: 39.849,78 Bytes/Bild. Prognose: `717296 / 18 × 148` = rund **5,90 MB** Motivbilder.
+- Vorsichtige Vergleichsrechnung, jedes Bild so groß wie das derzeit größte: `58834 × 148` = **8,71 MB**.
+  Das ist keine garantierte Obergrenze für noch unbekannte Motive.
+- Mit unverändertem übrigen Dateibaum ergeben sich rund **12,47 MB** für das gesamte Projekt bei 148 Bildern;
+  mit dem bisherigen Maximum je Bild rund **15,28 MB**. Künftiger Code/Doku und Git-Historie sind darin
+  nicht vorhergesagt. Der gemessene Dateibaum ist keine Messung der Ladezeit oder einer einzelnen Sitzung.
+- GitHubs Repoanzeige entspricht ungefähr 6,10 MB auf dem Server, einschließlich Historie/Kompression.
+  Sie ist ein separater Näherungswert und nicht mit der Summe unkomprimierter Git-Dateigrößen gleichzusetzen.
+
+**Ergebnis: Das aktuelle Profil hat sehr viel Reserve. Keine weitere Qualitätsabsenkung nötig.**
+
+### GitHub-Grenzen und Quellen
+
+Offizielle Dokumentation am 2026-10-22 geprüft:
+
+- [GitHub Pages limits](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits):
+  veröffentlichte Seite höchstens **1 GB**, für das Quell-Repository werden ebenfalls höchstens 1 GB empfohlen.
+- [About large files on GitHub](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github):
+  Upload im Browser höchstens **25 MiB je Datei**; Git warnt über 50 MiB und blockiert über **100 MiB je Datei**.
+  Die größte jetzige Motivdatei ist nur rund 59 kB groß. Auch die Gesamtprognose liegt weit unter Pages' Grenze.
+
+Bei künftigen Kontrollen sowohl einzelne Dateien als auch Seite und Repository/Historie betrachten.
+Original-PNGs weiter außerhalb des Repos halten. Alte Binärfassungen bleiben in Git erhalten; spätere
+Verkleinerung aktueller Bilder entfernt diese nicht. Keine Historie ohne gesonderten Auftrag umschreiben.
+
+### Vorgehen nach jeder Serie
+
+1. Alle `bilder/*.webp`: Anzahl, exakte Bytesumme, Mittelwert, Maximum; neue Serie zusätzlich separat erfassen.
+2. Ersparnis gegenüber den zugehörigen Originalen und gegebenenfalls PSNR dokumentieren; Sichtprobe behalten.
+3. Aktuellen vollständigen Git-Dateibaum und die GitHub-Repoanzeige getrennt erfassen. Mit aktuellem Mittel
+   und bisherigem Maximum auf 148 Bilder hochrechnen; Annahmen und Referenz-Commit nennen.
+4. Tabelle ergänzen und Sitzungsbrief erneuern. GitHub-Grenzen bei Bedarf erneut anhand offizieller Quellen prüfen.
+5. Eigene frühe Prüfmarken: ein Motiv über **150 kB** oder prognostizierte Gesamtseite über **100 MB**.
+   Das sind Arbeitsbudgets, keine GitHub-Grenzen und kein Grund zum automatischen Verwerfen eines Bilds.
+   Erst Ausreißer untersuchen, dann bei tatsächlichem Bedarf Vergleichsproben direkt aus Originalen erstellen.
+   Qualität/Format/Größe nur mit begründetem Qualitätsvergleich ändern und das neue Profil ausdrücklich merken.
+   Keine pauschale Umkomprimierung aller vorhandenen WebP und kein vorsorglicher Wechsel auf schlechtere Qualität.

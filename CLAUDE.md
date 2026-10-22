@@ -41,7 +41,38 @@ npm install && npm test     # Syntax · Inhalt · Manifest/Schale · App im echt
 - Die Warnkarte „Nie mischen“ kommt vor Putzschrank, Küche, Bad, Wäsche — einmal je Station und Tag
   (sessionStorage).
 
+## Bildserien und Übergabe (Auftrag von Klaus, 2026-10-22)
+
+Die Fortsetzung in Zehnerserien bis zu allen 148 Bildern ist beauftragt. Pro Sitzung eine Serie mit
+höchstens zehn bisher fehlenden Kennungen, danach veröffentlichen, Klaus die App zur Gegenprüfung geben
+und den Sitzungsbrief erneuern. Der letzte Rest darf kleiner sein. Keine weiteren Serien auf Vorrat.
+Dieser Ablauf ersetzt die frühere Beschränkung auf ausschließlich hochgeladene Bilder; neue Motive dürfen
+im freigegebenen Stil erzeugt werden. Zusätzliche Bestätigung für jede einzelne Kennung ist nicht nötig.
+
+- Zuerst `docs/SITZUNGSBRIEF-BILDER.md` und den tatsächlich aktuellen `docs/BILDER-STAND.md` lesen.
+  Schon vorhandene Kennungen überspringen, nie wegen eines veralteten Briefs doppelt erzeugen.
+- Reihenfolge: je Raum das Kopfbild `stN`, dann seine Schritte `sN.1…`; Räume 0 bis 9. Danach Mittel m1–m5,
+  Gewohnheiten g1–g24, Monate k01–k12, noch fehlende Sonderseiten. Vorhandene Bilder zählen mit.
+- Bildsprache und Container beibehalten: fotorealistisch, warmes Elfenbein/Naturholz, 間 ma, wenige Dinge,
+  viel freie Fläche unten, weiche Ränder und Schrift im Verlauf. Stilreferenzen direkt ansehen.
+- Profil bleibt WebP 80/Methode 6, 1200 × 800, Lanczos, RGB ohne Metadaten. Originale außerhalb des Repos.
+  Nach jeder Serie Größen nachmessen und Hochrechnung, größte Datei sowie Repo-/Seitengröße dokumentieren.
+  Komprimierung erst bei begründetem Bedarf anhand von Vergleichsbildern aus Originalen ändern;
+  keine pauschale Qualitätsabsenkung und keine erneute verlustbehaftete Komprimierung aus WebP.
+- `docs/SITZUNGSBRIEF-BILDER.md` spätestens vor Sitzungsende aktualisieren, bei knappem Kontext sofort:
+  fertig/teilfertig, offene Punkte, nächste zehn fehlende Kennungen samt Motiven, Prüfungen, Merge/Pages,
+  Komprimierungsprofil und Größenmessung. Diesen Auftrag im nächsten Brief wiederholen.
+  Die nächste Sitzung führt denselben Ablauf fort. Bei 148/148 Abschlussbericht statt weiterer Bildaufträge.
+
 ## Stand
+
+Fortlaufende Übergabe (Klaus, 2026-10-22): Zehnerserien und erneuerter Sitzungsbrief verbindlich festgehalten.
+`docs/SITZUNGSBRIEF-BILDER.md` führt mit s1.2–s1.8, st2, s2.1 und s2.2 fort (danach voraussichtlich 28/148).
+Größenkontrolle von main b4fb784: 18 WebP zusammen 717.296 Bytes; größte Datei 58.834 Bytes.
+Hochrechnung bei aktuellem Mittel: 5,90 MB für alle 148 Bilder, aktueller Dateibaum insgesamt 7,29 MB.
+GitHub meldet 5.958 KiB Repo-Größe; getrennte Messarten, siehe Komprimierungsdokumentation.
+Aktuell kein Anlass zur Qualitätsabsenkung. Künftige Größen, echte mobile Ladezeit und subjektiver
+Qualitätsvergleich aller Bilder sind nicht gemessen. In dieser Übergabe keine neue Bildserie erzeugt.
 
 Bildserie 2 (Klaus, 2026-10-22): ausdrücklich zehn weitere Bilder beauftragt, in logischer Reihenfolge
 Grundlagen und Beginn Eingang: st0, s0.1–s0.7, st1, s1.1. Fotorealistische helle Naturpalette, wenige Dinge,
