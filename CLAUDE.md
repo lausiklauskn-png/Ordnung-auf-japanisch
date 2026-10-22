@@ -66,6 +66,22 @@ im freigegebenen Stil erzeugt werden. Zusätzliche Bestätigung für jede einzel
 
 ## Stand
 
+Wischen über die ganze Hauptseite (Klaus, 2026-10-22): Touch-Anfang, Bewegung und Ende nach
+der funktionierenden Steuerung in Mein-Mixarium (index.html, Abschnitt SWIPE-NAVIGATION).
+Vorher schloss die Pointer-Steuerung sämtliche Links und Buttons aus, damit auch große Raumkarten;
+außerdem verlangte sie ein Pointer-Ende binnen 850 ms. Jetzt funktionieren waagerechte Gesten
+ab 55 px auf Karten, Button-Flächen und freien Seitenrändern, auch bei langsamerer Bewegung.
+Erkannte Gesten unterdrücken den nachfolgenden Tipp auf die Raumkarte. Kurzes Antippen bleibt
+normal bedienbar. Senkrechtes Scrollen, Zoom, Eingaben, eigene horizontale Listen, Browser-Randgesten,
+Mehrfinger und offene Dialoge bleiben ausgenommen; keine Hauptseiten-Geste innerhalb von Station,
+Einrichten oder laufender Sitzung. Uhren und Verlauf bleiben erhalten. Cache v22, wischen.js v2.
+Ausgangsstand vollständig grün: Lauf 39811007887. Abschlussprüfung: vollständiges npm test und 32 Wischproben grün in Lauf 39812570293.
+Gegenprobe mit der alten Steuerung: sechs eigene rote Zeilen, darunter reale Karten auf Handy und Tablet.
+Veröffentlichung über PR #20; Merge-/Pages-Ergebnis wird dort nachgeführt.
+Proben verwenden echte Raumkarten bei 380 und 1024 px, freie Tablet-Ränder, langsame Gesten,
+Button-Wischen ohne Klick, normalen Touch-Tipp und die bisherigen Navigations-/Scroll-/Uhrproben.
+Echte Geräte und persönliche Gegenprüfung von Klaus noch nicht gemessen.
+
 Bildserie 3 (2026-10-22): s1.2–s1.8, st2, s2.1 und s2.2 erzeugt und über das Werkzeug
 importiert, keine abgewiesene Kennung; **28 von 148**. Cache v21, Inhalt v7.
 Originale außerhalb des Repos unter `/workspace/bilder-eingang/serie3/`; Pantoffelkorb vor Import
