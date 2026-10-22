@@ -25,13 +25,15 @@ jobs:
         run: |
           cp assets/inhalt.js /tmp/oj-bildserie-inhalt.js
           python3 - <<'PY'
-          import re
+          import json
           from pathlib import Path
           p=Path('assets/inhalt.js')
-          # Ausschließlich die Bildliste entfernen; alle Tipps bleiben vollständig.
-          s, n = re.subn(r'("bilder":\\s*)\\[[^\\]]*\\]', r'\\1[]', p.read_text(), count=1)
-          assert n == 1
-          p.write_text(s)
+          s=p.read_text()
+          anfang=s.index('{')
+          daten=json.loads(s[anfang:s.rindex('}')+1])
+          assert len(daten['stationen']) == 10
+          daten['bilder']=[]
+          p.write_text(s[:anfang]+json.dumps(daten, ensure_ascii=False)+';')
           PY
           node --check assets/inhalt.js
           if node tests/bildserie.mjs > /tmp/oj-bildserie.log 2>&1; then exit 1; fi
