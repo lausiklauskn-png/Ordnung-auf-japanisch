@@ -39,3 +39,26 @@ Die Gegenprüfung aller Bilder auf dem echten Handy steht aus.
 | x-regeln | 43.872 |
 | x-verlauf | 48.128 |
 | **Summe** | **353.594** |
+
+## Messung der zweiten Serie
+
+2026-10-22, zehn neu erzeugte Original-PNGs: st0, s0.1–s0.7, st1, s1.1.
+Gleiches Profil (Qualität 80, Methode 6, Lanczos, 1200 × 800, RGB ohne EXIF/ICC/XMP).
+**18.517.061 Bytes PNG → 363.702 Bytes WebP**, insgesamt **98,04 % kleiner** einschließlich Verkleinerung.
+PSNR je Bild gegenüber dem unkomprimierten Zuschnitt: **38,39–40,95 dB**.
+Alle Originale außerhalb des App-Repos aufbewahrt. Sichtkontrolle der Motive in der Sitzung;
+Qualitätsvergleich auf dem echten Handy steht aus. PSNR beweist keine unsichtbaren Verluste.
+
+| Kennung | WebP Bytes | PSNR dB |
+|---|---:|---:|
+| st0 | 30.136 | 40,51 |
+| s0.1 | 41.070 | 39,64 |
+| s0.2 | 34.966 | 40,30 |
+| s0.3 | 33.898 | 40,77 |
+| s0.4 | 30.656 | 40,57 |
+| s0.5 | 27.832 | 40,46 |
+| s0.6 | 33.082 | 40,95 |
+| s0.7 | 34.016 | 40,29 |
+| st1 | 39.212 | 38,87 |
+| s1.1 | 58.834 | 38,39 |
+| **Summe** | **363.702** | |

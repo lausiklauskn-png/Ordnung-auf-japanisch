@@ -76,7 +76,7 @@ try {
   await page.reload(); await bereit('de');
   await page.waitForFunction(() => navigator.serviceWorker.controller !== null);
   ok('Offline-Vorrat: Sprachdaten und Sprachwahl liegen im Cache', await page.evaluate(async () => {
-    const urls = (await (await caches.open('ordnung-jp-v19')).keys()).map(r => r.url);
+    const urls = (await (await caches.open('ordnung-jp-v20')).keys()).map(r => r.url);
     return urls.some(u => u.endsWith('assets/sprachen.js?v=1')) && urls.some(u => u.endsWith('assets/sprache.js?v=1'));
   }));
   await ctx.setOffline(true);
