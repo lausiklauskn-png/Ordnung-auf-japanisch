@@ -15,6 +15,7 @@ jobs:
       - run: python3 -m pip install Pillow
       - run: npm install
       - run: npx playwright-core install chromium
+      - run: node tests/wischen.mjs
       - run: npm test
       - name: Gegenprobe mit alter Wischsteuerung
         shell: bash

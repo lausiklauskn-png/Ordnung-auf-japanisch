@@ -121,7 +121,10 @@ try {
   await geh('#/');
   await page.locator('#wischprobe').evaluate(e => { const b=document.createElement('button'); b.style.cssText='width:100%;height:100%'; b.onclick=() => window.wischKlicks++; e.append(b); });
   await page.touchscreen.tap(200,260);
-  ok('Normaler kurzer Tipp bleibt ein Button-Klick', await page.evaluate(() => location.hash === '#/' && window.wischKlicks === 1));
+  // Die kompatiblen Klick-Ereignisse können nach touchEnd erst im nächsten Takt kommen.
+  await page.waitForTimeout(400);
+  const tipp = await page.evaluate(() => ({ hash: location.hash, klicks: window.wischKlicks }));
+  ok('Normaler kurzer Tipp bleibt ein Button-Klick', tipp.hash === '#/' && tipp.klicks === 1, tipp);
   await arena();
   await page.click('#btnThema'); await gestellt();
   ok('Offene Themenauswahl blockiert Seitengeste', await page.evaluate(() => location.hash === '#/'));
