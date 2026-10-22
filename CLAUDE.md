@@ -47,6 +47,9 @@ Seitwischen (Klaus, 2026-10-22): Finger nach links zur nächsten Hauptseite, nac
 in der Reihenfolge der unteren Navigation. Anfang und Ende bleiben stehen. Keine Seitengeste während
 Einrichten, Station oder laufender Sitzung; Arbeits-/Pausenuhren werden nicht angehalten.
 Vertikales Scrollen, Vergrößern, Eingaben, Buttons, Mehrfingergesten und Browser-Randgesten bleiben frei.
+Prüfung: vollständiges `npm test` grün (Lauf 39766293339); echte Browser-Touch-Gesten über alle sechs
+Hauptseiten vor/zurück, native Scrollbewegung, Randgesten, Mehrfinger, Buttons, Eingaben und Uhrerhalt geprüft.
+Gegenprobe ohne Wischsteuerung liefert eigene rote Zeilen.
 ⚠ Echte Touch-Geräte und persönliche Gegenprüfung noch nicht gemessen.
 
 Sonnenlicht (Klaus, 2026-10-22): Morgenlicht/Sonnenschein mit durchgehendem Verlauf von links oben
@@ -54,7 +57,10 @@ nach rechts unten über den ganzen Bildschirm. Das begrenzte Fensterlicht-SVG mi
 ist ersetzt. Breiter, weicher Lichtschein folgt dem Mauszeiger hinter den Karten; keine Überlagerung der
 Texte oder Eingaben. Bildschirmkoordinaten bleiben beim Scrollen passend. Auf Touch-Geräten und bei
 reduzierter Bewegung kein nachgeführter Lichtschein. Themenwechsel, Mausverlassen und Fensterwechsel
-blenden ihn aus. ⚠ Echte Geräte und subjektive Wirkung bei Klaus noch nicht gemessen.
+blenden ihn aus. Prüfung: vollständiges `npm test` grün (Lauf 39766293339); Hintergrundpixel bei
+380/1440/2048 px, breiter Lichtschein, Mausnachführung, Scrollen, Themenwechsel und reduzierte Bewegung geprüft.
+Gegenprobe mit hartem Rand und abgeschaltetem Schein reagiert rot.
+⚠ Echte Geräte und subjektive Wirkung bei Klaus noch nicht gemessen.
 
 Naturflächen und Orientierung (Klaus, 2026-10-21): aktive Navigation unten mit Schriftgewicht 800,
 hinterlegter Fläche und oberer Markierung. Washi mit unregelmäßigen Papierfasern, Sand mit feinem Korn,
