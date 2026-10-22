@@ -85,7 +85,8 @@ try {
     const material = await page.evaluate(async n => {
       const s = getComputedStyle(document.documentElement), muster = s.getPropertyValue('--papier-muster').trim(), licht = s.getPropertyValue('--papier-licht').trim();
       if (n === 'kirschbluete') return { sichtbar: muster === 'none', muster, licht };
-      const url = (n === 'morgenlicht' ? licht : muster).match(/^url\(["']?(.*?)["']?\)$/)?.[1];
+      if (n === 'morgenlicht') return { sichtbar: licht.includes('linear-gradient(135deg') && getComputedStyle(document.body).backgroundAttachment.startsWith('fixed'), muster, licht };
+      const url = muster.match(/^url\(["']?(.*?)["']?\)$/)?.[1];
       if (!url) return { sichtbar: false, muster, licht };
       const img = new Image(); img.src = url; await img.decode();
       const c = document.createElement('canvas'); c.width = 192; c.height = 192; const ctx = c.getContext('2d'); ctx.drawImage(img, 0, 0, 192, 192);
