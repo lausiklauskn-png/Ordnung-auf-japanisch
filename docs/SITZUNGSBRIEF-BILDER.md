@@ -1,6 +1,6 @@
 # Sitzungsbrief: nächste zehn Bilder
 
-Stand: 2026-10-22 · Repo `lausiklauskn-png/Ordnung-auf-japanisch` · Serie 3 importiert, Veröffentlichung noch offen.
+Stand: 2026-10-22 · Repo `lausiklauskn-png/Ordnung-auf-japanisch` · Serie 3 auf main, Pages-Lauf noch offen.
 
 ## Auftrag und Übergabe an jede Folgesitzung
 
@@ -16,11 +16,11 @@ erzeugen. Texte/Motive ausschließlich aus `docs/INHALT.md`, `docs/BILD-MOTIVE.m
 
 ## Tatsächlicher Stand dieser Sitzung
 
-- **28 von 148 importiert**, 120 fehlen. Vor Veröffentlichung weiterhin nur 18 auf main.
+- **28 von 148 auf main eingebaut**, 120 fehlen: noch zwölf Zehnerserien.
 - Serie 3: s1.2–s1.8, st2, s2.1, s2.2. Zehn Originale erzeugt und über das Importwerkzeug eingebaut;
   keine abgewiesene Kennung. s1.3 vor Import auf drei vollständige Pantoffelpaare korrigiert.
 - PR [#17](https://github.com/lausiklauskn-png/Ordnung-auf-japanisch/pull/17), Zweig `codex/bilder-serie3`.
-  Bildcommit `6e9324496f04f1ef94e3687c7d52c0c95a8014cd`. **Merge und Pages noch offen.**
+  Merge `29d71808443abc29dbaf2c83fed47b54b6210098`. Pages-Lauf 39793574847 noch offen.
 - Ausgangsprüfung vollständig grün: Lauf 39790788328. Vollständiges npm test nach Import grün: Lauf 39792885767.
   Erster Nachlauf entdeckte eine veraltete Testannahme in tests/speicher.mjs (s2.2 ohne Bild);
   der bildlose Testfall wird jetzt unabhängig vom echten Bestand gestellt.
@@ -101,8 +101,8 @@ Neue zehn: **516.982 Bytes WebP** aus **20.263.394 Bytes PNG** (97,45 % kleiner)
 Profil unverändert: WebP 80/Methode 6, 1200 × 800, Lanczos, RGB ohne EXIF/ICC/XMP.
 PSNR gegen den unkomprimierten Zuschnitt 37,18–40,59 dB; Sichtkontrolle der Motive in der Sitzung.
 Hochrechnung auf 148 mit Mittelwert: **6.524.041 Bytes**; mit Maximum für jedes Bild: **12.321.000 Bytes**.
-Git-Dateibaum von `8491b5b`: **7.827.054 Bytes**, 103 Dateien, vollständige nicht abgeschnittene API-Antwort,
-einschließlich temporärem Prüfworkflow, vor dieser Übergabedokumentation. Ohne .git/node_modules/Originale.
+Git-Dateibaum von Merge `29d7180`: **7.829.566 Bytes**, 102 Dateien, vollständige nicht abgeschnittene API-Antwort,
+nach Entfernen des temporären Workflows, vor dieser Nachtragsdokumentation. Ohne .git/node_modules/Originale.
 GitHub-Repoanzeige während des Imports: **6.379 KiB**, zeitversetzter Näherungswert einschließlich Historie.
 Gesamtprojekt-Prognose bei unverändertem sonstigem Baum: ca. **13,12 MB**, mit Maximum ca. **18,91 MB**.
 Keine stärkere Komprimierung nötig. Einzelwerte und Messgrenzen in docs/BILDER-KOMPRIMIERUNG.md.
