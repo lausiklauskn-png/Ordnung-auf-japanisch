@@ -43,6 +43,12 @@ npm install && npm test     # Syntax · Inhalt · Manifest/Schale · App im echt
 
 ## Stand
 
+Seitwischen (Klaus, 2026-10-22): Finger nach links zur nächsten Hauptseite, nach rechts zurück,
+in der Reihenfolge der unteren Navigation. Anfang und Ende bleiben stehen. Keine Seitengeste während
+Einrichten, Station oder laufender Sitzung; Arbeits-/Pausenuhren werden nicht angehalten.
+Vertikales Scrollen, Vergrößern, Eingaben, Buttons, Mehrfingergesten und Browser-Randgesten bleiben frei.
+⚠ Echte Touch-Geräte und persönliche Gegenprüfung noch nicht gemessen.
+
 Sonnenlicht (Klaus, 2026-10-22): Morgenlicht/Sonnenschein mit durchgehendem Verlauf von links oben
 nach rechts unten über den ganzen Bildschirm. Das begrenzte Fensterlicht-SVG mit sichtbarer rechter Kante
 ist ersetzt. Breiter, weicher Lichtschein folgt dem Mauszeiger hinter den Karten; keine Überlagerung der

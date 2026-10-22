@@ -43,7 +43,7 @@
 }
 :root[data-thema="morgenlicht"] {
   --papier-licht: linear-gradient(135deg,
-    rgba(255, 251, 222, .90) 0%, rgba(249, 219, 157, .38) 28%,
+    rgba(255, 254, 243, .96) 0%, rgba(249, 219, 157, .38) 28%,
     rgba(255, 252, 237, .55) 55%, rgba(239, 211, 167, .16) 78%, rgba(250, 241, 221, .05) 100%);
   --papier: #fbf1df; --papier-2: #eedcc0; --karte: #fffaf0;
   --tusche: #4b3826; --tusche-2: #6d553c; --leise: #776149;
@@ -655,3 +655,6 @@ details.warnkarte summary { cursor: pointer; color: var(--akzent); }
 #spracheAuswahl .knopf { min-width: 0; }
 .leiste a { min-width: 0; overflow-wrap: anywhere; }
 @media (max-width: 480px) { .kopf .marke { gap: 5px; } .kopf { gap: 5px; padding-left: 10px; padding-right: 10px; } }
+
+/* Seitwischen auf den Hauptseiten; vertikales Scrollen und Vergrößern bleiben nativ. */
+#ansicht { touch-action: pan-y pinch-zoom; }

@@ -38,3 +38,12 @@ jobs:
           grep -q 'ROT: Sonnenlicht 2048 px: keine harte rechte Kante' /tmp/oj-sonne.log
           grep -q 'ROT: Mauslicht: unter dem Zeiger sichtbar heller' /tmp/oj-sonne.log
           grep -q 'ROT: Mauslicht: folgt dem Zeiger nach links und oben' /tmp/oj-sonne.log
+
+      - name: Gegenprobe Seitwischen ausgeschaltet
+        run: |
+          cp assets/wischen.js /tmp/oj-wischen.js
+          printf '/* Gegenprobe: keine Wischsteuerung */\n' > assets/wischen.js
+          if node tests/wischen.mjs > /tmp/oj-wischen.log 2>&1; then exit 1; fi
+          cp /tmp/oj-wischen.js assets/wischen.js
+          cat /tmp/oj-wischen.log
+          grep -q 'ROT: Seitwischen links: gewohnheiten' /tmp/oj-wischen.log

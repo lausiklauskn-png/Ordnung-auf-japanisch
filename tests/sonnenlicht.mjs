@@ -21,7 +21,8 @@ const browser = await chromium.launch(exe ? { executablePath: exe } : {});
 const ctx = await browser.newContext({ viewport: { width: 2048, height: 1152 }, reducedMotion: 'no-preference' });
 await ctx.addInitScript(() => {
   localStorage.setItem('oj_thema', 'morgenlicht');
-  Object.defineProperty(window, 'speechSynthesis', { value: { getVoices: () => [], cancel() {} } });
+  window.SpeechSynthesisUtterance = class { constructor(text) { this.text = text; } };
+  Object.defineProperty(window, 'speechSynthesis', { value: { getVoices: () => [], cancel() {}, speak(u) { setTimeout(() => { u.onstart?.(); u.onend?.(); }, 5); } } });
 });
 const page = await ctx.newPage(), fehler = [];
 page.on('pageerror', e => fehler.push(String(e)));
@@ -92,6 +93,8 @@ try {
   await page.emulateMedia({ reducedMotion: 'reduce' }); await page.mouse.move(350, 360);
   ok('Mauslicht: reduzierte Bewegung wird respektiert', await page.evaluate(() => !document.documentElement.hasAttribute('data-sonnenlicht') && +getComputedStyle(document.body, '::before').opacity === 0));
   await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.waitForFunction(() => !matchMedia('(prefers-reduced-motion: reduce)').matches);
+  await page.evaluate(() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r))));
   await page.mouse.move(370, 380); await leuchtet();
   await page.dispatchEvent('body', 'pointermove', { pointerType: 'touch', clientX: 200, clientY: 200 });
   ok('Mauslicht: Touch-Geste beendet die Maus-Nachführung', await page.evaluate(() => !document.documentElement.hasAttribute('data-sonnenlicht')));
