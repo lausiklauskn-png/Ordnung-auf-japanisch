@@ -43,6 +43,15 @@ npm install && npm test     # Syntax · Inhalt · Manifest/Schale · App im echt
 
 ## Stand
 
+Bildserie 2 (Klaus, 2026-10-22): ausdrücklich zehn weitere Bilder beauftragt, in logischer Reihenfolge
+Grundlagen und Beginn Eingang: st0, s0.1–s0.7, st1, s1.1. Fotorealistische helle Naturpalette, wenige Dinge,
+viel Leere; vorhandene weiche Bild-/Rahmenverläufe und Schriftüberlappung werden unverändert verwendet.
+Über `tools/bilder-einfuegen.py` importiert, keine abgewiesene Kennung. Neuer Stand: 18 von 148.
+Gleiches Komprimierungsprofil: WebP 80/Methode 6, 1200 × 800, Lanczos, RGB ohne EXIF/ICC/XMP.
+Zehn Original-PNGs 18.517.061 Bytes → 363.702 Bytes WebP (98,04 % kleiner), PSNR 38,39–40,95 dB
+gegen den unkomprimierten 1200-×-800-Zuschnitt. Originale außerhalb des Repos erhalten.
+⚠ Echte Handydarstellung, subjektiver Qualitätsvergleich und persönliche Gegenprüfung nicht gemessen.
+
 Seitwischen (Klaus, 2026-10-22): Finger nach links zur nächsten Hauptseite, nach rechts zurück,
 in der Reihenfolge der unteren Navigation. Anfang und Ende bleiben stehen. Keine Seitengeste während
 Einrichten, Station oder laufender Sitzung; Arbeits-/Pausenuhren werden nicht angehalten.

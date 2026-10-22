@@ -2,18 +2,18 @@
 
 > GEBAUT von `tools/bilder-einfuegen.py` — nicht von Hand ändern.
 
-**8 von 148** Bildern sind eingebaut. Schlüssel = Kennung aus `docs/CHATGPT-BRIEF.md`, Datei `bilder/<Kennung>.webp`.
+**18 von 148** Bildern sind eingebaut. Schlüssel = Kennung aus `docs/CHATGPT-BRIEF.md`, Datei `bilder/<Kennung>.webp`.
 
 | Kennung | Bild |
 |---|---|
-| `s0.1` | — |
-| `s0.2` | — |
-| `s0.3` | — |
-| `s0.4` | — |
-| `s0.5` | — |
-| `s0.6` | — |
-| `s0.7` | — |
-| `s1.1` | — |
+| `s0.1` | ✅ |
+| `s0.2` | ✅ |
+| `s0.3` | ✅ |
+| `s0.4` | ✅ |
+| `s0.5` | ✅ |
+| `s0.6` | ✅ |
+| `s0.7` | ✅ |
+| `s1.1` | ✅ |
 | `s1.2` | — |
 | `s1.3` | — |
 | `s1.4` | — |
@@ -95,8 +95,8 @@
 | `s9.6` | — |
 | `s9.7` | — |
 | `s9.8` | — |
-| `st0` | — |
-| `st1` | — |
+| `st0` | ✅ |
+| `st1` | ✅ |
 | `st2` | — |
 | `st3` | — |
 | `st4` | — |

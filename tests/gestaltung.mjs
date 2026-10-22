@@ -48,7 +48,7 @@ try {
   const dateien = await page.evaluate(async () => Promise.all(window.OJ_INHALT.bilder.map(id => new Promise(resolve => {
     const i = new Image(); i.onload = () => resolve(i.naturalWidth === 1200 && i.naturalHeight === 800); i.onerror = () => resolve(false); i.src = 'bilder/' + id + '.webp';
   }))));
-  ok('Alle acht echten Bilddateien lassen sich im Browser dekodieren', dateien.length === 8 && dateien.every(Boolean), dateien);
+  ok('Alle vorhandenen Bilddateien lassen sich im Browser dekodieren', dateien.length === fs.readdirSync(path.join(WURZEL, 'bilder')).filter(f => f.endsWith('.webp')).length && dateien.every(Boolean), dateien);
   const farben = [];
   for (const name of THEMEN) {
     await thema(name);
