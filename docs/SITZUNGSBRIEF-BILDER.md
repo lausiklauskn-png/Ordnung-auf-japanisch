@@ -23,6 +23,7 @@ erzeugen. Texte/Motive ausschließlich aus `docs/INHALT.md`, `docs/BILD-MOTIVE.m
   `b4fb784c892530f5050d8c3dad33e4f0cb242439`.
 - Vollständiges `npm test` im Prüfschritt von Lauf 39771964799 erfolgreich; korrigierte Bild-Gegenprobe
   und 34 Bildproben in Lauf 39772601293 grün. Pages-Lauf 39772802308 erfolgreich.
+- Übergabe-Dokumentation: vollständiges `npm test` grün in Lauf 39788359712.
 - App: <https://lausiklauskn-png.github.io/Ordnung-auf-japanisch/>, Cache v20, Inhalt v6.
   Diese Versionsstände vor Änderungen erneut an main prüfen.
 - Helle und dunklere Naturthemen, Glas-Buttons, Sonnenlicht, Hauptseiten-Wischen und sechs Offline-Sprachen

@@ -73,6 +73,8 @@ Hochrechnung bei aktuellem Mittel: 5,90 MB für alle 148 Bilder, aktueller Datei
 GitHub meldet 5.958 KiB Repo-Größe; getrennte Messarten, siehe Komprimierungsdokumentation.
 Aktuell kein Anlass zur Qualitätsabsenkung. Künftige Größen, echte mobile Ladezeit und subjektiver
 Qualitätsvergleich aller Bilder sind nicht gemessen. In dieser Übergabe keine neue Bildserie erzeugt.
+Prüfung: vollständiges `npm test` grün (Lauf 39788359712); nächste zehn Kennungen gegen den Bestand
+geprüft, Inhalts-/Motivbrief-Generatoren aktuell. Größen anhand vollständigen GitHub-Dateibaums ermittelt.
 
 Bildserie 2 (Klaus, 2026-10-22): ausdrücklich zehn weitere Bilder beauftragt, in logischer Reihenfolge
 Grundlagen und Beginn Eingang: st0, s0.1–s0.7, st1, s1.1. Fotorealistische helle Naturpalette, wenige Dinge,
