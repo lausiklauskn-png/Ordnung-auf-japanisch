@@ -50,6 +50,9 @@ viel Leere; vorhandene weiche Bild-/Rahmenverläufe und Schriftüberlappung werd
 Gleiches Komprimierungsprofil: WebP 80/Methode 6, 1200 × 800, Lanczos, RGB ohne EXIF/ICC/XMP.
 Zehn Original-PNGs 18.517.061 Bytes → 363.702 Bytes WebP (98,04 % kleiner), PSNR 38,39–40,95 dB
 gegen den unkomprimierten 1200-×-800-Zuschnitt. Originale außerhalb des Repos erhalten.
+Prüfung: vollständiges `npm test` grün (Prüfschritt im Lauf 39771964799), darunter 34 Bildproben:
+alle zehn Zuordnungen und Raumköpfe, Anleitungstexte, 320/380/1100 px und Schrittansichten.
+Gezielter Nachlauf 39772601293 grün; Gegenprobe mit fehlender Bildliste liefert 18 eigene rote Zeilen.
 ⚠ Echte Handydarstellung, subjektiver Qualitätsvergleich und persönliche Gegenprüfung nicht gemessen.
 
 Seitwischen (Klaus, 2026-10-22): Finger nach links zur nächsten Hauptseite, nach rechts zurück,
