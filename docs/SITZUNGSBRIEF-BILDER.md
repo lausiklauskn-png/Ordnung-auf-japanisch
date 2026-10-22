@@ -1,6 +1,6 @@
 # Sitzungsbrief: nächste zehn Bilder
 
-Stand: 2026-10-22 · Repo `lausiklauskn-png/Ordnung-auf-japanisch` · Serie 3 auf main, Pages-Lauf noch offen.
+Stand: 2026-10-22 · Repo `lausiklauskn-png/Ordnung-auf-japanisch` · Serie 3 veröffentlicht, Serie 4 vorbereiten.
 
 ## Auftrag und Übergabe an jede Folgesitzung
 
@@ -20,7 +20,7 @@ erzeugen. Texte/Motive ausschließlich aus `docs/INHALT.md`, `docs/BILD-MOTIVE.m
 - Serie 3: s1.2–s1.8, st2, s2.1, s2.2. Zehn Originale erzeugt und über das Importwerkzeug eingebaut;
   keine abgewiesene Kennung. s1.3 vor Import auf drei vollständige Pantoffelpaare korrigiert.
 - PR [#17](https://github.com/lausiklauskn-png/Ordnung-auf-japanisch/pull/17), Zweig `codex/bilder-serie3`.
-  Merge `29d71808443abc29dbaf2c83fed47b54b6210098`. Pages-Lauf 39793574847 noch offen.
+  Merge `29d71808443abc29dbaf2c83fed47b54b6210098`. Pages-Lauf 39793574847 erfolgreich abgeschlossen.
 - Ausgangsprüfung vollständig grün: Lauf 39790788328. Vollständiges npm test nach Import grün: Lauf 39792885767.
   Erster Nachlauf entdeckte eine veraltete Testannahme in tests/speicher.mjs (s2.2 ohne Bild);
   der bildlose Testfall wird jetzt unabhängig vom echten Bestand gestellt.
@@ -29,12 +29,12 @@ erzeugen. Texte/Motive ausschließlich aus `docs/INHALT.md`, `docs/BILD-MOTIVE.m
 - Cache im Zweig v21, Inhalt v7, in index.html und sw.js synchron.
 - Originale: `/workspace/bilder-eingang/serie3/<Kennung>.png`, zusätzlich Generatorausgaben unter
   `/workspace/generated_images/`. Nicht erneut erzeugen, solange diese Dateien verfügbar sind.
-- App: <https://lausiklauskn-png.github.io/Ordnung-auf-japanisch/>. Erst nach erfolgreichem Merge und Pages
-  als aktualisiert melden. Installieren-Knopf und bestehende Gestaltung erhalten.
+- App: <https://lausiklauskn-png.github.io/Ordnung-auf-japanisch/>. Pages-Veröffentlichung von Serie 3 erfolgreich; zur Gegenprüfung ⟳ Aktualisieren verwenden.
+   Installieren-Knopf und bestehende Gestaltung erhalten.
 
 ## Nächste Serie nach erfolgreicher Veröffentlichung
 
-Erst die offenen Prüf-/Veröffentlichungsschritte von Serie 3 abschließen. Danach in der nächsten Sitzung
+Serie 3 ist veröffentlicht. In der nächsten Sitzung
 mit s2.3–s2.12 fortsetzen. Aktuelle Originaltexte in docs/CHATGPT-BRIEF.md lesen, keine Tipps umschreiben.
 
 | Reihenfolge | Kennung | Thema | Motiv |

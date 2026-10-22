@@ -76,7 +76,7 @@ Größenmessung samt Dateibaum in docs/BILDER-KOMPRIMIERUNG.md. Kein Anlass zur 
 Vollständiges npm test grün in Lauf 39792885767; Bildprobe auf beide Serien erweitert,
 65 Bildproben: Raum-/Schrittansichten, Texte, weiche Übergänge, 320/380/1100 px.
 Gegenprobe ohne Bildliste liefert 37 eigene rote Zeilen, darunter alle zehn neuen Kennungen. Speicherprobe stellt den
-bildlosen Fall jetzt unabhängig vom wachsenden Bestand. PR #17 gemergt: `29d71808443abc29dbaf2c83fed47b54b6210098`; Pages-Lauf 39793574847 noch offen.
+bildlosen Fall jetzt unabhängig vom wachsenden Bestand. PR #17 gemergt: `29d71808443abc29dbaf2c83fed47b54b6210098`; Pages-Lauf 39793574847 erfolgreich abgeschlossen.
 Echte Handydarstellung, reale Ladezeiten und persönliche Gegenprüfung durch Klaus noch offen.
 Nächste Sitzung: s2.3–s2.12, siehe erneuerten Sitzungsbrief. Keine weitere Serie dieser Sitzung.
 
