@@ -1,6 +1,6 @@
 # Sitzungsbrief: nächste zehn Bilder
 
-Stand: 2026-10-22 · Repo `lausiklauskn-png/Ordnung-auf-japanisch` · Serie 3 vorbereiten.
+Stand: 2026-10-22 · Repo `lausiklauskn-png/Ordnung-auf-japanisch` · Serie 3 importiert, Veröffentlichung noch offen.
 
 ## Auftrag und Übergabe an jede Folgesitzung
 
@@ -14,45 +14,44 @@ Zuerst **AGENTS.md und CLAUDE.md vollständig lesen**, dann den Brief gegen den 
 erzeugen. Texte/Motive ausschließlich aus `docs/INHALT.md`, `docs/BILD-MOTIVE.md` und dem daraus gebauten
 `docs/CHATGPT-BRIEF.md` beziehen. Keine Tipps umschreiben.
 
-## Veröffentlichter Ausgangsstand
+## Tatsächlicher Stand dieser Sitzung
 
-- **18 von 148** vorhanden, 130 fehlen: noch 13 Zehnerserien.
-- Serie 1: x-willkommen, x-warum, x-pause, x-gewohnheiten, x-kalender, x-flecken, x-regeln, x-verlauf.
-- Serie 2: st0, s0.1, s0.2, s0.3, s0.4, s0.5, s0.6, s0.7, st1, s1.1.
-- Bilder-PR [#15](https://github.com/lausiklauskn-png/Ordnung-auf-japanisch/pull/15), Merge
-  `b4fb784c892530f5050d8c3dad33e4f0cb242439`.
-- Vollständiges `npm test` im Prüfschritt von Lauf 39771964799 erfolgreich; korrigierte Bild-Gegenprobe
-  und 34 Bildproben in Lauf 39772601293 grün. Pages-Lauf 39772802308 erfolgreich.
-- Übergabe-Dokumentation: vollständiges `npm test` grün in Lauf 39788359712.
-- App: <https://lausiklauskn-png.github.io/Ordnung-auf-japanisch/>, Cache v20, Inhalt v6.
-  Diese Versionsstände vor Änderungen erneut an main prüfen.
-- Helle und dunklere Naturthemen, Glas-Buttons, Sonnenlicht, Hauptseiten-Wischen und sechs Offline-Sprachen
-  sind bereits eingebaut. Für die Bildserie die vorhandene Gestaltung verwenden.
-- `x-regeln.webp` ist vorhanden, wird auf der Regeln-Seite bewusst nicht zusätzlich angezeigt:
-  Dort stehen „Regeln“ und der Text im Pinselbild. Keine zweite Flaschenkarte einbauen.
+- **28 von 148 importiert**, 120 fehlen. Vor Veröffentlichung weiterhin nur 18 auf main.
+- Serie 3: s1.2–s1.8, st2, s2.1, s2.2. Zehn Originale erzeugt und über das Importwerkzeug eingebaut;
+  keine abgewiesene Kennung. s1.3 vor Import auf drei vollständige Pantoffelpaare korrigiert.
+- PR [#17](https://github.com/lausiklauskn-png/Ordnung-auf-japanisch/pull/17), Zweig `codex/bilder-serie3`.
+  Bildcommit `6e9324496f04f1ef94e3687c7d52c0c95a8014cd`. **Merge und Pages noch offen.**
+- Ausgangsprüfung vollständig grün: Lauf 39790788328. Vollständiges npm test nach Import grün: Lauf 39792885767.
+  Erster Nachlauf entdeckte eine veraltete Testannahme in tests/speicher.mjs (s2.2 ohne Bild);
+  der bildlose Testfall wird jetzt unabhängig vom echten Bestand gestellt.
+- 65 Bildproben grün; Gegenprobe ohne Bildliste liefert 37 eigene rote Zeilen, darunter alle neuen Kennungen.
+  Vollständige Prüfung und Gegenprobe: Lauf 39792885767 erfolgreich. Temporärer Workflow vor Merge entfernt.
+- Cache im Zweig v21, Inhalt v7, in index.html und sw.js synchron.
+- Originale: `/workspace/bilder-eingang/serie3/<Kennung>.png`, zusätzlich Generatorausgaben unter
+  `/workspace/generated_images/`. Nicht erneut erzeugen, solange diese Dateien verfügbar sind.
+- App: <https://lausiklauskn-png.github.io/Ordnung-auf-japanisch/>. Erst nach erfolgreichem Merge und Pages
+  als aktualisiert melden. Installieren-Knopf und bestehende Gestaltung erhalten.
 
-## Genau diese nächste Serie
+## Nächste Serie nach erfolgreicher Veröffentlichung
 
-Zuerst den Eingang abschließen, dann mit dem Küchenkopf und den ersten zwei Küchenschritten fortsetzen.
-Die Motive hier sind Arbeitsauszüge aus `docs/CHATGPT-BRIEF.md`; die aktuellen Originaltexte dort lesen.
+Erst die offenen Prüf-/Veröffentlichungsschritte von Serie 3 abschließen. Danach in der nächsten Sitzung
+mit s2.3–s2.12 fortsetzen. Aktuelle Originaltexte in docs/CHATGPT-BRIEF.md lesen, keine Tipps umschreiben.
 
-| Reihenfolge | Kennung | Textthema | Bildmotiv |
+| Reihenfolge | Kennung | Thema | Motiv |
 |---|---|---|---|
-| 1 | s1.2 | Doppelte Matte | Grobe Kokosmatte außen, weiche saugende Matte innen, Türschwelle dazwischen. |
-| 2 | s1.3 | Schuhregel | Korb mit drei Paar schlichten Gästepantoffeln; kleine Schachtel Schuhüberzieher daneben. |
-| 3 | s1.4 | Hausschuhe | Hausschuhe auf der Innenseite der Schwelle, ein Paar Gartenschuhe davor auf der Außenseite. |
-| 4 | s1.5 | Fegen | Weicher Besen mit kurzen Zügen zur Tür; wenige Krümel und eine Kehrschaufel. |
-| 5 | s1.6 | Winter-Splitt | Splitt auf Eingangsfliesen, Besen und Schaufel nehmen ihn trocken auf; draußen dezent Schnee. |
-| 6 | s1.7 | Flache Flächen | Fast leere Flurkommode, Keramikschale für Schlüssel und schlichter Briefkorb, sonst nichts. |
-| 7 | s1.8 | Leergut und Rücknahme | Stoffbeutel mit leeren Flaschen am Türhaken, Batterieglas daneben; sichtbare Lithium-Pole abgeklebt. |
-| 8 | st2 | Küche (台所) | Ruhige Küche am Abend, freie Arbeitsfläche, Edelstahlspüle, ein Leinentuch am Haken. |
-| 9 | s2.1 | Spüle am Abend | Leere, trocken geriebene Edelstahlspüle im Abendlicht, Sieb leer, gefaltetes Tuch daneben. |
-| 10 | s2.2 | Geschirrtuch | Frisches Leinen-Geschirrtuch am Haken, ein zweites kleineres ausschließlich für Hände daneben. |
+| 1 | s2.3 | Schwamm und Bürste | Holz-Spülbürste aufrecht zum Trocknen in einem Keramikbecher. |
+| 2 | s2.4 | Abtropfgestell | Leeres trockenes Abtropfgestell aus Holz und Edelstahl, saubere Schale darunter. |
+| 3 | s2.5 | Spülmaschine | Voll und ordentlich eingeräumte Spülmaschine; Teller abgekratzt, nicht vorgespült. |
+| 4 | s2.6 | Kochfeld | Glasschaber auf schwarzem Glaskeramikfeld, Sprühflasche mit klarer Lösung daneben. |
+| 5 | s2.7 | Dunstabzug | Metall-Fettfilter in einer Wanne mit warmem Wasser, Handschuhe daneben. |
+| 6 | s2.8 | Backofen | Offene Backofentür; weiße Natronpaste auf dem Ofenboden, Spachtel daneben. |
+| 7 | s2.9 | Mikrowelle | Glasschüssel mit Wasser in der Mikrowelle, Holzlöffel darin. |
+| 8 | s2.10 | Kühlschrank | Geordneter offener Kühlschrank, flache Glasdosen mit Kreppstreifen, kleines Natron-Schälchen. |
+| 9 | s2.11 | Töpfe und Bretter | Holzschneidebrett mit grobem Salz und halber Zitrone, danach hochkant zum Trocknen. |
+| 10 | s2.12 | Müll | Ausgespülter Joghurtbecher, Aludeckel vollständig abgetrennt daneben; getrennte Behälter hinten. |
 
-Erwarteter Endstand: **28 von 148**, falls keine Kennung zwischenzeitlich anderweitig ergänzt wurde.
-Danach wären s2.3–s2.12 die nächsten zehn. Das erst am tatsächlichen Sitzungsende gegen den Bestand prüfen
-und diesen Brief dann neu schreiben. Weiterer Ablauf: je Raum Kopfbild und Schritte, danach Mittel,
-Gewohnheiten, Monate und eventuell noch fehlende Sonderseiten; vorhandene Kennungen überspringen.
+Erwarteter Endstand der nächsten Sitzung: **38 von 148**, sofern nichts anderweitig ergänzt wurde.
+Danach beginnt die folgende Serie mit s2.13, st3 und s3.1–s3.8. Gegen den tatsächlichen Bestand prüfen.
 
 ## Stil und Container unbedingt erhalten
 
@@ -73,11 +72,11 @@ Die aktuelle App zeigt die Motive ruhig ohne Zoom; der ältere Zoom-Hinweis im B
 
 ## Import, Komprimierung und Prüfung
 
-1. Frisch von main arbeiten, z. B. `git fetch origin && git checkout -B codex/bilder-serie3 origin/main`.
+1. Frisch von main arbeiten, z. B. `git fetch origin && git checkout -B codex/bilder-serie4 origin/main`.
    `npm install && npm test` muss vor und nach der Arbeit grün sein.
-2. Originale außerhalb des Repos ablegen, z. B. `../bilder-eingang/serie3/s1.2.png`.
+2. Originale außerhalb des Repos ablegen, z. B. `../bilder-eingang/serie4/s1.2.png`.
    Exakte Kennungen verwenden; keine spekulativen Umbenennungen. Originale erhalten.
-3. `python3 tools/bilder-einfuegen.py ../bilder-eingang/serie3` ausführen. Abgewiesene Namen Klaus nennen,
+3. `python3 tools/bilder-einfuegen.py ../bilder-eingang/serie4` ausführen. Abgewiesene Namen Klaus nennen,
    Kennung prüfen. `assets/inhalt.js` und `docs/BILDER-STAND.md` nur durch die Werkzeuge aktualisieren.
 4. Profil unverändert: **WebP Qualität 80, Methode 6, 1200 × 800, Lanczos, RGB ohne Metadaten**.
    Details und Messverfahren: `docs/BILDER-KOMPRIMIERUNG.md`. Nicht aus vorhandenen WebP neu komprimieren.
@@ -95,30 +94,27 @@ danach npm test. Browserbibliotheken waren dort vorhanden; eine zusätzliche Sys
 hatte lange gedauert. Temporären Prüfworkflow vor Merge wieder entfernen, Prüfnachweis im PR festhalten.
 Keine Schlüssel, Passwörter, Tokens oder Umgebungs-Dumps in Brief, Commit oder Chat.
 
-## Größenkontrolle nach jeder Serie
+## Größenkontrolle nach Serie 3
 
-Letzter gemessener Stand: alle 18 Bilder **717.296 Bytes**, Mittel 39.849,78 Bytes/Bild,
-Maximum **58.834 Bytes**. Hochrechnung auf 148: **5,90 MB**, vorsichtige Rechnung mit dem größten Bild
-für alle 148: **8,71 MB**. Aktueller kompletter Git-Dateibaum: **7.291.033 Bytes**.
-GitHub-Repoanzeige: **5.958 KiB**, ein anderer, komprimierter Näherungswert einschließlich Historie.
-Aktuell keine stärkere Komprimierung nötig. Vollständiger Vergleich mit GitHub-Grenzen und Quellen
-steht in `docs/BILDER-KOMPRIMIERUNG.md`.
+Alle 28 WebP **1.234.278 Bytes**, Mittel **44.081,36 Bytes/Bild**, Maximum **83.250 Bytes** (s1.2).
+Neue zehn: **516.982 Bytes WebP** aus **20.263.394 Bytes PNG** (97,45 % kleiner).
+Profil unverändert: WebP 80/Methode 6, 1200 × 800, Lanczos, RGB ohne EXIF/ICC/XMP.
+PSNR gegen den unkomprimierten Zuschnitt 37,18–40,59 dB; Sichtkontrolle der Motive in der Sitzung.
+Hochrechnung auf 148 mit Mittelwert: **6.524.041 Bytes**; mit Maximum für jedes Bild: **12.321.000 Bytes**.
+Git-Dateibaum von `8491b5b`: **7.827.054 Bytes**, 103 Dateien, vollständige nicht abgeschnittene API-Antwort,
+einschließlich temporärem Prüfworkflow, vor dieser Übergabedokumentation. Ohne .git/node_modules/Originale.
+GitHub-Repoanzeige während des Imports: **6.379 KiB**, zeitversetzter Näherungswert einschließlich Historie.
+Gesamtprojekt-Prognose bei unverändertem sonstigem Baum: ca. **13,12 MB**, mit Maximum ca. **18,91 MB**.
+Keine stärkere Komprimierung nötig. Einzelwerte und Messgrenzen in docs/BILDER-KOMPRIMIERUNG.md.
 
-Nach der nächsten Serie neu messen: Zahl/Summe/Mittel/Maximum aller WebP, Größe der neuen Serie,
-PNG→WebP-Ersparnis, vollständiger Dateibaum ohne .git/node_modules/Originale, Repoanzeige/Historie und
-Hochrechnung auf 148. Größen nicht mit der Übertragungsmenge eines einzelnen App-Aufrufs verwechseln.
-Messwerte mit Datum und Commit in die Größentabelle schreiben und in diesen Brief übernehmen.
-
-Eigene frühe Prüfmarken, keine GitHub-Grenzen: ein Bild über 150 kB oder hochgerechnete Gesamtseite über
-100 MB. Dann erst Ausreißer/Motive und Originale vergleichen, Qualität/Größe anhand kleiner A/B-Proben
-beurteilen und eine begründete Profiländerung dokumentieren. Qualität nicht vorsorglich senken.
-Frühere Binärversionen bleiben in Git; bloßes Verkleinern der aktuellen Dateien verkleinert die Historie
-nicht automatisch. Keine History-Umschreibung ohne gesonderten Auftrag.
+Nach jeder weiteren Serie alle Größen neu messen und dokumentieren. Eigene Prüfmarken: einzelnes Bild
+über 150 kB oder Gesamtprognose über 100 MB; erst dann Ausreißer und Originale vergleichen, keine pauschale
+Qualitätssenkung. Keine verlustbehaftete Neukomprimierung aus WebP, keine History-Umschreibung.
+Echte mobile Darstellung, reale Ladezeiten und persönliche Gegenprüfung durch Klaus sind noch offen.
 
 ## Vor Sitzungsende diesen Brief erneuern
 
-Tatsächlich fertig und veröffentlicht, nur erzeugt/noch nicht importiert oder offen klar unterscheiden.
-Kennungen und Zähler aus dem Werkzeug übernehmen; Quellen, Profil, Bytes, Tests, PR/Merge/Pages und
-nicht gemessene Punkte nennen. Nächste zehn fehlende Kennungen mit Motiven festlegen. Den fortlaufenden
-Auftrag von oben wieder aufnehmen, damit auch die nächste Sitzung einen Nachfolgebrief erstellt.
-Bei Kontextende mitten in der Serie zuerst Teilstand und Dateipfade sichern; dieselben Bilder fortsetzen.
+Tatsächlich veröffentlicht, nur erzeugt/importiert oder offen klar unterscheiden. Kennungen und Zähler
+aus dem Werkzeug übernehmen; Tests, PR/Merge/Pages, Profil, Bytes und ungemessene Punkte nennen.
+Nächste zehn fehlende Kennungen mit Motiven festlegen und den fortlaufenden Auftrag wieder aufnehmen.
+Bei knappem Kontext zuerst Teilstand und Dateipfade sichern; dieselben Bilder fortsetzen.

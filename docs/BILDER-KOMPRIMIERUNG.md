@@ -117,3 +117,43 @@ Verkleinerung aktueller Bilder entfernt diese nicht. Keine Historie ohne gesonde
    Erst Ausreißer untersuchen, dann bei tatsächlichem Bedarf Vergleichsproben direkt aus Originalen erstellen.
    Qualität/Format/Größe nur mit begründetem Qualitätsvergleich ändern und das neue Profil ausdrücklich merken.
    Keine pauschale Umkomprimierung aller vorhandenen WebP und kein vorsorglicher Wechsel auf schlechtere Qualität.
+
+
+## Messung der dritten Serie · 2026-10-22
+
+Bildstand `6e9324496f04f1ef94e3687c7d52c0c95a8014cd` (PR #17): s1.2–s1.8, st2, s2.1 und s2.2.
+Zehn Original-PNGs, jeweils 1536 × 1024, außerhalb des Repos unter
+`/workspace/bilder-eingang/serie3/` erhalten; ursprüngliche Generatorausgaben zusätzlich in
+`/workspace/generated_images/`. s1.3 vor Import auf sechs Pantoffeln korrigiert.
+Profil unverändert: WebP Qualität 80, Methode 6, Lanczos, 1200 × 800, RGB ohne EXIF/ICC/XMP.
+Pillow 12.3.0. **20.263.394 Bytes PNG → 516.982 Bytes WebP: 97,45 % kleiner**,
+einschließlich Verkleinerung. PSNR 37,18–40,59 dB gegen den unkomprimierten Zuschnitt.
+Sichtkontrolle der zehn Motive in der Sitzung; PSNR beweist keine unsichtbaren Verluste.
+Echte Handydarstellung, Ladezeiten und persönliche Gegenprüfung von Klaus noch nicht gemessen.
+
+| Kennung | WebP Bytes | PSNR dB |
+|---|---:|---:|
+| s1.2 | 83.250 | 37,18 |
+| s1.3 | 56.462 | 38,74 |
+| s1.4 | 52.540 | 39,27 |
+| s1.5 | 50.310 | 40,00 |
+| s1.6 | 43.892 | 40,59 |
+| s1.7 | 40.428 | 39,44 |
+| s1.8 | 60.476 | 37,90 |
+| s2.1 | 46.806 | 39,30 |
+| s2.2 | 34.642 | 39,73 |
+| st2 | 48.176 | 39,04 |
+| **Summe** | **516.982** | |
+
+| Datum / Referenz | Bilder | WebP gesamt | Größtes Bild | Prognose 148, Mittelwert | Aktueller Dateibaum | GitHub Repoanzeige |
+|---|---:|---:|---:|---:|---:|---:|
+| 2026-10-22 / 8491b5b | 28/148 | 1.234.278 Bytes | 83.250 Bytes (s1.2) | 6.524.041 Bytes | 7.827.054 Bytes | 6.379 KiB* |
+
+Dateibaum: vollständiger rekursiver GitHub-Baum von `8491b5be2fd6cc09c510d3a823849ca2bc6bb1c7`,
+103 Dateien, nicht abgeschnitten; einschließlich temporärem Prüfworkflow, vor dieser Messdokumentation.
+Ohne .git, node_modules und Originale. *Repoanzeige separat während des Imports abgefragt;
+GitHub aktualisiert diesen Näherungswert zeitversetzt, er ist keine exakte Historienmessung.
+Mittelwert 44.081,36 Bytes/Bild. Vergleichsrechnung mit dem Maximum für alle 148: **12.321.000 Bytes**.
+Mit unverändertem sonstigem Dateibaum: rund **13,12 MB** Gesamtprojekt bei 148 Bildern,
+mit dem Maximum je Bild rund **18,91 MB**. Künftige Änderungen und Historie nicht vorhergesagt.
+Kein Bild über 150 kB, Gesamtprognose unter 100 MB: kein Anlass zur Profiländerung.
