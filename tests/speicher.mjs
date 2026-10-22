@@ -38,8 +38,9 @@ const exe = ['/opt/pw-browsers/chromium-1194/chrome-linux/chrome'].find(fs.exist
 const browser = await chromium.launch(exe ? { executablePath: exe } : {});
 const ctx = await browser.newContext({ viewport: { width: 380, height: 800 }, hasTouch: true, isMobile: true });
 await ctx.addInitScript(STIMME);
-// zwei Bilder stellen: inhalt.js bekommt sie in die Liste, die Dateien kommen vom runden Teller
-await ctx.route('**/assets/inhalt.js*', async r => { const res = await r.fetch(); r.fulfill({ response: res, body: (await res.text()) + "\nwindow.OJ_INHALT.bilder.push('s2.1', 'st2', 'm1');\n" }); });
+// Drei Bilder stellen und s2.2 gezielt ohne Bild halten, unabhängig vom echten Bildbestand.
+// Die Dateien kommen vom runden Teller; echte Zuordnungen prüft bildserie.mjs.
+await ctx.route('**/assets/inhalt.js*', async r => { const res = await r.fetch(); r.fulfill({ response: res, body: (await res.text()) + "\nwindow.OJ_INHALT.bilder = window.OJ_INHALT.bilder.filter(id => id !== 's2.2'); window.OJ_INHALT.bilder.push('s2.1', 'st2', 'm1');\n" }); });
 await ctx.route('**/bilder/*.webp*', r => r.fulfill({ path: path.join(WURZEL, 'icons/seiri-480.webp'), contentType: 'image/webp' }));
 const page = await ctx.newPage();
 const fehler = [];
