@@ -55,3 +55,9 @@ Passwörter oder Tokens in Commits, Chats oder Logs.
 
 `CLAUDE.md` → Abschnitt „Stand“ nachziehen (was gebaut, was gemessen, was nicht gemessen), PR beschreiben,
 nach dem Merge den Lauf „pages build and deployment“ ansehen.
+
+**Bildserien (Klaus, 2026-10-22):** jeweils zehn weitere Bilder pro Sitzung, bis alle 148 vorhanden sind.
+Vor Beginn `docs/SITZUNGSBRIEF-BILDER.md` lesen. Am Ende und vor einem drohenden Kontextwechsel diesen Brief
+mit dem tatsächlichen Stand und den nächsten zehn fehlenden Kennungen erneuern. Keine weiteren Serien
+in derselben Sitzung auf Vorrat erzeugen. Nach jeder Serie Bildgrößen, Hochrechnung auf 148, größte Datei
+und Repo-/Seitengröße prüfen; Messung in `docs/BILDER-KOMPRIMIERUNG.md` fortschreiben. Einzelheiten in CLAUDE.md.
