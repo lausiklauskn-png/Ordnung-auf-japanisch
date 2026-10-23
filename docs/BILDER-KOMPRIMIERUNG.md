@@ -163,3 +163,58 @@ Nachmessung des veröffentlichten Merge-Baums `29d71808443abc29dbaf2c83fed47b54b
 28 WebP unverändert 1.234.278 Bytes. Repoanzeige nach Merge weiterhin 6.379 KiB (zeitversetzt).
 Gesamtprojekt-Prognose bei 148 Bildern und unverändertem sonstigem Baum: 13.119.329 Bytes
 mit dem Bildmittel, 18.916.288 Bytes mit dem bisherigen Maximum.
+
+## 20 weitere Bilder für Küche und Bad · 2026-10-23
+
+Klaus hat für diese Sitzung ausdrücklich **20** Bilder samt automatischem Upload, Merge und
+Veröffentlichung beauftragt; dies ist eine Ausnahme vom bisherigen Zehnerablauf.
+Referenz: Bildcommit `0228cd6badcb5fd610a68ddc9cc233bc5d4dea3e`, PR #21.
+Import mit tools/bilder-einfuegen.py: s2.3–s2.13, st3, s3.1–s3.8; keine abgewiesene Kennung.
+20 Original-PNGs zu 1536 × 1024 außerhalb des Repos unter
+`/workspace/work/bilder20/originale/<Kennung>.png` erhalten; Generatorausgaben zusätzlich
+in /workspace/generated_images/. Profil unverändert: WebP 80/Methode 6, Lanczos,
+1200 × 800, RGB ohne EXIF/ICC/XMP. Pillow 12.3.0.
+**39.518.177 Bytes PNG → 937.134 Bytes WebP (97,63 % kleiner)**,
+einschließlich Verkleinerung. PSNR 37,43–41,52 dB gegen den unkomprimierten Zuschnitt.
+PSNR beweist keine unsichtbaren Verluste. Motive in der Sitzung angesehen; echte Handydarstellung,
+Ladezeiten und persönliche Gegenprüfung durch Klaus nicht gemessen.
+
+| Kennung | WebP Bytes | PSNR dB |
+|---|---:|---:|
+| s2.10 | 52.826 | 39,33 |
+| s2.11 | 36.452 | 39,96 |
+| s2.12 | 37.298 | 40,38 |
+| s2.13 | 45.464 | 39,51 |
+| s2.3 | 38.092 | 40,65 |
+| s2.4 | 49.988 | 39,30 |
+| s2.5 | 62.742 | 38,78 |
+| s2.6 | 40.750 | 40,48 |
+| s2.7 | 77.402 | 38,03 |
+| s2.8 | 51.310 | 39,23 |
+| s2.9 | 42.480 | 40,38 |
+| s3.1 | 59.972 | 38,87 |
+| s3.2 | 52.310 | 38,76 |
+| s3.3 | 39.876 | 40,59 |
+| s3.4 | 39.998 | 40,56 |
+| s3.5 | 29.590 | 41,52 |
+| s3.6 | 39.404 | 40,16 |
+| s3.7 | 29.468 | 41,35 |
+| s3.8 | 42.724 | 40,01 |
+| st3 | 68.988 | 37,43 |
+| **Summe** | **937.134** | |
+
+Die ersten zehn (s2.3–s2.12) zusammen 489.340 Bytes; die zweiten zehn
+(s2.13, st3, s3.1–s3.8) 447.794 Bytes. Bisherige WebP nicht neu komprimiert.
+
+| Datum / Referenz | Bilder | WebP gesamt | Größtes Bild | Prognose 148, Mittelwert | Dateibaum | GitHub Repoanzeige |
+|---|---:|---:|---:|---:|---:|---:|
+| 2026-10-23 / 0228cd6 | 48/148 | 2.171.412 Bytes | 83.250 Bytes (s1.2) | 6.695.187 Bytes | 8.768.600 Bytes | 7.066 KiB* |
+
+Vollständiger GitHub-Dateibaum: 123 Dateien, nicht abgeschnitten, einschließlich temporärem
+Prüfworkflow, vor dieser Dokumentation. Ohne .git/node_modules/Originale.
+*GitHub-Anzeige während des Imports abgefragt; zeitversetzter Näherungswert mit Historie/Kompression,
+keine exakte Historienmessung und nicht mit dem Dateibaum gleichzusetzen.
+Mittel 45.237,75 Bytes/Bild. Prognose 148 mit Maximum: 12.321.000 Bytes Motivbilder.
+Mit unverändertem sonstigem Baum: 13.292.375 Bytes Gesamtprojekt nach Mittel,
+18.918.188 Bytes nach Maximum. Künftiger Code/Doku/Historie nicht vorhergesagt.
+Kein Bild über 150 kB, Gesamtprognose unter 100 MB. **Keine Profiländerung nötig.**

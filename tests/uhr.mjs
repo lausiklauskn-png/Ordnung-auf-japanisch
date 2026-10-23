@@ -114,7 +114,20 @@ try {
   await lauf(4 * 60_000 + 2000);
   ok('Pause vorbei: Fenster zu, Klang aus, Gong', await page.isHidden('#pause') && (await klang()).includes('musik-aus') && (await klang()).includes('gong'), await klang());
   ok('Pause vorbei: „Weiter mit Kochfeld“', (await gesagt()).includes('Pause vorbei. | Weiter mit Kochfeld.'), await gesagt());
-  ok('neue Arbeitsrunde läuft: 10:00 → 9:5x', /^9:5\d$/.test((await page.textContent('[data-taktleiste] [data-rest]')).trim()));
+  // Die vorherigen Klicks/Bildladezeiten beeinflussen die beim Phasenwechsel bereits
+  // verstrichenen Sekunden. Darum Dauer und eigenes Weiterzählen prüfen statt „9:5x“.
+  const neueRunde = await page.evaluate(() => ({
+    takt: JSON.parse(localStorage.getItem('oj_takt')),
+    text: document.querySelector('[data-taktleiste] [data-rest]').textContent.trim()
+  }));
+  const sekunden = text => /^\d+:\d{2}$/.test(text) ? text.split(':').reduce((m, s) => m * 60 + +s, 0) : NaN;
+  const vorher = sekunden(neueRunde.text);
+  await lauf(2000);
+  const nachherText = (await page.textContent('[data-taktleiste] [data-rest]')).trim();
+  const nachher = sekunden(nachherText);
+  ok('neue Arbeitsrunde: zehn Minuten und zählt weiter', neueRunde.takt?.phase === 'arbeit' &&
+    neueRunde.takt?.dauer === 600000 && vorher >= 570 && vorher <= 600 &&
+    vorher - nachher >= 1 && vorher - nachher <= 3, { vorher: neueRunde.text, nachher: nachherText, takt: neueRunde.takt });
 
   // Pause jetzt / Pause beenden / Uhr anhalten
   await page.click('[data-aktion="pause-jetzt"]');

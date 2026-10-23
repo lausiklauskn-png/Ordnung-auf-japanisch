@@ -66,6 +66,21 @@ im freigegebenen Stil erzeugt werden. Zusätzliche Bestätigung für jede einzel
 
 ## Stand
 
+20 Bilder für Küche und Bad (Klaus, 2026-10-23): ausdrücklich 20 neue Bilder sowie automatischer
+Upload, Merge und Veröffentlichung beauftragt, als Ausnahme vom bisherigen Zehnerablauf.
+s2.3–s2.13, st3 und s3.1–s3.8 über tools/bilder-einfuegen.py importiert, keine abgewiesene Kennung.
+**48 von 148**, 100 fehlen. Cache v22, Inhalt v8 synchron. Texte und weiche Bildcontainer erhalten.
+Originale unter /workspace/work/bilder20/originale/ außerhalb des Repos; 39.518.177 Bytes PNG
+→ 937.134 Bytes WebP (97,63 % kleiner), PSNR 37,43–41,52 dB. Profil unverändert WebP 80/Methode 6,
+Lanczos, 1200 × 800, RGB ohne EXIF/ICC/XMP. Alle 48 Bilder 2.171.412 Bytes, größtes s1.2 mit
+83.250 Bytes. Prognose 148: 6.695.187 Bytes. Einzelwerte und Dateibaum in Komprimierungsdokumentation.
+Ausgangsstand vollständig grün (39989290838); vollständiges npm test, 126 Bildproben und
+Gegenprobe ohne Bildliste grün in Lauf 39992674165. Frühere Durchläufe trafen die enge Sekundenannahme
+der vorhandenen Uhrprobe; sie prüft nun Zehn-Minuten-Start und eigenes Weiterzählen statt „9:5x“.
+Die App-Uhrlogik wurde nicht geändert. PR #21 führt Merge-/Pages-Nachweis nach Veröffentlichung.
+Echte Handydarstellung, reale Ladezeiten und persönliche Gegenprüfung noch offen.
+Nächste zehn: s3.9, st4, s4.1–s4.8; siehe erneuerten Sitzungsbrief.
+
 Bildserie 3 (2026-10-22): s1.2–s1.8, st2, s2.1 und s2.2 erzeugt und über das Werkzeug
 importiert, keine abgewiesene Kennung; **28 von 148**. Cache v21, Inhalt v7.
 Originale außerhalb des Repos unter `/workspace/bilder-eingang/serie3/`; Pantoffelkorb vor Import
