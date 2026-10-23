@@ -66,6 +66,24 @@ im freigegebenen Stil erzeugt werden. Zusätzliche Bestätigung für jede einzel
 
 ## Stand
 
+20 weitere Bilder für Wäsche und Schlafzimmer (Klaus, 2026-10-23): ausdrücklich nächste 20
+auf dieselbe Art einschließlich automatischem Upload, Merge und Veröffentlichung beauftragt.
+s3.9, st4, s4.1–s4.12, st5, s5.1–s5.5 über das Importwerkzeug eingefügt, keine abgewiesene Kennung.
+**68 von 148**, 80 fehlen; Cache v23, Inhalt v9 synchron. Nummern 49–68 samt Thema, Datei und
+App-Ansicht in docs/BILDER-ZUORDNUNG-SERIE-68.md; Gesamtbestand automatisch in BILDER-STAND.md.
+Texte und weiche Container erhalten. Originale /workspace/work/bilder40/originale/ außerhalb des Repos.
+41.285.491 Bytes PNG → 1.283.862 Bytes WebP (96,89 % kleiner); PSNR35,58–41,30dB.
+Alle68: 3.455.274 Bytes, Maximum102.110Bytes(st4), Prognose148: 7.520.302 Bytes.
+Profil unverändert WebP80/Methode6, Lanczos,1200×800,RGB ohne Metadaten; Größenmessung fortgeschrieben.
+Ausgangsstand vollständig grün: Lauf 39998638015. Vollständiges npm test und 188 Bildproben
+grün in Lauf 39999887648 (Bildcommit160c4bb). Gegenprobe ohne Bildliste erfolgreich: alle20
+neuen Kennungen reagieren mit eigenen roten Zeilen. Raum-/Schrittansichten, Anleitungstexte,
+320/380/1100px und weiche Übergänge geprüft. Temporären Prüfworkflow vor Merge entfernt.
+Lokale Browser-/Kindprozessbeschränkungen durch vollständige GitHub-Actions-Prüfung abgedeckt.
+PR #22 enthält verbindlichen Merge-/Pages-Nachweis nach Veröffentlichung. Echte Handys und reale
+Ladezeit ungemessen. Nächste zehn: s5.6–s5.10, st6, s6.1–s6.4. Fortlaufenden Auftrag bis148/148
+mit erneuertem Brief weiterführen, ohne abweichende neue Anzahl wieder zehn pro Sitzung.
+
 20 Bilder für Küche und Bad (Klaus, 2026-10-23): ausdrücklich 20 neue Bilder sowie automatischer
 Upload, Merge und Veröffentlichung beauftragt, als Ausnahme vom bisherigen Zehnerablauf.
 s2.3–s2.13, st3 und s3.1–s3.8 über tools/bilder-einfuegen.py importiert, keine abgewiesene Kennung.

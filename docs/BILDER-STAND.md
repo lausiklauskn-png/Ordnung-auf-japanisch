@@ -2,7 +2,7 @@
 
 > GEBAUT von `tools/bilder-einfuegen.py` — nicht von Hand ändern.
 
-**48 von 148** Bildern sind eingebaut. Schlüssel = Kennung aus `docs/CHATGPT-BRIEF.md`, Datei `bilder/<Kennung>.webp`.
+**68 von 148** Bildern sind eingebaut. Schlüssel = Kennung aus `docs/CHATGPT-BRIEF.md`, Datei `bilder/<Kennung>.webp`.
 
 | Kennung | Bild |
 |---|---|
@@ -42,24 +42,24 @@
 | `s3.6` | ✅ |
 | `s3.7` | ✅ |
 | `s3.8` | ✅ |
-| `s3.9` | — |
-| `s4.1` | — |
-| `s4.2` | — |
-| `s4.3` | — |
-| `s4.4` | — |
-| `s4.5` | — |
-| `s4.6` | — |
-| `s4.7` | — |
-| `s4.8` | — |
-| `s4.9` | — |
-| `s4.10` | — |
-| `s4.11` | — |
-| `s4.12` | — |
-| `s5.1` | — |
-| `s5.2` | — |
-| `s5.3` | — |
-| `s5.4` | — |
-| `s5.5` | — |
+| `s3.9` | ✅ |
+| `s4.1` | ✅ |
+| `s4.2` | ✅ |
+| `s4.3` | ✅ |
+| `s4.4` | ✅ |
+| `s4.5` | ✅ |
+| `s4.6` | ✅ |
+| `s4.7` | ✅ |
+| `s4.8` | ✅ |
+| `s4.9` | ✅ |
+| `s4.10` | ✅ |
+| `s4.11` | ✅ |
+| `s4.12` | ✅ |
+| `s5.1` | ✅ |
+| `s5.2` | ✅ |
+| `s5.3` | ✅ |
+| `s5.4` | ✅ |
+| `s5.5` | ✅ |
 | `s5.6` | — |
 | `s5.7` | — |
 | `s5.8` | — |
@@ -99,8 +99,8 @@
 | `st1` | ✅ |
 | `st2` | ✅ |
 | `st3` | ✅ |
-| `st4` | — |
-| `st5` | — |
+| `st4` | ✅ |
+| `st5` | ✅ |
 | `st6` | — |
 | `st7` | — |
 | `st8` | — |

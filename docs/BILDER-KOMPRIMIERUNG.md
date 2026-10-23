@@ -218,3 +218,54 @@ Mittel 45.237,75 Bytes/Bild. Prognose 148 mit Maximum: 12.321.000 Bytes Motivbil
 Mit unverändertem sonstigem Baum: 13.292.375 Bytes Gesamtprojekt nach Mittel,
 18.918.188 Bytes nach Maximum. Künftiger Code/Doku/Historie nicht vorhergesagt.
 Kein Bild über 150 kB, Gesamtprognose unter 100 MB. **Keine Profiländerung nötig.**
+
+
+## 2026-10-23 · nächste 20: Wäsche und Schlafzimmer (68 von 148)
+
+Klaus hat ausdrücklich weitere 20 auf dieselbe Art einschließlich Upload, Merge und Veröffentlichung
+beauftragt; Ausnahme zum Standard von zehn. Zuordnung und laufende Nummern 49–68:
+[BILDER-ZUORDNUNG-SERIE-68.md](BILDER-ZUORDNUNG-SERIE-68.md).
+Originale `/workspace/work/bilder40/originale/<Kennung>.png`, außerhalb des Repos; Pillow12.3.0.
+Sichtkontrolle aller Motive erfolgt, ungünstige Kompositionen vor Import verbessert;
+Bügel-Probe mit sichtbar umgedrehtem rechten Hakenpaar und zusammenhängender Raumperspektive.
+Echte Handydarstellung, reale Ladezeiten und persönliche Gegenprüfung bleiben ungemessen.
+
+Neue 20: **41.285.491 Bytes PNG → 1.283.862 Bytes WebP**, **96,89 % kleiner** einschließlich Verkleinerung.
+Alle 68: **3.455.274 Bytes**, Mittel **50.812,85 Bytes**, größtes **102.110 Bytes (st4)**.
+Prognose 148 nach Mittel: **7.520.302 Bytes**, nach Maximum **15.112.280 Bytes**.
+PSNR 35,58–41,30 dB gegenüber unkomprimiertem 1200-×-800-Zuschnitt; kein Beweis unsichtbarer Verluste.
+Profil unverändert WebP 80/Methode6, Lanczos, 1200 × 800, RGB ohne Metadaten.
+Vollständiger Bildcommit-Dateibaum 160c4bb: **10.059.176 Bytes**, 144 Dateien,
+API nicht abgeschnitten, mit temporärem Prüfworkflow, vor Abschlussdokumentation. Ohne .git/node_modules/Originale.
+GitHub-Repoanzeige während Import: **8.047 KiB**, zeitversetzter Näherungswert mit Historie/Kompression.
+Gesamtprojekt-Prognose bei unverändertem sonstigem Baum: **14.124.204 Bytes** nach Mittel,
+**21.716.182 Bytes** nach Maximum. Künftiger Code/Doku/Historie nicht vorhergesagt.
+Unter den Prüfmarken, kein Anlass zur Profiländerung. Einzelwerte in BILDER-KOMPRIMIERUNG.md.
+
+| Kennung | Original PNG Bytes | WebP Bytes | PSNR dB |
+|---|---:|---:|---:|
+| s3.9 | 1.961.876 | 40.474 | 39,85 |
+| st4 | 2.237.154 | 102.110 | 35,58 |
+| s4.1 | 2.112.544 | 81.024 | 37,28 |
+| s4.2 | 1.878.349 | 41.808 | 40,1 |
+| s4.3 | 1.665.655 | 30.944 | 41,3 |
+| s4.4 | 2.047.652 | 82.972 | 36,91 |
+| s4.5 | 2.116.644 | 97.198 | 36,16 |
+| s4.6 | 2.213.102 | 79.630 | 38,24 |
+| s4.7 | 2.155.430 | 64.744 | 37,82 |
+| s4.8 | 2.029.911 | 54.706 | 38,89 |
+| s4.9 | 2.033.042 | 58.944 | 38,92 |
+| s4.10 | 2.181.027 | 73.712 | 38,24 |
+| s4.11 | 2.127.624 | 71.812 | 37,48 |
+| s4.12 | 1.900.994 | 54.988 | 38,35 |
+| st5 | 1.908.149 | 50.622 | 38,74 |
+| s5.1 | 2.414.126 | 56.432 | 38,05 |
+| s5.2 | 1.907.970 | 59.492 | 38,63 |
+| s5.3 | 2.227.242 | 63.820 | 38,09 |
+| s5.4 | 2.184.817 | 66.730 | 37,84 |
+| s5.5 | 1.982.183 | 51.700 | 38,83 |
+| **Summe** | **41.285.491** | **1.283.862** | |
+
+Erste zehn (s3.9, st4, s4.1–s4.8): 675.610 Bytes; zweite zehn
+(s4.9–s4.12, st5, s5.1–s5.5): 608.252 Bytes. Keine vorhandenen WebP neu komprimiert.
+Endgültiger Dateibaum und Merge-/Pages-Nachweis nach Veröffentlichung in PR #22.
