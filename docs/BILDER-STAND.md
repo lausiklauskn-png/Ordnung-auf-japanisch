@@ -2,7 +2,7 @@
 
 > GEBAUT von `tools/bilder-einfuegen.py` — nicht von Hand ändern.
 
-**28 von 148** Bildern sind eingebaut. Schlüssel = Kennung aus `docs/CHATGPT-BRIEF.md`, Datei `bilder/<Kennung>.webp`.
+**48 von 148** Bildern sind eingebaut. Schlüssel = Kennung aus `docs/CHATGPT-BRIEF.md`, Datei `bilder/<Kennung>.webp`.
 
 | Kennung | Bild |
 |---|---|
@@ -23,25 +23,25 @@
 | `s1.8` | ✅ |
 | `s2.1` | ✅ |
 | `s2.2` | ✅ |
-| `s2.3` | — |
-| `s2.4` | — |
-| `s2.5` | — |
-| `s2.6` | — |
-| `s2.7` | — |
-| `s2.8` | — |
-| `s2.9` | — |
-| `s2.10` | — |
-| `s2.11` | — |
-| `s2.12` | — |
-| `s2.13` | — |
-| `s3.1` | — |
-| `s3.2` | — |
-| `s3.3` | — |
-| `s3.4` | — |
-| `s3.5` | — |
-| `s3.6` | — |
-| `s3.7` | — |
-| `s3.8` | — |
+| `s2.3` | ✅ |
+| `s2.4` | ✅ |
+| `s2.5` | ✅ |
+| `s2.6` | ✅ |
+| `s2.7` | ✅ |
+| `s2.8` | ✅ |
+| `s2.9` | ✅ |
+| `s2.10` | ✅ |
+| `s2.11` | ✅ |
+| `s2.12` | ✅ |
+| `s2.13` | ✅ |
+| `s3.1` | ✅ |
+| `s3.2` | ✅ |
+| `s3.3` | ✅ |
+| `s3.4` | ✅ |
+| `s3.5` | ✅ |
+| `s3.6` | ✅ |
+| `s3.7` | ✅ |
+| `s3.8` | ✅ |
 | `s3.9` | — |
 | `s4.1` | — |
 | `s4.2` | — |
@@ -98,7 +98,7 @@
 | `st0` | ✅ |
 | `st1` | ✅ |
 | `st2` | ✅ |
-| `st3` | — |
+| `st3` | ✅ |
 | `st4` | — |
 | `st5` | — |
 | `st6` | — |

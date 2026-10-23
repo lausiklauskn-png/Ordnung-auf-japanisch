@@ -76,7 +76,7 @@ try {
   await page.reload(); await bereit('de');
   await page.waitForFunction(() => navigator.serviceWorker.controller !== null);
   ok('Offline-Vorrat: Sprachdaten und Sprachwahl liegen im Cache', await page.evaluate(async () => {
-    const urls = (await (await caches.open('ordnung-jp-v21')).keys()).map(r => r.url);
+    const urls = (await (await caches.open('ordnung-jp-v22')).keys()).map(r => r.url);
     return urls.some(u => u.endsWith('assets/sprachen.js?v=1')) && urls.some(u => u.endsWith('assets/sprache.js?v=1'));
   }));
   await ctx.setOffline(true);
@@ -126,3 +126,4 @@ try {
 } catch (e) { rot++; console.log('  ✗ ROT: Sprachprobe abgebrochen → ' + e.message.split('\n')[0]); }
 finally { await browser.close(); await new Promise(r => server.close(r)); }
 console.log(`\n${gruen} grün · ${rot} ROT`); process.exitCode = rot ? 1 : 0;
+
