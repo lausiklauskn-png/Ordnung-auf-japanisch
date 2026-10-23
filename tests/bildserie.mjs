@@ -24,7 +24,7 @@ await ctx.addInitScript(() => {
 });
 const page = await ctx.newPage(), fehler = [];
 page.on('pageerror', e => fehler.push(String(e)));
-const schritte = ['s0.1','s0.2','s0.3','s0.4','s0.5','s0.6','s0.7','s1.1','s1.2','s1.3','s1.4','s1.5','s1.6','s1.7','s1.8','s2.1','s2.2','s2.3','s2.4','s2.5','s2.6','s2.7','s2.8','s2.9','s2.10','s2.11','s2.12','s2.13','s3.1','s3.2','s3.3','s3.4','s3.5','s3.6','s3.7','s3.8','s3.9','s4.1','s4.2','s4.3','s4.4','s4.5','s4.6','s4.7','s4.8','s4.9','s4.10','s4.11','s4.12','s5.1','s5.2','s5.3','s5.4','s5.5'];
+const schritte = ['s0.1','s0.2','s0.3','s0.4','s0.5','s0.6','s0.7','s1.1','s1.2','s1.3','s1.4','s1.5','s1.6','s1.7','s1.8','s2.1','s2.2','s2.3','s2.4','s2.5','s2.6','s2.7','s2.8','s2.9','s2.10','s2.11','s2.12','s2.13','s3.1','s3.2','s3.3','s3.4','s3.5','s3.6','s3.7','s3.8','s3.9','s4.1','s4.2','s4.3','s4.4','s4.5','s4.6','s4.7','s4.8','s4.9','s4.10','s4.11','s4.12','s5.1','s5.2','s5.3','s5.4','s5.5','s5.6','s5.7','s5.8','s5.9','s5.10','s6.1','s6.2','s6.3','s6.4','s6.5','s6.6','s6.7','s6.8','s6.9','s6.10','s6.11','s7.1','s7.2'];
 const geh = async h => { await page.goto(basis + h); await page.waitForFunction(() => window.OJ_BEREIT === true); };
 async function karte(sel, id) {
   return page.locator(sel).evaluate((k, id) => {
@@ -42,9 +42,9 @@ try {
   await geh('#/station/0');
   const alle = await page.evaluate(async ids => Promise.all(ids.map(id => new Promise(resolve => {
     const i = new Image(); i.onload = () => resolve(i.naturalWidth === 1200 && i.naturalHeight === 800); i.onerror = () => resolve(false); i.src = 'bilder/' + id + '.webp';
-  }))), ['st0','st1','st2','st3','st4','st5',...schritte]);
-  ok('Bildserie: alle sechzig WebP-Dateien mit 1200 × 800 dekodierbar', alle.length === 60 && alle.every(Boolean), alle);
-  for (const nr of [0,1,2,3,4,5]) {
+  }))), ['st0','st1','st2','st3','st4','st5','st6','st7',...schritte]);
+  ok('Bildserie: alle achtzig WebP-Dateien mit 1200 × 800 dekodierbar', alle.length === 80 && alle.every(Boolean), alle);
+  for (const nr of [0,1,2,3,4,5,6,7]) {
     await geh('#/station/' + nr);
     ok('Bildserie: st' + nr + ' im zugehörigen Raumkopf mit weichem Übergang und überlappender Schrift', await karte('.station-kopf', 'st' + nr));
     for (const id of schritte.filter(s => s.startsWith('s' + nr + '.'))) {

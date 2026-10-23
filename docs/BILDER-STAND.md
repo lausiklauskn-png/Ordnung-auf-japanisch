@@ -2,7 +2,7 @@
 
 > GEBAUT von `tools/bilder-einfuegen.py` — nicht von Hand ändern.
 
-**68 von 148** Bildern sind eingebaut. Schlüssel = Kennung aus `docs/CHATGPT-BRIEF.md`, Datei `bilder/<Kennung>.webp`.
+**88 von 148** Bildern sind eingebaut. Schlüssel = Kennung aus `docs/CHATGPT-BRIEF.md`, Datei `bilder/<Kennung>.webp`.
 
 | Kennung | Bild |
 |---|---|
@@ -60,24 +60,24 @@
 | `s5.3` | ✅ |
 | `s5.4` | ✅ |
 | `s5.5` | ✅ |
-| `s5.6` | — |
-| `s5.7` | — |
-| `s5.8` | — |
-| `s5.9` | — |
-| `s5.10` | — |
-| `s6.1` | — |
-| `s6.2` | — |
-| `s6.3` | — |
-| `s6.4` | — |
-| `s6.5` | — |
-| `s6.6` | — |
-| `s6.7` | — |
-| `s6.8` | — |
-| `s6.9` | — |
-| `s6.10` | — |
-| `s6.11` | — |
-| `s7.1` | — |
-| `s7.2` | — |
+| `s5.6` | ✅ |
+| `s5.7` | ✅ |
+| `s5.8` | ✅ |
+| `s5.9` | ✅ |
+| `s5.10` | ✅ |
+| `s6.1` | ✅ |
+| `s6.2` | ✅ |
+| `s6.3` | ✅ |
+| `s6.4` | ✅ |
+| `s6.5` | ✅ |
+| `s6.6` | ✅ |
+| `s6.7` | ✅ |
+| `s6.8` | ✅ |
+| `s6.9` | ✅ |
+| `s6.10` | ✅ |
+| `s6.11` | ✅ |
+| `s7.1` | ✅ |
+| `s7.2` | ✅ |
 | `s7.3` | — |
 | `s7.4` | — |
 | `s7.5` | — |
@@ -101,8 +101,8 @@
 | `st3` | ✅ |
 | `st4` | ✅ |
 | `st5` | ✅ |
-| `st6` | — |
-| `st7` | — |
+| `st6` | ✅ |
+| `st7` | ✅ |
 | `st8` | — |
 | `st9` | — |
 | `m1` | — |

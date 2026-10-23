@@ -269,3 +269,54 @@ Unter den Prüfmarken, kein Anlass zur Profiländerung. Einzelwerte in BILDER-KO
 Erste zehn (s3.9, st4, s4.1–s4.8): 675.610 Bytes; zweite zehn
 (s4.9–s4.12, st5, s5.1–s5.5): 608.252 Bytes. Keine vorhandenen WebP neu komprimiert.
 Endgültiger Dateibaum und Merge-/Pages-Nachweis nach Veröffentlichung in PR #22.
+
+
+## 2026-10-24 · weitere20: Schlafzimmer, Wohnbereich und Böden (88 von148)
+
+Klaus hat ausdrücklich weitere20 auf dieselbe Weise mit automatischem Upload, Merge und Veröffentlichung
+beauftragt; Ausnahme vom Standard zehn. Nummern69–88, Thema, Datei und App-Ansicht in
+[BILDER-ZUORDNUNG-SERIE-88.md](BILDER-ZUORDNUNG-SERIE-88.md).
+Originale `/workspace/work/bilder60/originale/<Kennung>.png` außerhalb des Repos.
+Alle Motive angesehen; Erinnerungsbox vor Import weiter nach oben gesetzt und Boden-Kopfbild
+auf zusammenhängenden Holzboden laut Motivquelle korrigiert. Echte Handys, reale Ladezeiten
+und Klaus' persönliche Gegenprüfung nicht gemessen.
+
+Neue20: **39.594.210 Bytes PNG → 1.073.120 Bytes WebP**, **97,29 % kleiner** einschließlich Verkleinerung.
+Alle88: **4.528.394 Bytes**, Mittel **51.459,02 Bytes**, größtes **102.110 Bytes (st4)**.
+Prognose148 nach Mittel: **7.615.935 Bytes**, nach Maximum **15.112.280 Bytes**.
+PSNR37,80–40,09dB gegen unkomprimierten 1200-×-800-Zuschnitt, kein Beweis unsichtbarer Verluste.
+Profil unverändert WebP80/Methode6, Lanczos,1200×800,RGB ohne EXIF/ICC/XMP (Pillow12.3.0).
+Vollständiger Bildcommit-Dateibaum 65460d9: **11.138.730 Bytes**, 165 Dateien,
+API nicht abgeschnitten, mit temporärem Prüfworkflow, vor Abschlussdokumentation. Ohne .git/node_modules/Originale.
+GitHub-Repoanzeige beim Import **9.364 KiB**, zeitversetzter Näherungswert mit Historie/Kompression,
+keine exakte Historienmessung. Gesamtprojekt-Prognose bei unverändertem sonstigem Baum:
+**14.226.271 Bytes** nach Mittel, **21.722.616 Bytes** nach Maximum.
+Künftiger Code/Doku/Historie nicht vorhergesagt. Unter Prüfmarken; keine Profiländerung nötig.
+
+| Kennung | Original PNG Bytes | WebP Bytes | PSNR dB |
+|---|---:|---:|---:|
+| s5.6 | 2.001.749 | 58.870 | 38,56 |
+| s5.7 | 1.888.809 | 43.812 | 39,81 |
+| s5.8 | 1.897.528 | 52.362 | 38,81 |
+| s5.9 | 2.057.520 | 58.534 | 37,8 |
+| s5.10 | 1.934.870 | 57.368 | 39,24 |
+| st6 | 2.309.575 | 74.510 | 37,83 |
+| s6.1 | 1.870.508 | 45.158 | 39,5 |
+| s6.2 | 2.053.970 | 62.006 | 38,55 |
+| s6.3 | 1.838.126 | 40.134 | 40,09 |
+| s6.4 | 1.857.591 | 44.016 | 39,7 |
+| s6.5 | 2.006.627 | 49.816 | 38,86 |
+| s6.6 | 1.883.710 | 53.480 | 39,31 |
+| s6.7 | 1.963.611 | 50.666 | 39,03 |
+| s6.8 | 1.946.681 | 65.448 | 38,26 |
+| s6.9 | 1.815.474 | 41.290 | 39,93 |
+| s6.10 | 1.968.824 | 55.278 | 38,99 |
+| s6.11 | 2.140.388 | 66.144 | 38,09 |
+| st7 | 2.367.676 | 63.676 | 37,88 |
+| s7.1 | 1.921.960 | 49.810 | 39,36 |
+| s7.2 | 1.869.013 | 40.742 | 39,68 |
+| **Summe** | **39.594.210** | **1.073.120** | |
+
+Erste zehn (s5.6–s5.10, st6, s6.1–s6.4): 536.770 Bytes; zweite zehn
+(s6.5–s6.11, st7, s7.1–s7.2): 536.350 Bytes. Vorhandene WebP unverändert.
+Endgültiger Dateibaum und Merge-/Pages-Nachweis nach Veröffentlichung in PR #23.

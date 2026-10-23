@@ -66,6 +66,25 @@ im freigegebenen Stil erzeugt werden. Zusätzliche Bestätigung für jede einzel
 
 ## Stand
 
+20 weitere Bilder für Schlafzimmer, Wohnbereich und Böden (Klaus, 2026-10-24): weitere20
+auf dieselbe Art einschließlich automatischem Upload, Merge und Veröffentlichung beauftragt.
+s5.6–s5.10, st6, s6.1–s6.11, st7 und s7.1–s7.2 über Importwerkzeug eingefügt, keine Abweisung.
+**88 von148**, 60 fehlen; Cachev24/Inhaltv10 synchron. Nummern69–88 mit Thema, Datei und Ansicht
+in docs/BILDER-ZUORDNUNG-SERIE-88.md; Gesamtbestand automatisch erzeugt. Texte und weiche Container
+erhalten. Originale /workspace/work/bilder60/originale/ außerhalb des Repos.
+39.594.210 Bytes PNG → 1.073.120 Bytes WebP (97,29 % kleiner); PSNR37,80–40,09dB.
+Alle88: 4.528.394 Bytes, Maximum102.110Bytes(st4), Prognose148: 7.615.935 Bytes.
+Profil unverändert WebP80/Methode6,Lanczos,1200×800,RGB ohne Metadaten. Messprotokoll fortgeschrieben.
+Ausgangsstand vollständig grün: Lauf40033098725. Vollständiges npm test einschließlich250
+Bildproben grün in Lauf40034000119 auf Bildcommit65460d9. Gegenprobe ohne Bildliste
+erfolgreich: alle20 neuen Kennungen reagieren mit eigenen roten Zeilen. Raum-/Schrittansichten,
+Texte,320/380/1100px, weiche Übergänge sowie bestehende App-Funktionen geprüft. Lokale Syntax-,
+Inhalts- und Briefproben grün; Maße,RGB,Dekodierung,Metadaten und Tabellenzuordnung aller20 geprüft.
+Temporären Prüfworkflow vor Merge entfernt.
+PR #23 enthält Merge-/Pages-Nachweis nach Veröffentlichung. Echte Handys und reale Ladezeit ungemessen.
+Nächste zehn: s7.3–s7.6, st8, s8.1–s8.5. Fortlaufenden Auftrag bis148/148 mit erneutem Brief
+weiterführen; ohne abweichende neue Anzahl wieder zehn pro Sitzung.
+
 20 weitere Bilder für Wäsche und Schlafzimmer (Klaus, 2026-10-23): ausdrücklich nächste 20
 auf dieselbe Art einschließlich automatischem Upload, Merge und Veröffentlichung beauftragt.
 s3.9, st4, s4.1–s4.12, st5, s5.1–s5.5 über das Importwerkzeug eingefügt, keine abgewiesene Kennung.
